@@ -1,0 +1,32 @@
+-- vim.g.custom_move_table_current_index = 1
+--
+-- local function add_new_move_items(dict, index, before_cmd, after_cmd)
+--   local move_cmds = {}
+--   move_cmds[0] = before_cmd
+--   move_cmds[1] = after_cmd
+--   dict[index] = move_cmds
+--
+--   local motion = "," .. index
+--
+--   vim.keymap.set("n",  motion, Update_custom_move_index(index))
+-- end
+--
+-- function Custom_move_function(direction)
+--   local custom_move_table = {}
+--   add_new_move_items(custom_move_table, 0, {"tn", "normal! zz"}, {"tp", "normal! zz"})
+--   add_new_move_items(custom_move_table, 1, {"cn", "normal! zz"}, {"cp", "normal! zz"})
+--   add_new_move_items(custom_move_table, 2, {"normal! ]c"}, {"normal! [c"})
+--   add_new_move_items(custom_move_table, 3, {"lua vim.diagnostic.goto_next()"}, {"lua vim.diagnostic.goto_prev()"})
+--   add_new_move_items(custom_move_table, 4, {"bn", "normal! zz"}, {"bp", "normal! zz"})
+--   add_new_move_items(custom_move_table, 5, {"tabnext"}, {"tabprevious"})
+--   add_new_move_items(custom_move_table, 6, {"DirDiffNext"}, {"DirDiffPrev"})
+--
+--   for _, k in ipairs(custom_move_table[vim.g.custom_move_table_current_index][direction]) do
+--     print(k)
+--     vim.cmd{ cmd = k }
+--   end
+-- end
+--
+-- function Update_custom_move_index(num)
+--   vim.g.custom_move_table_current_index = num
+-- end
