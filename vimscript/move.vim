@@ -61,3 +61,4 @@ endfunction
 nnoremap <silent> <C-N> :call M_move_vim_move_next()<CR>
 nnoremap <silent> <C-P> :call M_move_vim_move_prev()<CR>
 
+call DefineMoveKeys()

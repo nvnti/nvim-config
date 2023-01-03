@@ -8,18 +8,12 @@ require("nvn.abbreviations")
 require("nvn.functions")
 require("nvn.telescope")
 
-
 vim.keymap.set({"n", "v"}, "<space>y", [["+y]])
 vim.keymap.set("n", "<space>Y", [["+Y]])
 vim.keymap.set("n", ";", [[:]])
 
-
 vim.cmd('source ~/.config/nvim/vimscript/functions.vim')
-vim.cmd('source ~/.config/nvim/vimscript/globalVars.vim')
-vim.cmd('source ~/.config/nvim/vimscript/leader.vim')
 vim.cmd('source ~/.config/nvim/vimscript/move.vim')
 vim.cmd('source ~/.config/nvim/vimscript/nvimrc.vim')
 vim.cmd('source ~/.config/nvim/vimscript/vimrc.vim')
 vim.cmd('source ~/.config/nvim/vimscript/tag-generation.vim')
-vim.cmd('source ~/.config/nvim/vimscript/tertiary-leader.vim')
-vim.cmd('source ~/.config/nvim/vimscript/after-plugin.vim')
