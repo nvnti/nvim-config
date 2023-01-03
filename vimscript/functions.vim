@@ -102,20 +102,6 @@ function! SetTextOverLength()
     match OverLength /\%90v.*/
 endfunction
 
-function! ToggleTabWidth()
-  if !exists("g:CVAR_TAB_WIDTH")
-    let g:CVAR_TAB_WIDTH = 2
-  endif
-
-  if g:CVAR_TAB_WIDTH == 2
-    setlocal tabstop=2 shiftwidth=2 softtabstop=2
-    let g:CVAR_TAB_WIDTH = 4
-  else
-    setlocal tabstop=4 shiftwidth=4 softtabstop=4
-    let g:CVAR_TAB_WIDTH = 2
-  endif
-endfunction
-
 let g:CVAR_TOGGLE_COPY_MODE="false"
 function! ToggleCopyMode()
     if g:CVAR_TOGGLE_COPY_MODE == "false"

@@ -1,1 +1,0 @@
-require("nvn.nvim.lsp")

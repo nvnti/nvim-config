@@ -120,8 +120,8 @@ set scrolljump=-15
 " See help fo
 set formatoptions=cqrnj1
 
-set completeopt=menuone,noinsert,noselect
-" set completeopt=menu,menuone,noselect
+" set completeopt=menuone,noinsert,noselect
+" set completeopt=menu,menuone,preview,noselect
 
 " Force map ; -> :
 nnoremap ; :
