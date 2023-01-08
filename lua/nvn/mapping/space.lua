@@ -48,10 +48,12 @@ vim.keymap.set("v", "<space>Fc", ":ClangFormat<CR>", {})
 vim.keymap.set("n", "<space>Fc", ":ClangFormat<CR>", {})
 
 -- Git
+vim.keymap.set("n", "<space>gA", ":Git commit --amend<CR>")
+vim.keymap.set("n", "<space>gB", builtin.git_branches, {})
+vim.keymap.set("n", "<space>gC", ":Git commit<CR>")
 vim.keymap.set("n", "<space>gS", ":DiffviewOpen HEAD..HEAD~1<CR>")
 vim.keymap.set("n", "<space>ga", ":Git add %<CR><CR>")
 vim.keymap.set("n", "<space>gb", ":Git blame<CR>")
-vim.keymap.set("n", "<space>gB", builtin.git_branches, {})
 vim.keymap.set("n", "<space>gc", builtin.git_commits, {})
 vim.keymap.set("n", "<space>gd", ":DiffviewOpen<CR>")
 vim.keymap.set("n", "<space>gh", ":GetCurrentBranchLink<CR>")
@@ -65,7 +67,8 @@ vim.keymap.set("v", "<space>gh", ":GetCurrentBranchLink<CR>")
 vim.keymap.set("n", "<SPACE>rc", ":make clippy --target-dir=target-analyzer --workspace --all-targets --all-features --all -- -D clippy::perf -D clippy::all -D clippy::needless_lifetimes<CR>", {})
 vim.keymap.set("n", "<SPACE>rf", ":RustFmt<CR>", {})
 vim.keymap.set("n", "<space>rm", ":make build", {})
-vim.keymap.set("n", "<space>rw", ":make build --workspace<CR>", {})
+vim.keymap.set("n", "<space>rt", ":make test --workspace --features dev<CR>", {})
+vim.keymap.set("n", "<space>rw", ":make build --workspace --features dev<CR>", {})
 
 -- Searches
 vim.keymap.set('n', '<space>sf', customs.grep_word_in_selected_type, {})

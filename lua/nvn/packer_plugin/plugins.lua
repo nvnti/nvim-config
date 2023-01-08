@@ -81,7 +81,8 @@ return require('packer').startup(function(use)
 
   use('editorconfig/editorconfig-vim')
 
-  use ("mhinz/vim-startify")
+  use('mhinz/vim-startify')
+  use('numToStr/Comment.nvim')
 
   -- explorer
   use {
@@ -109,6 +110,8 @@ return require('packer').startup(function(use)
       {'saadparwaiz1/cmp_luasnip'},
       {'hrsh7th/cmp-nvim-lsp'},
       {'hrsh7th/cmp-nvim-lua'},
+
+      {'onsails/lspkind.nvim'},
 
       -- Snippets
       {'L3MON4D3/LuaSnip'},

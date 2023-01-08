@@ -17,36 +17,6 @@ skipContaining   = [ 'fugitiveblame', 'NERD', 'analysis-log.txt', '__Scratch__' 
 def getVimSettingVal(settingName):
     return vim.eval('&' + settingName)
 
-def getRecentFiles():
-    fnames = vim.eval("v:oldfiles")
-    pattern = '.*/workspace/\d+-prevent/(.*)'
-    rgx = re.compile(pattern)
-
-    modifiedFNames = []
-    for fname in fnames:
-        skip = False
-
-        for sw in skipStartingWith:
-            if fname.startswith(sw):
-                skip = True
-                break
-
-        for co in skipContaining:
-            if co in fname:
-                skip = True
-                break
-
-        if skip is True:
-            continue
-
-        m = rgx.match(fname)
-        if m is not None:
-            modifiedFNames.append(m.group(1))
-        else:
-            modifiedFNames.append(fname)
-
-    return modifiedFNames
-
 ####################################################################################
 ##################################### beautifyJSON #################################
 ####################################################################################

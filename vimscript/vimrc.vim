@@ -152,3 +152,13 @@ if executable("rg")
 else
     echoerr "Please install ripgrep!"
 endif
+
+nnoremap <leader>fa :grep <C-R>=expand("<cword>")<CR>
+nnoremap <leader>fc : grep -g '{*.hpp,*.h,*.hxx,*.c,*.cpp,*.cxx,*.cc}' <C-R>=expand("<cword>")<CR> analysis/
+nnoremap <leader>fg : grep -g '{*.hpp,*.h,*.hxx,*.c,*.cpp,*.cxx,*.cc}'
+nnoremap <leader>fja : grep -g '{*.java}' <C-R>=expand("<cword>")<CR> .
+nnoremap <leader>fjs : grep -g '{*.json}' <C-R>=expand("<cword>")<CR> .
+nnoremap <leader>fm : grep -g '{*.mk,Makefile}' <C-R>=expand("<cword>")<CR> .
+nnoremap <leader>fp : grep -g '{*.py}' <C-R>=expand("<cword>")<CR> .
+nnoremap <leader>fs : grep -g '{*.hpp,*.h,*.hxx,*.c,*.cpp,*.cxx,*.cc}' <C-R>=expand("<cword>")<CR> analysis/ <CR>
+nnoremap <leader>fr : grep -g '{*.rs}' <C-R>=expand("<cword>")<CR> .

@@ -1,5 +1,6 @@
 local lsp = require("lsp-zero")
 local cmp = require('cmp')
+local lspkind = require("lspkind")
 
 local on_attach = function(client, bufnr)
   local opts = {buffer = bufnr, remap = false, silent = true}
@@ -40,43 +41,82 @@ lsp.ensure_installed({
 })
 
 lsp.set_preferences({
-    suggest_lsp_servers = false,
-    sign_icons = {
-        error = 'E',
-        warn = 'W',
-        hint = 'H',
-        info = 'I'
-    }
+  suggest_lsp_servers = false,
+  sign_icons = {
+    error = 'E',
+    warn = 'W',
+    hint = 'H',
+    info = 'I'
+  }
 })
 
 lsp.on_attach(on_attach)
 
 local cmp_mappings = lsp.defaults.cmp_mappings({
+  ["<Tab>"] = function(fallback)
+    if cmp.visible() then
+      cmp.select_next_item()
+    else
+      fallback()
+    end
+  end,
+  ["<S-Tab>"] = function(fallback)
+    if cmp.visible() then
+      cmp.select_prev_item()
+    else
+      fallback()
+    end
+  end,
 })
+
+local cmp_formatting = {
+  -- Youtube: How to set up nice formatting for your sources.
+  format = lspkind.cmp_format {
+    with_text = true,
+    menu = {
+      buffer = "[buf]",
+      nvim_lsp = "[LSP]",
+      nvim_lua = "[api]",
+      path = "[path]",
+      luasnip = "[snip]",
+      gh_issues = "[issues]",
+      tn = "[TabNine]",
+    },
+  },
+}
 
 lsp.setup_nvim_cmp({
   -- preselect = 'none',
   completion = {
     completeopt = 'menu,menuone,noselect'
   },
+  formatting = cmp_formatting,
   mapping = cmp_mappings,
   sources = {
-    {name = 'path', keyword_length = 2},
     {name = 'nvim_lsp'},
+    {name = 'nvim_lua'},
+    {name = 'luasnip'},
+
+    {name = 'path', keyword_length = 2},
     {name = 'buffer', keyword_length = 3},
-  }
+  },
+  window = {
+    completion = cmp.config.window.bordered()
+  },
+  snippet = {
+    expand = function(args)
+      require("luasnip").lsp_expand(args.body)
+    end,
+  },
+
+  experimental = {
+    native_menu = false,
+    ghost_text = false,
+  },
 })
 
 lsp.setup()
 
-local cmp_config = lsp.defaults.cmp_config({
-  window = {
-    completion = cmp.config.window.bordered()
-  }
-})
-
-cmp.setup(cmp_config)
-
 vim.diagnostic.config({
-    virtual_text = true,
+  virtual_text = true,
 })
