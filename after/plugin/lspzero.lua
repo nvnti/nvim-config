@@ -53,6 +53,7 @@ lsp.set_preferences({
 lsp.on_attach(on_attach)
 
 local cmp_mappings = lsp.defaults.cmp_mappings({
+  ["<CR>"] = cmp.config.disable,
   ["<Tab>"] = function(fallback)
     if cmp.visible() then
       cmp.select_next_item()
@@ -78,8 +79,6 @@ local cmp_formatting = {
       nvim_lsp = "[LSP]",
       nvim_lua = "[api]",
       path = "[path]",
-      luasnip = "[snip]",
-      gh_issues = "[issues]",
       tn = "[TabNine]",
     },
   },
