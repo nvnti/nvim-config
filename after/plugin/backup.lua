@@ -1,3 +1,3 @@
-vim.g.VimBackupDir = "/Users/naveent/.config/nvim/tmp/backup"
-vim.fn.mkdir(vim.g.VimBackupDir, 'p')
+-- vim.g.VimBackupDir = "~/.local/vimfiles/"
+-- vim.fn.mkdir(vim.g.VimBackupDir, 'p')
 

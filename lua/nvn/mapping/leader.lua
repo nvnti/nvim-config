@@ -13,6 +13,8 @@ vim.keymap.set("n", "<leader>dp", ":g/<C-R>=expand(\"<cword>\")<CR>/d<CR>", {})
 vim.keymap.set("n", "<leader>ds", ":StripWhitespace<CR>", {})
 vim.keymap.set("n", "<leader>dw", ":call ToggleDiffWhitespace()<CR>", {})
 
+vim.keymap.set("n", "<leader>gf", ":e %:h/<cfile><CR>")
+
 -- next
 vim.keymap.set("n", "<leader>nb", ":bn<CR>", {})
 vim.keymap.set("n", "<leader>nc", ":cn<CR>", {})
@@ -20,7 +22,7 @@ vim.keymap.set("n", "<leader>nf", "j0[[%/{<CR>", {})
 vim.keymap.set("n", "<leader>nt", ":tn<CR>", {})
 
 -- Open
-vim.keymap.set("n", ",op", ":e %:h/")
+vim.keymap.set("n", "<leader>op", ":e %:h/")
 
 -- paste / previos
 -- paste but retain
