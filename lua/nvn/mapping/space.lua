@@ -1,5 +1,6 @@
 local builtin = require('telescope.builtin')
 local customs = require('nvn.telescope.init')
+local custom_toggles = require('nvn.config.toggles')
 
 -- Quickfix list
 -- vim.keymap.set("n", "<space>ca", actions.send_to_qflist, {})
@@ -83,6 +84,7 @@ vim.keymap.set('n', '<space>sR', customs.grep_word_under_cursor_in_rust, {})
 -- Toggle/tags
 vim.keymap.set("n", "<SPACE>t<SPACE>", ":call ToggleCopyMode()<CR>", {})
 vim.keymap.set("n", "<SPACE>tc", ":call LoadTagsC()<CR>", {})
+vim.keymap.set('n', '<SPACE>tf', custom_toggles.toggle_rust_fmt, {})
 vim.keymap.set("n", "<SPACE>tr", ":call LoadTagsRust()<CR>", {})
 
 vim.keymap.set("n", "<SPACE>yp", ":let @\" = expand(\"%\")<CR>", {})
