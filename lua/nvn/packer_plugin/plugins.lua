@@ -77,7 +77,6 @@ return require('packer').startup(function(use)
   use('wagnerf42/vim-clippy')
   use('rhysd/vim-clang-format')
   use('tpope/vim-eunuch')
-  use('preservim/tagbar')
 
   use('editorconfig/editorconfig-vim')
 
@@ -118,6 +117,34 @@ return require('packer').startup(function(use)
       {'rafamadriz/friendly-snippets'},
     }
   }
+
+  use('windwp/nvim-ts-autotag')
+
+  use {
+    "windwp/nvim-autopairs",
+    config = function() require("nvim-autopairs").setup {} end
+  }
+
+  use('stevearc/aerial.nvim')
+  use('rafamadriz/friendly-snippets')
+  use('NMAC427/guess-indent.nvim')
+
+  use('NvChad/nvim-colorizer.lua')
+  use('folke/which-key.nvim')
+
+  use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'}
+  use {
+    'goolord/alpha-nvim',
+    config = function ()
+      require'alpha'.setup(require'alpha.themes.dashboard'.config)
+    end
+  }
+
+  use('lukas-reineke/indent-blankline.nvim')
+
+  use('mrjones2014/smart-splits.nvim')
+
+  -- use('Shatur/neovim-session-manager')
 
 end)
 

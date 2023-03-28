@@ -2,6 +2,12 @@ local builtin = require('telescope.builtin')
 local customs = require('nvn.telescope.init')
 local custom_toggles = require('nvn.config.toggles')
 
+vim.keymap.set("n", "<space>an", ":AerialNext float<CR>", {})
+vim.keymap.set("n", "<space>ao", ":AerialOpen float<CR>", {})
+vim.keymap.set("n", "<space>ap", ":AerialPrev float<CR>", {})
+vim.keymap.set("n", "<space>aq", ":AerialCloseAll<CR>", {})
+vim.keymap.set("n", "<space>at", ":AerialToggle float<CR>", {})
+
 -- Quickfix list
 -- vim.keymap.set("n", "<space>ca", actions.send_to_qflist, {})
 vim.keymap.set("n", "<space>cn", ":cn<CR>", {})
@@ -19,7 +25,7 @@ vim.keymap.set("n", "<space>dn", ":DirDiffNext<CR>", {})
 vim.keymap.set("n", "<space>dp", ":diffput<CR>", {})
 vim.keymap.set("n", "<space>dq", ":DirDiffQuit<CR>", {})
 vim.keymap.set("n", "<space>du", ":diffupdate<CR>", {})
-vim.keymap.set("n", "<space>dw", ":call ToggleDiffWhitespace()<CR>", {})
+vim.keymap.set('n', '<SPACE>dw', custom_toggles.toggle_diff_whitespace, {})
 
 -- Explorer
 vim.keymap.set("n", "<space>ef", ":NvimTreeFocus<CR>")
@@ -85,6 +91,8 @@ vim.keymap.set('n', '<space>sR', customs.grep_word_under_cursor_in_rust, {})
 vim.keymap.set("n", "<SPACE>t<SPACE>", ":call ToggleCopyMode()<CR>", {})
 vim.keymap.set("n", "<SPACE>tc", ":call LoadTagsC()<CR>", {})
 vim.keymap.set('n', '<SPACE>tf', custom_toggles.toggle_rust_fmt, {})
+-- vim.keymap.set('n', '<SPACE>tg', custom_toggles.toggle_c_cpp_source_header, {})
 vim.keymap.set("n", "<SPACE>tr", ":call LoadTagsRust()<CR>", {})
+-- vim.keymap.set('n', '<SPACE>tw', custom_toggles.toggle_text_width_line, {})
 
 vim.keymap.set("n", "<SPACE>yp", ":let @\" = expand(\"%\")<CR>", {})

@@ -11,7 +11,6 @@ vim.keymap.set("n", "<leader>dc", ":%!tr -cd '[:print:]\n'<CR>", {})
 vim.keymap.set("n", "<leader>dl", ":g//d<LEFT><LEFT>", {})
 vim.keymap.set("n", "<leader>dp", ":g/<C-R>=expand(\"<cword>\")<CR>/d<CR>", {})
 vim.keymap.set("n", "<leader>ds", ":StripWhitespace<CR>", {})
-vim.keymap.set("n", "<leader>dw", ":call ToggleDiffWhitespace()<CR>", {})
 
 vim.keymap.set("n", "<leader>gf", ":e %:h/<cfile><CR>")
 
