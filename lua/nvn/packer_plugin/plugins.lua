@@ -115,6 +115,8 @@ return require('packer').startup(function(use)
       -- Snippets
       {'L3MON4D3/LuaSnip'},
       {'rafamadriz/friendly-snippets'},
+
+      { "simrat39/inlay-hints.nvim" }
     }
   }
 

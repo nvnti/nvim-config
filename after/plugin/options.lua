@@ -9,7 +9,7 @@ opt.wildignore:append "Cargo.lock"
 
 -- Cool floating window popup menu for completion on command line
 opt.pumblend = 17
-opt.wildmode = "longest:full"
+opt.wildmode = "list:longest,full"
 opt.wildoptions = "pum"
 
 opt.showmode = false

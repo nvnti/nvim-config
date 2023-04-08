@@ -1,10 +1,10 @@
 local lsp = require("lsp-zero")
 local cmp = require('cmp')
 local lspkind = require("lspkind")
+local ih = require("inlay-hints")
 
 local on_attach = function(client, bufnr)
   local opts = {buffer = bufnr, remap = false, silent = true}
-  local async_opts = {buffer = bufnr, remap = false, silent = true, async = true}
 
   if client.name == "eslint" then
     vim.cmd.LspStop('eslint')
@@ -32,6 +32,11 @@ local on_attach = function(client, bufnr)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ls', '<cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>lS', '<cmd>edit<CR>', opts)
 
+  ih.on_attach(client, bufnr)
+end
+
+local on_initialized = function()
+  ih.set_all()
 end
 
 lsp.preset("recommended")
@@ -53,6 +58,7 @@ lsp.set_preferences({
 })
 
 lsp.on_attach(on_attach)
+lsp.on_initialized = on_initialized
 
 local cmp_mappings = lsp.defaults.cmp_mappings({
   ["<CR>"] = cmp.config.disable,
