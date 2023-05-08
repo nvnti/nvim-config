@@ -12,9 +12,29 @@ require('telescope').setup{
     },
   },
   pickers = {
-    -- ...
+    find_files = {
+      find_command = {
+        'fd',
+        '--type',
+        'f',
+        '--no-ignore-vcs',
+        '--color=never',
+        '--hidden',
+        '--follow',
+      }
+    }
   },
   extensions = {
     -- ...
+  },
+  vimgrep_arguments = {
+    'rg',
+    '--color=never',
+    '--no-heading',
+    '--with-filename',
+    '--line-number',
+    '--column',
+    '--smart-case',
+    '-u' -- thats the new thing
   }
 }

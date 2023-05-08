@@ -24,6 +24,10 @@ return require('packer').startup(function(use)
 
   use('machakann/vim-highlightedyank')
 
+  use('Vimjas/vim-python-pep8-indent')
+
+  use('skywind3000/asyncrun.vim')
+
   -- Color scheme
   use({
     'rose-pine/neovim',
@@ -58,6 +62,7 @@ return require('packer').startup(function(use)
 
   -- Git related
   use('tpope/vim-fugitive')
+  use('kdheepak/lazygit.nvim')
   use('mhinz/vim-signify')
   use{
     'sindrets/diffview.nvim',
@@ -145,6 +150,8 @@ return require('packer').startup(function(use)
   use('lukas-reineke/indent-blankline.nvim')
 
   use('mrjones2014/smart-splits.nvim')
+
+  use('akinsho/toggleterm.nvim')
 
   -- use('Shatur/neovim-session-manager')
 

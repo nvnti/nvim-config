@@ -1,5 +1,6 @@
 local builtin = require('telescope.builtin')
 local customs = require('nvn.telescope.init')
+local custom_term_toggles = require('nvn.toggleterm.init')
 local custom_toggles = require('nvn.config.toggles')
 
 vim.keymap.set("n", "<space>an", ":AerialNext float<CR>", {})
@@ -71,8 +72,7 @@ vim.keymap.set("n", "<space>gs", builtin.git_status, {})
 vim.keymap.set("v", "<space>gh", ":GetCurrentBranchLink<CR>")
 
 -- Cargo build
-vim.keymap.set("n", "<SPACE>rc", ":make clippy --target-dir=target-analyzer --workspace --all-targets --all-features --all -- -D clippy::perf -D clippy::all -D clippy::needless_lifetimes<CR>", {})
-vim.keymap.set("n", "<SPACE>rf", ":RustFmt<CR>", {})
+vim.keymap.set("n", "<SPACE>rF", ":RustFmt<CR>", {})
 vim.keymap.set("n", "<space>rm", ":make build", {})
 vim.keymap.set("n", "<space>rt", ":make test --workspace --features dev<CR>", {})
 vim.keymap.set("n", "<space>rw", ":make build --workspace --features dev<CR>", {})
@@ -96,3 +96,9 @@ vim.keymap.set("n", "<SPACE>tr", ":call LoadTagsRust()<CR>", {})
 -- vim.keymap.set('n', '<SPACE>tw', custom_toggles.toggle_text_width_line, {})
 
 vim.keymap.set("n", "<SPACE>yp", ":let @\" = expand(\"%\")<CR>", {})
+
+vim.keymap.set("n", "<SPACE>zc", custom_term_toggles.cclippy_toggle, {noremap = true, silent = true})
+vim.keymap.set("n", "<SPACE>zC", custom_term_toggles.load_clippy_errors, {noremap = true, silent = true})
+vim.keymap.set("n", "<SPACE>zf", custom_term_toggles.cfmt_toggle, {noremap = true, silent = true})
+vim.keymap.set("n", "<SPACE>zg", custom_term_toggles.lazygit_toggle, {noremap = true, silent = true})
+vim.keymap.set("n", "<SPACE>zh", custom_term_toggles.htop_toggle, {noremap = true, silent = true})

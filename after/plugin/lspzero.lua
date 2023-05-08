@@ -5,6 +5,7 @@ local ih = require("inlay-hints")
 
 local on_attach = function(client, bufnr)
   local opts = {buffer = bufnr, remap = false, silent = true}
+  local async_opts = {buffer = bufnr, remap = false, silent = true, async = true}
 
   if client.name == "eslint" then
     vim.cmd.LspStop('eslint')
@@ -23,7 +24,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "<space>ld", vim.lsp.buf.definition, opts)
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
   vim.keymap.set("n", "<space>le", vim.diagnostic.open_float, opts)
-  vim.keymap.set("n", "<space>lf", vim.lsp.buf.formatting, opts)
+  vim.keymap.set("n", "<space>lf", vim.lsp.buf.format, async_opts)
   vim.keymap.set("n", "<space>lh", vim.lsp.buf.signature_help, opts)
   vim.keymap.set("n", "<space>li", vim.lsp.buf.implementation, opts)
   vim.keymap.set("n", "<space>lr", vim.lsp.buf.references, opts)
