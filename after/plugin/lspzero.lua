@@ -43,8 +43,8 @@ end
 lsp.preset("recommended")
 
 lsp.ensure_installed({
-  'tsserver',
-  'eslint',
+  'clangd',
+  'lua_ls',
   'rust_analyzer',
 })
 
