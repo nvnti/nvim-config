@@ -127,15 +127,12 @@ set formatoptions=cqrnj1
 nnoremap ; :
 vnoremap ; :
 
-set nocscopetag
-set cscopequickfix=s-,c-,d-,i-,t-,e-
-
 " Make sure you have tags in PWD
 set tags=tags
 
 set updatetime=300
 
-set shell=/bin/sh
+set shell=/bin/zsh
 
 autocmd BufEnter *.nvim :set filetype=vim
 autocmd BufEnter *.jinja :set filetype=html

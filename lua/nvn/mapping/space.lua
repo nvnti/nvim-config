@@ -98,6 +98,7 @@ vim.keymap.set("n", "<SPACE>tr", ":call LoadTagsRust()<CR>", {})
 vim.keymap.set("n", "<SPACE>yp", ":let @\" = expand(\"%\")<CR>", {})
 
 vim.keymap.set("n", "<SPACE>zc", custom_term_toggles.cclippy_toggle, {noremap = true, silent = true})
+vim.keymap.set("n", "<SPACE>zu", custom_term_toggles.cfmt_update_toggle, {noremap = true, silent = true})
 vim.keymap.set("n", "<SPACE>zC", custom_term_toggles.load_clippy_errors, {noremap = true, silent = true})
 vim.keymap.set("n", "<SPACE>zf", custom_term_toggles.cfmt_toggle, {noremap = true, silent = true})
 vim.keymap.set("n", "<SPACE>zg", custom_term_toggles.lazygit_toggle, {noremap = true, silent = true})
