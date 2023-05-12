@@ -3,7 +3,7 @@ local terminal  = require('toggleterm.terminal').Terminal
 local M = {}
 
 local cfmt = terminal:new({
-  cmd = "cargo make check-fmt 2>&1 | tee .nvim_cargo_fmt_check.txt",
+  cmd = "cargo +nightly fmt --all -- --check 2>&1 | tee .nvim_cargo_fmt_check.txt",
   hidden = true,
   close_on_exit = true,
   shell = "zsh",
@@ -11,7 +11,7 @@ local cfmt = terminal:new({
 })
 
 local update_fmt = terminal:new({
-  cmd = "cargo make update-fmt 2>&1 | tee .nvim_cargo_fmt_update.txt",
+  cmd = "cargo +nightly fmt --all 2>&1 | tee .nvim_cargo_fmt_update.txt",
   hidden = true,
   close_on_exit = true,
   shell = "zsh",
@@ -19,7 +19,23 @@ local update_fmt = terminal:new({
 })
 
 local cclippy = terminal:new({
-  cmd = "cargo make check-clippy 2>&1 | tee .nvim_cargo_clippy.txt",
+  cmd = "cargo check_clippy 2>&1 | tee .nvim_cargo_clippy.txt",
+  hidden = true,
+  close_on_exit = true,
+  shell = "zsh",
+  direction = 'vertical',
+})
+
+local cargo_test = terminal:new({
+  cmd = "cargo test --workspace --features dev 2>&1 | tee .nvim_cargo_test.txt",
+  hidden = true,
+  close_on_exit = true,
+  shell = "zsh",
+  direction = 'vertical',
+})
+
+local cargo_build = terminal:new({
+  cmd = "cargo build --workspace --features dev 2>&1 | tee .nvim_cargo_build.txt",
   hidden = true,
   close_on_exit = true,
   shell = "zsh",
@@ -39,6 +55,14 @@ local htop = terminal:new({
   close_on_exit = true,
   direction = "float"
 })
+
+function M.cargo_build()
+  cargo_build:toggle()
+end
+
+function M.cargo_test()
+  cargo_test:toggle()
+end
 
 function M.cfmt_toggle()
   cfmt:toggle()
@@ -62,6 +86,14 @@ end
 
 function M.load_clippy_errors()
   vim.cmd("cfile .nvim_cargo_clippy.txt");
+end
+
+function M.load_cargo_build_errors()
+  vim.cmd("cfile .nvim_cargo_build.txt");
+end
+
+function M.load_cargo_test_errors()
+  vim.cmd("cfile .nvim_cargo_test.txt");
 end
 
 return M
