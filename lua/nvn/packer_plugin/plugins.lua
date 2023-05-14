@@ -121,15 +121,22 @@ return require('packer').startup(function(use)
       {'L3MON4D3/LuaSnip'},
       {'rafamadriz/friendly-snippets'},
 
-      { "simrat39/inlay-hints.nvim" }
+      { "simrat39/inlay-hints.nvim" },
+      { "ray-x/lsp_signature.nvim" }
     }
   }
+
+  use {
+    'kosayoda/nvim-lightbulb',
+    requires = 'antoinemadec/FixCursorHold.nvim',
+  }
+
+  use { 'rmagatti/goto-preview' }
 
   use('windwp/nvim-ts-autotag')
 
   use {
     "windwp/nvim-autopairs",
-    config = function() require("nvim-autopairs").setup {} end
   }
 
   use('stevearc/aerial.nvim')

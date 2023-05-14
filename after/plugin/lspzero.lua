@@ -2,6 +2,15 @@ local lsp = require("lsp-zero")
 local cmp = require('cmp')
 local lspkind = require("lspkind")
 local ih = require("inlay-hints")
+local gotop = require('goto-preview')
+local lsp_sig = require('lsp_signature')
+
+local lsp_sig_opts = {
+  bind = true, -- This is mandatory, otherwise border config won't get registered.
+  handler_opts = {
+    border = "rounded"
+  }
+}
 
 local on_attach = function(client, bufnr)
   local opts = {buffer = bufnr, remap = false, silent = true}
@@ -27,7 +36,14 @@ local on_attach = function(client, bufnr)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ls', '<cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>lS', '<cmd>edit<CR>', opts)
 
+  vim.keymap.set("n", "<space>gpd", gotop.goto_preview_definition, {})
+  vim.keymap.set("n", "<space>gpt", gotop.goto_preview_type_definition, {})
+  vim.keymap.set("n", "<space>gpi", gotop.goto_preview_implementation, {})
+  vim.keymap.set("n", "<space>gP", gotop.close_all_win, {})
+  vim.keymap.set("n", "<space>gpr", gotop.goto_preview_references, {})
+
   ih.on_attach(client, bufnr)
+  lsp_sig.on_attach(lsp_sig_opts, bufnr)
 end
 
 local on_initialized = function()
