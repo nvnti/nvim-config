@@ -52,9 +52,6 @@ vim.keymap.set('n', '<space>fs', builtin.spell_suggest, {})
 vim.keymap.set('n', '<space>ft', builtin.tags, {})
 vim.keymap.set('n', '<space>fT', builtin.filetypes, {})
 
-vim.keymap.set("v", "<space>Fc", ":ClangFormat<CR>", {})
-vim.keymap.set("n", "<space>Fc", ":ClangFormat<CR>", {})
-
 -- Git
 vim.keymap.set("n", "<space>gA", ":Git commit --amend<CR>")
 vim.keymap.set("n", "<space>gB", builtin.git_branches, {})
@@ -72,7 +69,6 @@ vim.keymap.set("n", "<space>gs", builtin.git_status, {})
 vim.keymap.set("v", "<space>gh", ":GetCurrentBranchLink<CR>")
 
 -- Cargo build
-vim.keymap.set("n", "<SPACE>rF", ":RustFmt<CR>", {})
 vim.keymap.set("n", "<space>rm", ":make build", {})
 vim.keymap.set("n", "<space>rt", ":make test --workspace --features dev<CR>", {})
 vim.keymap.set("n", "<space>rw", ":make build --workspace --features dev<CR>", {})

@@ -133,42 +133,42 @@ lsp.setup_nvim_cmp({
   },
 })
 
-local rust_lsp = lsp.build_options('rust_analyzer', {
-  settings = {
-    ['rust-analyzer'] = {
-      imports = {
-        granularity = {
-          group = "module",
-        },
-        prefix = "self",
-      },
-      check = {
-        command = "clippy",
-        extraArgs = {
-          "--",
-          "-D",
-          "clippy::perf",
-          "-D",
-          "clippy::needless_lifetimes",
-          "-D",
-          "warnings",
-        }
-      },
-      cargo = {
-        buildScripts = {
-          enable = true,
-        },
-        features = "all"
-      },
-      procMacro = {
-        enable = true
-      },
-      diagnostics = {
-        enable = false;
-      }
-    }
-  }
-})
+--local rust_lsp = lsp.build_options('rust_analyzer', {
+--  settings = {
+--    ['rust-analyzer'] = {
+--      imports = {
+--        granularity = {
+--          group = "module",
+--        },
+--        prefix = "self",
+--      },
+--      check = {
+--        command = "clippy",
+--        extraArgs = {
+--          "--",
+--          "-D",
+--          "clippy::perf",
+--          "-D",
+--          "clippy::needless_lifetimes",
+--          "-D",
+--          "warnings",
+--        }
+--      },
+--      cargo = {
+--        buildScripts = {
+--          enable = true,
+--        },
+--        features = "all"
+--      },
+--      procMacro = {
+--        enable = true
+--      },
+--      diagnostics = {
+--        enable = false;
+--      }
+--    }
+--  }
+--})
 
 lsp.setup()
 
@@ -176,4 +176,4 @@ vim.diagnostic.config({
   virtual_text = true,
 })
 
-require('rust-tools').setup({server = rust_lsp})
+-- require('rust-tools').setup({server = rust_lsp})
