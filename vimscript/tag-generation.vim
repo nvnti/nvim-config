@@ -35,12 +35,4 @@ let &path="."
 exe 'redraw!'
 endfunction
 
-function! LoadTagsRust()
-silent !echo '!*' > $W/.ignore
-silent !rusty-tags vi -o -f --output="individual-tags"
-silent !echo "" > tags
-silent !for i in `find . -type f -name individual-tags`; do cat $i >> tags; rm -f $i; done
-endfunction
-
 command! LoadTagsC : call LoadTagsC()
-command! LoadTagsRust : call LoadTagsRust()
