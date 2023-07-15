@@ -33,4 +33,30 @@ function M.toggle_text_width_line()
   end
 end
 
+function M.toggle_tab_width()
+  if vim.opt.tabstop == 2 then
+    vim.opt.tabstop = 4
+    vim.opt.softtabstop = 4
+    vim.opt.shiftwidth = 4
+  else
+    vim.opt.tabstop = 2
+    vim.opt.softtabstop = 2
+    vim.opt.shiftwidth = 2
+  end
+end
+
+function M.toggle_copy_mode()
+  if vim.opt.number or vim.opt.relativenumber or vim.opt.list then
+    vim.opt.number = false
+    vim.opt.relativenumber = false
+    vim.opt.signcolumn = "no"
+    vim.opt.list = false
+  else
+    vim.opt.number = true
+    vim.opt.relativenumber = true
+    vim.opt.signcolumn = "yes"
+    vim.opt.list = true
+  end
+end
+
 return M

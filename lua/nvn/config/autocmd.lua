@@ -47,8 +47,41 @@ vim.api.nvim_create_autocmd(
   {
     pattern = "tagbar,nerdtree,NvimTree",
     callback = function()
-      local buf = vim.api.nvim_get_current_buf()
-      vim.api.nvim_buf_set_option(buf, "signcolumn", "no")
+      local win = vim.api.nvim_get_current_win()
+      vim.api.nvim_win_set_option(win, "signcolumn", "no")
+    end
+  }
+)
+
+vim.api.nvim_create_autocmd(
+  {
+    "SwapExists",
+  },
+  {
+    pattern = "*",
+    callback = function()
+      vim.v.swapchoice = "o"
+    end
+  }
+)
+
+vim.api.nvim_create_autocmd(
+  {
+    "WinEnter",
+  },
+  {
+    pattern = "*",
+    callback = function()
+      local win = vim.api.nvim_get_current_win()
+      vim.api.nvim_win_set_option(win, "winhighlight", "Normal:ActiveWindow,NormalNC:InactiveWindow")
+
+      if vim.opt.previewwindow then
+        vim.api.nvim_win_set_option(win, "winhighlight", "Normal:MarkdownError")
+      end
+
+      if vim.opt.buftype == 'terminal' then
+        vim.api.nvim_win_set_option(win, "winhighlight", "Normal:ActiveTerminal")
+      end
     end
   }
 )

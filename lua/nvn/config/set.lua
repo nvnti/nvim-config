@@ -57,7 +57,7 @@ vim.opt.conceallevel = 0
 vim.opt.formatoptions = "cqrnj1"
 
 -- Make sure you have tags in PWD
-vim.opt.tags = "./tags"
+vim.opt.tags = "tags"
 
 vim.opt.cmdheight = 1
 

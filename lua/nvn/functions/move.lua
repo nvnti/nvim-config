@@ -1,32 +1,111 @@
--- vim.g.custom_move_table_current_index = 1
---
--- local function add_new_move_items(dict, index, before_cmd, after_cmd)
---   local move_cmds = {}
---   move_cmds[0] = before_cmd
---   move_cmds[1] = after_cmd
---   dict[index] = move_cmds
---
---   local motion = "," .. index
---
---   vim.keymap.set("n",  motion, Update_custom_move_index(index))
--- end
---
--- function Custom_move_function(direction)
---   local custom_move_table = {}
---   add_new_move_items(custom_move_table, 0, {"tn", "normal! zz"}, {"tp", "normal! zz"})
---   add_new_move_items(custom_move_table, 1, {"cn", "normal! zz"}, {"cp", "normal! zz"})
---   add_new_move_items(custom_move_table, 2, {"normal! ]c"}, {"normal! [c"})
---   add_new_move_items(custom_move_table, 3, {"lua vim.diagnostic.goto_next()"}, {"lua vim.diagnostic.goto_prev()"})
---   add_new_move_items(custom_move_table, 4, {"bn", "normal! zz"}, {"bp", "normal! zz"})
---   add_new_move_items(custom_move_table, 5, {"tabnext"}, {"tabprevious"})
---   add_new_move_items(custom_move_table, 6, {"DirDiffNext"}, {"DirDiffPrev"})
---
---   for _, k in ipairs(custom_move_table[vim.g.custom_move_table_current_index][direction]) do
---     print(k)
---     vim.cmd{ cmd = k }
---   end
--- end
---
--- function Update_custom_move_index(num)
---   vim.g.custom_move_table_current_index = num
--- end
+local M = {}
+
+function M.setup()
+  vim.g.move_type_ndx = 0
+
+  vim.keymap.set("n", "<leader>0", function()
+    vim.g.move_type_ndx = 0
+    vim.api.nvim_exec("redraw!", false)
+  end)
+  vim.keymap.set("n", "<leader>1", function()
+    vim.g.move_type_ndx = 1
+    vim.api.nvim_exec("redraw!", false)
+  end)
+  vim.keymap.set("n", "<leader>2", function()
+    vim.g.move_type_ndx = 2
+    vim.api.nvim_exec("redraw!", false)
+  end)
+  vim.keymap.set("n", "<leader>3", function()
+    vim.g.move_type_ndx = 3
+    vim.api.nvim_exec("redraw!", false)
+  end)
+  vim.keymap.set("n", "<leader>4", function()
+    vim.g.move_type_ndx = 4
+    vim.api.nvim_exec("redraw!", false)
+  end)
+  vim.keymap.set("n", "<leader>5", function()
+    vim.g.move_type_ndx = 5
+    vim.api.nvim_exec("redraw!", false)
+  end)
+  vim.keymap.set("n", "<leader>6", function()
+    vim.g.move_type_ndx = 6
+    vim.api.nvim_exec("redraw!", false)
+  end)
+  vim.keymap.set("n", "<leader>7", function()
+    vim.g.move_type_ndx = 7
+    vim.api.nvim_exec("redraw!", false)
+  end)
+  vim.keymap.set("n", "<leader>8", function()
+    vim.g.move_type_ndx = 8
+    vim.api.nvim_exec("redraw!", false)
+  end)
+  vim.keymap.set("n", "<leader>9", function()
+    vim.g.move_type_ndx = 9
+    vim.api.nvim_exec("redraw!", false)
+  end)
+end
+
+function M.current_type()
+    if     vim.g.move_type_ndx == 0 then return "tag"
+    elseif vim.g.move_type_ndx == 1 then return "qfx"
+    elseif vim.g.move_type_ndx == 2 then return "diff"
+    elseif vim.g.move_type_ndx == 3 then return "diagnostics"
+    elseif vim.g.move_type_ndx == 4 then return "buffer"
+    elseif vim.g.move_type_ndx == 5 then return "tab"
+    elseif vim.g.move_type_ndx == 6 then return "dirdiff"
+    elseif vim.g.move_type_ndx == 7 then return "---"
+    elseif vim.g.move_type_ndx == 8 then return "---"
+    elseif vim.g.move_type_ndx == 9 then return "---"
+    else                                 return "---"
+  end
+end
+
+function M.next()
+    if     vim.g.move_type_ndx == 0 then
+      vim.api.nvim_exec("tn", false)
+      vim.api.nvim_exec("normal!zz", false)
+    elseif vim.g.move_type_ndx == 1 then
+      vim.api.nvim_exec("cn", false)
+      vim.api.nvim_exec("normal!zz", false)
+    elseif vim.g.move_type_ndx == 2 then
+      vim.api.nvim_exec("normal! ]c", false)
+    elseif vim.g.move_type_ndx == 3 then
+      vim.api.nvim_exec("lua vim.diagnostic.goto_next()", false)
+    elseif vim.g.move_type_ndx == 4 then
+      vim.api.nvim_exec("bn", false)
+    elseif vim.g.move_type_ndx == 5 then
+      vim.api.nvim_exec("tabnext", false)
+    elseif vim.g.move_type_ndx == 6 then
+      vim.api.nvim_exec("DirDiffNext", false)
+    elseif vim.g.move_type_ndx == 7 then
+    elseif vim.g.move_type_ndx == 8 then
+    elseif vim.g.move_type_ndx == 9 then
+    else
+  end
+end
+
+function M.prev()
+    if     vim.g.move_type_ndx == 0 then
+      vim.api.nvim_exec("tp", false)
+      vim.api.nvim_exec("normal!zz", false)
+    elseif vim.g.move_type_ndx == 1 then
+      vim.api.nvim_exec("cp", false)
+      vim.api.nvim_exec("normal!zz", false)
+    elseif vim.g.move_type_ndx == 2 then
+      vim.api.nvim_exec("normal! [c", false)
+    elseif vim.g.move_type_ndx == 3 then
+      vim.api.nvim_exec("lua vim.diagnostic.goto_prev()", false)
+    elseif vim.g.move_type_ndx == 4 then
+      vim.api.nvim_exec("bp", false)
+    elseif vim.g.move_type_ndx == 5 then
+      vim.api.nvim_exec("tabprevious", false)
+    elseif vim.g.move_type_ndx == 6 then
+      vim.api.nvim_exec("DirDiffPrev", false)
+    elseif vim.g.move_type_ndx == 7 then
+    elseif vim.g.move_type_ndx == 8 then
+    elseif vim.g.move_type_ndx == 9 then
+    else
+  end
+end
+
+return M

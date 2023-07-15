@@ -13,11 +13,11 @@ return require('packer').startup(function(use)
     requires = { {'nvim-lua/plenary.nvim'} }
   }
   use('nelstrom/vim-visual-star-search')
-  use{
-    'junegunn/fzf',
-    run = './install --all --no-update-rc',
-    requires = { 'junegunn/fzf.vim' }
-  }
+  -- use{
+  --   'junegunn/fzf',
+  --   run = './install --all --no-update-rc',
+  --   requires = { 'junegunn/fzf.vim' }
+  -- }
 
   -- Git lab link
   use('knsh14/vim-github-link')
@@ -161,6 +161,8 @@ return require('packer').startup(function(use)
   use('mrjones2014/smart-splits.nvim')
 
   use('akinsho/toggleterm.nvim')
+
+  use("Pocco81/AbbrevMan.nvim")
 
   -- use('Shatur/neovim-session-manager')
 

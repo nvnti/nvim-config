@@ -2,7 +2,6 @@ local builtin = require('telescope.builtin')
 local customs = require('nvn.telescope.init')
 local custom_term_toggles = require('nvn.toggleterm.init')
 local custom_toggles = require('nvn.config.toggles')
-local jobs = require('nvn.functions.jobs')
 
 vim.keymap.set("n", "<space>an", ":AerialNext float<CR>", {})
 vim.keymap.set("n", "<space>ao", ":AerialOpen float<CR>", {})
@@ -85,11 +84,11 @@ vim.keymap.set('n', '<space>sr', customs.grep_word_in_rust, {})
 vim.keymap.set('n', '<space>sR', customs.grep_word_under_cursor_in_rust, {})
 
 -- Toggle/tags
-vim.keymap.set("n", "<SPACE>t<SPACE>", ":call ToggleCopyMode()<CR>", {})
-vim.keymap.set("n", "<SPACE>tc", ":call LoadTagsC()<CR>", {})
+vim.keymap.set('n', '<SPACE>t<SPACE>', custom_toggles.toggle_copy_mode, {})
 vim.keymap.set('n', '<SPACE>tf', custom_toggles.toggle_rust_fmt, {})
+vim.keymap.set('n', '<SPACE>tt', custom_toggles.toggle_tab_width, {})
+
 -- vim.keymap.set('n', '<SPACE>tg', custom_toggles.toggle_c_cpp_source_header, {})
-vim.keymap.set("n", "<SPACE>tr", jobs.GenerateRustTags, {})
 -- vim.keymap.set('n', '<SPACE>tw', custom_toggles.toggle_text_width_line, {})
 
 vim.keymap.set("n", "<SPACE>yp", ":let @\" = expand(\"%\")<CR>", {})

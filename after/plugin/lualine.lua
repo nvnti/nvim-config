@@ -1,3 +1,5 @@
+local move = require('nvn.functions.move')
+
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -42,7 +44,7 @@ require('lualine').setup {
       path = 1,
     }},
     lualine_x = {},
-    lualine_y = {'M_move_vim_current_type'},
+    lualine_y = {move.current_type},
     lualine_z = {'tabs'}
   },
   winbar = {},

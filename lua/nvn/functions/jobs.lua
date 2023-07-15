@@ -16,5 +16,47 @@ function M.GenerateRustTags()
   )
 end
 
+function M.GenerateCPPTags()
+  vim.fn.jobstart(
+    {
+      'bash',
+      '-c',
+      [[
+        echo '!*' > .ignore;
+        grep '"file"' compile_commands.json | grep -v unit-test | grep -v packages | grep -v MISRA | grep -v objs | cut -d':' -f2 | cut -d'"' -f2 > filelist.tags
+        ctags -L filelist.tags --language-force=c++
+      ]]
+    }
+  )
+end
+
+function M.GenerateJavaTags()
+  vim.fn.jobstart(
+    {
+      'bash',
+      '-c',
+      [[
+        echo '!*' > .ignore;
+        find . -type f -name '*.java' > filelist.tags
+        ctags -L filelist.tags --language-force=java
+      ]]
+    }
+  )
+end
+
+function M.GeneratePythonTags()
+  vim.fn.jobstart(
+    {
+      'bash',
+      '-c',
+      [[
+        echo '!*' > .ignore;
+        find . -type f -name '*.py' > filelist.tags
+        ctags -L filelist.tags --language-force=python
+      ]]
+    }
+  )
+end
+
 return M
 

@@ -6,3 +6,4 @@ require("nvn.mapping.leader")
 
 vim.keymap.set("n", ";", ":")
 vim.keymap.set("v", ";", ":")
+
