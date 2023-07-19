@@ -9,8 +9,8 @@ vim.keymap.set("n", "\\w", ":wa!<CR>")
 
 -- Tag generation
 vim.keymap.set("n", "\\tc", jobs.GenerateCPPTags, {})
-vim.keymap.set("n", "\\tr", jobs.GenerateJavaTags, {})
-vim.keymap.set("n", "\\tr", jobs.GeneratePythonTags, {})
+vim.keymap.set("n", "\\tj", jobs.GenerateJavaTags, {})
+vim.keymap.set("n", "\\tp", jobs.GeneratePythonTags, {})
 vim.keymap.set("n", "\\tr", jobs.GenerateRustTags, {})
 
 -- FORMAT
