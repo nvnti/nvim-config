@@ -14,10 +14,5 @@ vim.keymap.set("n", "\\tp", jobs.GeneratePythonTags, {})
 vim.keymap.set("n", "\\tr", jobs.GenerateRustTags, {})
 
 -- FORMAT
-vim.keymap.set("n", "\\fc", ":ClangFormat<CR>", {})
-vim.keymap.set("n", "\\ff", "gg=G``", {})
-vim.keymap.set("n", "\\fj", common.format_json, {})
-vim.keymap.set("n", "\\fr", ":RustFmt<CR>", {})
-vim.keymap.set("n", "\\fx", ":%!XMLLINT_INDENT=\"    \" xmllint --format -<CR>", {})
-vim.keymap.set("v", "\\fc", ":ClangFormat<CR>", {})
-vim.keymap.set("v", "\\fx", ":'<,'>!XMLLINT_INDENT=\"    \" xmllint --format -<CR>", {})
+vim.keymap.set("n", "\\ff", common.format_file_normal_mode, {})
+vim.keymap.set("v", "\\ff", common.format_file_visual_mode, {})

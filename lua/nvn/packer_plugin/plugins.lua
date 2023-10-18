@@ -162,7 +162,7 @@ return require('packer').startup(function(use)
 
   use('akinsho/toggleterm.nvim')
 
-  use("Pocco81/AbbrevMan.nvim")
+  use("nvnti/AbbrevMan.nvim")
 
   -- use('Shatur/neovim-session-manager')
 

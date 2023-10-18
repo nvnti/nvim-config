@@ -1,7 +1,7 @@
 local lsp = require("lsp-zero")
 local cmp = require('cmp')
 local lspkind = require("lspkind")
-local ih = require("inlay-hints")
+-- local ih = require("inlay-hints")
 local gotop = require('goto-preview')
 local lsp_sig = require('lsp_signature')
 
@@ -42,12 +42,12 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "<space>gP", gotop.close_all_win, {})
   vim.keymap.set("n", "<space>gpr", gotop.goto_preview_references, {})
 
-  ih.on_attach(client, bufnr)
+  -- ih.on_attach(client, bufnr)
   lsp_sig.on_attach(lsp_sig_opts, bufnr)
 end
 
 local on_initialized = function()
-  ih.set_all()
+  -- ih.set_all()
 end
 
 lsp.preset("recommended")
