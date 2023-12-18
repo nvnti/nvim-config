@@ -26,6 +26,14 @@ local cclippy = terminal:new({
   direction = 'vertical',
 })
 
+local cclippy_fix = terminal:new({
+  cmd = "cargo clippy --fix --all --all-targets  --all-features -- -D clippy::perf -D clippy::needless_lifetimes -D warnings",
+  hidden = true,
+  close_on_exit = true,
+  shell = "zsh",
+  direction = 'vertical',
+})
+
 local cargo_test = terminal:new({
   cmd = "cargo test --workspace --features dev 2>&1 | tee .nvim_cargo_test.txt",
   hidden = true,
@@ -74,6 +82,10 @@ end
 
 function M.cclippy_toggle()
   cclippy:toggle()
+end
+
+function M.cclippy_fix_toggle()
+  cclippy_fix:toggle()
 end
 
 function M.lazygit_toggle()
