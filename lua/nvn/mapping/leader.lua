@@ -16,7 +16,7 @@ vim.keymap.set("n", "<leader>fp",  ":grep -g '{*.py}' <C-R>=expand(\"<cword>\")<
 vim.keymap.set("n", "<leader>fs",  ":grep -g '{*.hpp,*.h,*.hxx,*.c,*.cpp,*.cxx,*.cc}' <C-R>=expand(\"<cword>\")<CR> analysis/ <CR>")
 vim.keymap.set("n", "<leader>fr",  ":grep -g '{*.rs}' <C-R>=expand(\"<cword>\")<CR> .")
 
-vim.keymap.set("n", "<leader>gf", ":e %:h/<cfile><CR>")
+vim.keymap.set("n", "<leader>gf", ":e <C-R>=expand(\"%:h\")<CR>/<cfile><CR>")
 
 -- next
 vim.keymap.set("n", "<leader>nb", ":bn<CR>", {})
@@ -25,7 +25,7 @@ vim.keymap.set("n", "<leader>nf", "j0[[%/{<CR>", {})
 vim.keymap.set("n", "<leader>nt", ":tn<CR>", {})
 
 -- Open
-vim.keymap.set("n", "<leader>op", ":e %:h/")
+vim.keymap.set("n", "<leader>op", ":e <C-R>=expand(\"%:h\")<CR>/")
 
 -- paste / previos
 -- paste but retain

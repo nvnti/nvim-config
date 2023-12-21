@@ -96,36 +96,26 @@ return require('packer').startup(function(use)
     tag = 'nightly' -- optional, updated every week. (see issue #1193)
   }
 
-  -- LSP related plugins
-  use {
-    'VonHeikemen/lsp-zero.nvim',
-    requires = {
-      -- LSP Support
-      {'neovim/nvim-lspconfig'},
-      {'williamboman/mason.nvim'},
-      {'williamboman/mason-lspconfig.nvim'},
+  use {'neovim/nvim-lspconfig'}
+  use {'hrsh7th/cmp-nvim-lsp'}
+  use {'hrsh7th/cmp-buffer'}
+  use {'hrsh7th/cmp-path'}
+  use {'hrsh7th/cmp-cmdline'}
+  use {'hrsh7th/nvim-cmp'}
+  use {'hrsh7th/cmp-nvim-lua'}
 
-      -- Autocompletion
-      {'hrsh7th/nvim-cmp'},
-      {'hrsh7th/cmp-buffer'},
-      {'hrsh7th/cmp-path'},
-      {'hrsh7th/cmp-cmdline'},
-      {'saadparwaiz1/cmp_luasnip'},
-      {'hrsh7th/cmp-nvim-lsp'},
-      {'hrsh7th/cmp-nvim-lua'},
+  -- Snippets
+  use {'L3MON4D3/LuaSnip'}
+  use {'saadparwaiz1/cmp_luasnip'}
+  use {'rafamadriz/friendly-snippets'}
 
-      {'onsails/lspkind.nvim'},
+  use {'williamboman/mason.nvim'}
+  use {'williamboman/mason-lspconfig.nvim'}
 
-      -- Snippets
-      {'L3MON4D3/LuaSnip'},
-      {'rafamadriz/friendly-snippets'},
+  use {'onsails/lspkind.nvim'}
 
-      { "simrat39/inlay-hints.nvim" },
-      { "ray-x/lsp_signature.nvim" }
-    }
-  }
-
-  use { 'simrat39/rust-tools.nvim' }
+  use { "simrat39/inlay-hints.nvim" }
+  use { "ray-x/lsp_signature.nvim" }
 
   use {
     'kosayoda/nvim-lightbulb',
@@ -141,7 +131,6 @@ return require('packer').startup(function(use)
   }
 
   use('stevearc/aerial.nvim')
-  use('rafamadriz/friendly-snippets')
   use('NMAC427/guess-indent.nvim')
 
   use('NvChad/nvim-colorizer.lua')
