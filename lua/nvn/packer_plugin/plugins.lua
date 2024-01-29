@@ -154,5 +154,12 @@ return require('packer').startup(function(use)
 
   -- use('Shatur/neovim-session-manager')
 
+  use('tveskag/nvim-blame-line')
+
+  use {
+    'junegunn/fzf.vim',
+    requires = { 'junegunn/fzf', run = ':call fzf#install()' }
+  }
+
 end)
 
