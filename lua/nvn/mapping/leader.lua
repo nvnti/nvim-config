@@ -6,6 +6,8 @@ vim.keymap.set("n", "<leader>dl", ":g//d<LEFT><LEFT>", {})
 vim.keymap.set("n", "<leader>dp", ":g/<C-R>=expand(\"<cword>\")<CR>/d<CR>", {})
 vim.keymap.set("n", "<leader>ds", ":StripWhitespace<CR>", {})
 
+vim.keymap.set("n", "<leader>ez", "yyp:.!zsh<CR>")
+
 vim.keymap.set("n", "<leader>fa",  ":grep <C-R>=expand(\"<cword>\")<CR>")
 vim.keymap.set("n", "<leader>fc",  ":grep -g '{*.hpp,*.h,*.hxx,*.c,*.cpp,*.cxx,*.cc}' <C-R>=expand(\"<cword>\")<CR> analysis/")
 vim.keymap.set("n", "<leader>fg",  ":grep -g '{*.hpp,*.h,*.hxx,*.c,*.cpp,*.cxx,*.cc}'")
@@ -16,7 +18,9 @@ vim.keymap.set("n", "<leader>fp",  ":grep -g '{*.py}' <C-R>=expand(\"<cword>\")<
 vim.keymap.set("n", "<leader>fs",  ":grep -g '{*.hpp,*.h,*.hxx,*.c,*.cpp,*.cxx,*.cc}' <C-R>=expand(\"<cword>\")<CR> analysis/ <CR>")
 vim.keymap.set("n", "<leader>fr",  ":grep -g '{*.rs}' <C-R>=expand(\"<cword>\")<CR> .")
 
+vim.keymap.set("n", "<leader>gc", ":e <cfile><CR>")
 vim.keymap.set("n", "<leader>gf", ":e <C-R>=expand(\"%:h\")<CR>/<cfile><CR>")
+vim.keymap.set("n", "<leader>gt", ":e test-sources/<cfile><CR>")
 
 -- next
 vim.keymap.set("n", "<leader>nb", ":bn<CR>", {})
