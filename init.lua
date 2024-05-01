@@ -1,4 +1,5 @@
-require("nvn.packer_plugin")
+-- require("nvn.packer_plugin")
+require("nvn.lazy_plugin")
 require("nvn.mapping")
 require("nvn.config")
 require("nvn.abbreviations")

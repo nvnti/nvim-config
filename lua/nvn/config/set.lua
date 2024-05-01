@@ -92,3 +92,6 @@ vim.opt.wildignore = "*.pyc,*.o,*.obj,*.svn,*.swp,*.class,*.hg,*.DS_Store,*.min.
 vim.opt.wildmenu = true
 
 vim.opt.list = true
+
+vim.keymap.set("n", ";", ":")
+vim.keymap.set("v", ";", ":")

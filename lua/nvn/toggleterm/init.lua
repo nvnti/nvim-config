@@ -19,7 +19,7 @@ local update_fmt = terminal:new({
 })
 
 local cclippy = terminal:new({
-  cmd = "cargo check_clippy 2>&1 | tee .nvim_cargo_clippy.txt",
+  cmd = "cargo clippy --all-features --all-targets 2>&1 | tee .nvim_cargo_clippy.txt",
   hidden = true,
   close_on_exit = true,
   shell = "zsh",

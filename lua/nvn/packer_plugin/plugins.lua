@@ -92,8 +92,7 @@ return require('packer').startup(function(use)
     'nvim-tree/nvim-tree.lua',
     requires = {
       'nvim-tree/nvim-web-devicons', -- optional, for file icons
-    },
-    tag = 'nightly' -- optional, updated every week. (see issue #1193)
+    }
   }
 
   use {'neovim/nvim-lspconfig'}
@@ -160,6 +159,11 @@ return require('packer').startup(function(use)
     'junegunn/fzf.vim',
     requires = { 'junegunn/fzf', run = ':call fzf#install()' }
   }
+
+  use('ldelossa/litee.nvim')
+  use('ldelossa/litee-calltree.nvim')
+  use('ldelossa/litee-filetree.nvim')
+  use('ldelossa/litee-symboltree.nvim')
 
 end)
 
