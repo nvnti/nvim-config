@@ -21,9 +21,6 @@ function M.setup()
 
     set t_Co=256
 
-    " :execute 'set shadafile=' . g:CVAR_VIMFILES_DIR . '/shadafile'
-    " :execute "set shada='500,<5000,s100,n" . g:CVAR_VIMFILES_DIR . "/shada"
-
     " For Neovim 0.1.3 and 0.1.4
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
@@ -31,7 +28,6 @@ function M.setup()
     if (has("termguicolors"))
      set termguicolors
     endif
-
 
     " Background colors for active vs inactive windows
     hi ActiveWindow guibg=#17252c

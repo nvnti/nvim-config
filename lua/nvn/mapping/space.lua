@@ -56,11 +56,9 @@ vim.keymap.set('n', '<space>fT', builtin.filetypes, {})
 vim.keymap.set("n", "<space>gA", ":Git commit --amend<CR>")
 vim.keymap.set("n", "<space>gB", builtin.git_branches, {})
 vim.keymap.set("n", "<space>gC", ":Git commit<CR>")
-vim.keymap.set("n", "<space>gS", ":DiffviewOpen HEAD..HEAD~1<CR>")
 vim.keymap.set("n", "<space>ga", ":Git add %<CR><CR>")
 vim.keymap.set("n", "<space>gb", ":Git blame<CR>")
 vim.keymap.set("n", "<space>gc", builtin.git_commits, {})
-vim.keymap.set("n", "<space>gd", ":DiffviewOpen<CR>")
 vim.keymap.set("n", "<space>gh", ":GetCurrentBranchLink<CR>")
 vim.keymap.set("n", "<space>gl", ":Git log<CR>")
 vim.keymap.set("n", "<space>gp", ":Git pull<CR>")
@@ -90,6 +88,10 @@ vim.keymap.set('n', '<SPACE>tt', custom_toggles.toggle_tab_width, {})
 
 -- vim.keymap.set('n', '<SPACE>tg', custom_toggles.toggle_c_cpp_source_header, {})
 -- vim.keymap.set('n', '<SPACE>tw', custom_toggles.toggle_text_width_line, {})
+
+vim.keymap.set("n", "<space>vh", ":DiffviewOpen HEAD..HEAD~1<CR>")
+vim.keymap.set("n", "<space>vo", ":DiffviewOpen<CR>")
+vim.keymap.set("n", "<space>vq", ":DiffviewClose<CR>")
 
 vim.keymap.set("n", "<SPACE>yp", ":let @\" = expand(\"%\")<CR>", {})
 
