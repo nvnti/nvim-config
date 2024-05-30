@@ -117,13 +117,18 @@ local plugins = {
     },
     settings = {
       "nvim-treesitter/nvim-treesitter",
-      dependencies = {
-        "p00f/nvim-ts-rainbow",
-      },
       -- build = function()
       --   vim.cmd("TSUpdate")
       -- end,
       config = setup_fns.treesitter,
+    },
+  },
+  {
+    info = {
+      type = "always",
+    },
+    settings = {
+      'HiPhish/rainbow-delimiters.nvim'
     },
   },
 

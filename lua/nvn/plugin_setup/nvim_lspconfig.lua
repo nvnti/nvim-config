@@ -28,6 +28,12 @@ function M.fn()
 
   require('lsp_signature').setup(lsplocalconfig.confs.lspsignature)
   require("inlay-hints").setup(lsplocalconfig.confs.inlayhints)
+
+  vim.diagnostic.config({
+    virtual_text = true,
+    underline = false
+  })
+
 end
 
 return M

@@ -48,9 +48,9 @@ return require('packer').startup(function(use)
   use{
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
-    requires = { 'p00f/nvim-ts-rainbow' }
   }
   use('ntpeters/vim-better-whitespace')
+  use('HiPhish/rainbow-delimiters.nvim')
 
   -- use('theprimeagen/harpoon')
   use('mbbill/undotree')

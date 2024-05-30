@@ -126,7 +126,7 @@ function M.fn()
     git = {
       enable = true,
       ignore = true,
-      timeout = 500,
+      timeout = 5000,
     },
     hijack_cursor       = false,
     hijack_netrw        = true,
@@ -197,7 +197,13 @@ function M.fn()
       relativenumber = false,
       side = 'left',
       width = 40
-    }
+    },
+    filters = {
+        dotfiles = false,
+        git_clean = false,
+        no_buffer = false,
+        custom = { 'node_modules', 'target', 'target-nvim' },
+    },
   }
 end
 
