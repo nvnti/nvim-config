@@ -395,6 +395,7 @@ local plugins = {
     },
     settings = {
       "hrsh7th/nvim-cmp",
+      config = setup_fns.nvim_cmp,
     },
   },
 

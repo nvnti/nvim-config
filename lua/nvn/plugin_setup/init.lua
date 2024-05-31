@@ -20,6 +20,7 @@ M.lua_fmt = require("nvn.plugin_setup.lua_fmt").fn
 M.lualine = require("nvn.plugin_setup.lualine").fn
 M.mason = require("nvn.plugin_setup.mason").fn
 M.nvim_colorizer = require("nvn.plugin_setup.nvim_colorizer").fn
+M.nvim_cmp = require("nvn.plugin_setup.nvim_cmp").fn
 M.nvim_devicons = require("nvn.plugin_setup.nvim_devicons").fn
 M.nvim_lspconfig = require("nvn.plugin_setup.nvim_lspconfig").fn
 M.nvim_tree = require("nvn.plugin_setup.nvim_tree").fn
