@@ -9,7 +9,7 @@ local plugins = {
       dependencies = {
         "nvim-lua/plenary.nvim",
       },
-      config = setup_fns.telescope,
+      config = setup_fns.telescope_conf,
     },
   },
 
@@ -46,7 +46,7 @@ local plugins = {
     },
     settings = {
       "Vimjas/vim-python-pep8-indent",
-      config = setup_fns.pep8_indent,
+      config = setup_fns.pep8_indent_conf,
     },
   },
 
@@ -66,7 +66,7 @@ local plugins = {
     settings = {
       "rose-pine/neovim",
       name = "rose-pine",
-      config = setup_fns.rose_pine,
+      config = setup_fns.rose_pine_conf,
     },
   },
 
@@ -94,7 +94,7 @@ local plugins = {
     },
     settings = {
       "mhartington/formatter.nvim",
-      config = setup_fns.lua_fmt,
+      config = setup_fns.lua_fmt_conf,
     },
   },
 
@@ -107,7 +107,7 @@ local plugins = {
       dependencies = {
         "nvim-tree/nvim-web-devicons",
       },
-      config = setup_fns.lualine,
+      config = setup_fns.lualine_conf,
     },
   },
 
@@ -120,7 +120,7 @@ local plugins = {
       -- build = function()
       --   vim.cmd("TSUpdate")
       -- end,
-      config = setup_fns.treesitter,
+      config = setup_fns.treesitter_conf,
     },
   },
   {
@@ -138,7 +138,7 @@ local plugins = {
     },
     settings = {
       "ntpeters/vim-better-whitespace",
-      config = setup_fns.whitespace,
+      config = setup_fns.whitespace_conf,
     },
   },
 
@@ -148,7 +148,7 @@ local plugins = {
     },
     settings = {
       "mbbill/undotree",
-      config = setup_fns.undotree,
+      config = setup_fns.undotree_conf,
     },
   },
 
@@ -159,7 +159,7 @@ local plugins = {
     },
     settings = {
       "nvim-tree/nvim-web-devicons",
-      config = setup_fns.nvim_devicons,
+      config = setup_fns.nvim_devicons_conf,
     },
   },
 
@@ -192,7 +192,7 @@ local plugins = {
         "nvim-telescope/telescope.nvim",
         "nvim-lua/plenary.nvim"
       },
-      config = setup_fns.lazy_git,
+      config = setup_fns.lazy_git_conf,
     },
   },
 
@@ -219,7 +219,7 @@ local plugins = {
           "nvim-tree/nvim-web-devicons",
         },
       },
-      config = setup_fns.diffview,
+      config = setup_fns.diffview_conf,
     },
   },
 
@@ -239,7 +239,7 @@ local plugins = {
     },
     settings = {
       "naveentiwari/vim-dirdiff",
-      config = setup_fns.dirdiff,
+      config = setup_fns.dirdiff_conf,
     },
   },
 
@@ -258,7 +258,7 @@ local plugins = {
     },
     settings = {
       "chrisbra/vim-diff-enhanced",
-      config = setup_fns.diffenhance,
+      config = setup_fns.diffenhance_conf,
     },
   },
 
@@ -268,7 +268,7 @@ local plugins = {
     },
     settings = {
       "rust-lang/rust.vim",
-      config = setup_fns.clangfmt,
+      config = setup_fns.clangfmt_conf,
     },
   },
 
@@ -287,7 +287,7 @@ local plugins = {
     },
     settings = {
       "rhysd/vim-clang-format",
-      config = setup_fns.clangfmt,
+      config = setup_fns.clangfmt_conf,
     },
   },
 
@@ -315,7 +315,7 @@ local plugins = {
     },
     settings = {
       "mhinz/vim-startify",
-      config = setup_fns.startify,
+      config = setup_fns.startify_conf,
     },
   },
 
@@ -325,7 +325,7 @@ local plugins = {
     },
     settings = {
       "numToStr/Comment.nvim",
-      config = setup_fns.comment,
+      config = setup_fns.comment_conf,
     },
   },
 
@@ -339,7 +339,7 @@ local plugins = {
       dependencies = {
         "nvim-tree/nvim-web-devicons",
       },
-      config = setup_fns.nvim_tree,
+      config = setup_fns.nvim_tree_conf,
     },
   },
 
@@ -349,7 +349,7 @@ local plugins = {
     },
     settings = {
       "neovim/nvim-lspconfig",
-      config = setup_fns.nvim_lspconfig,
+      config = setup_fns.nvim_lspconfig_conf,
     },
   },
 
@@ -395,7 +395,7 @@ local plugins = {
     },
     settings = {
       "hrsh7th/nvim-cmp",
-      config = setup_fns.nvim_cmp,
+      config = setup_fns.nvim_cmp_conf,
     },
   },
 
@@ -445,7 +445,7 @@ local plugins = {
       dependencies = {
         "williamboman/mason.nvim",
       },
-      config = setup_fns.mason,
+      config = setup_fns.mason_conf,
     },
   },
 
@@ -483,7 +483,7 @@ local plugins = {
     settings = {
       "kosayoda/nvim-lightbulb",
       dependencies = "antoinemadec/FixCursorHold.nvim",
-      config = setup_fns.lightbuld,
+      config = setup_fns.lightbuld_conf,
     },
   },
 
@@ -493,7 +493,7 @@ local plugins = {
     },
     settings = {
       "rmagatti/goto-preview",
-      config = setup_fns.goto_preview,
+      config = setup_fns.goto_preview_conf,
     },
   },
 
@@ -503,7 +503,7 @@ local plugins = {
     },
     settings = {
       "windwp/nvim-ts-autotag",
-      config = setup_fns.autotag,
+      config = setup_fns.autotag_conf,
     },
   },
 
@@ -513,7 +513,7 @@ local plugins = {
     },
     settings = {
       "windwp/nvim-autopairs",
-      config = setup_fns.autopairs,
+      config = setup_fns.autopairs_conf,
     },
   },
 
@@ -523,7 +523,7 @@ local plugins = {
     },
     settings = {
       "stevearc/aerial.nvim",
-      config = setup_fns.aerial,
+      config = setup_fns.aerial_conf,
     },
   },
 
@@ -533,7 +533,7 @@ local plugins = {
     },
     settings = {
       "NMAC427/guess-indent.nvim",
-      config = setup_fns.guess_indent,
+      config = setup_fns.guess_indent_conf,
     },
   },
 
@@ -543,7 +543,7 @@ local plugins = {
     },
     settings = {
       "NvChad/nvim-colorizer.lua",
-      config = setup_fns.nvim_colorizer,
+      config = setup_fns.nvim_colorizer_conf,
     },
   },
 
@@ -554,7 +554,7 @@ local plugins = {
     settings = {
       "folke/which-key.nvim",
       lazy = true,
-      config = setup_fns.which_key,
+      config = setup_fns.which_key_conf,
     },
   },
 
@@ -567,7 +567,7 @@ local plugins = {
       dependencies = {
         "kevinhwang91/promise-async",
       },
-      config = setup_fns.nvim_ufo,
+      config = setup_fns.nvim_ufo_conf,
     },
   },
 
@@ -589,7 +589,7 @@ local plugins = {
     },
     settings = {
       "lukas-reineke/indent-blankline.nvim",
-      config = setup_fns.indent_blankline,
+      config = setup_fns.indent_blankline_conf,
     },
   },
 
@@ -599,7 +599,7 @@ local plugins = {
     },
     settings = {
       "mrjones2014/smart-splits.nvim",
-      config = setup_fns.smart_split,
+      config = setup_fns.smart_split_conf,
     },
   },
 
@@ -610,7 +610,7 @@ local plugins = {
     settings = {
       "akinsho/toggleterm.nvim",
       version = "*",
-      config = setup_fns.toggleterm,
+      config = setup_fns.toggleterm_conf,
     },
   },
 
@@ -620,7 +620,7 @@ local plugins = {
     },
     settings = {
       "nvnti/AbbrevMan.nvim",
-      config = setup_fns.abbrev_man,
+      config = setup_fns.abbrev_man_conf,
     },
   },
 
@@ -667,7 +667,7 @@ local plugins = {
       "ldelossa/litee-calltree.nvim",
       dependencies = "ldelossa/litee.nvim",
       event = "VeryLazy",
-      config = setup_fns.litee,
+      config = setup_fns.litee_conf,
     },
   },
 
@@ -679,7 +679,7 @@ local plugins = {
       "ldelossa/litee-filetree.nvim",
       dependencies = "ldelossa/litee.nvim",
       event = "VeryLazy",
-      config = setup_fns.litee,
+      config = setup_fns.litee_conf,
     },
   },
 
@@ -691,7 +691,7 @@ local plugins = {
       "ldelossa/litee-symboltree.nvim",
       dependencies = "ldelossa/litee.nvim",
       event = "VeryLazy",
-      config = setup_fns.litee,
+      config = setup_fns.litee_conf,
     },
   },
 }

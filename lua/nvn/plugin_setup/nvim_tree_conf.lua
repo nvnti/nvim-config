@@ -1,46 +1,16 @@
 local M = {}
 
 function M.fn()
-  local utils = require "nvim-tree.utils"
-  local events = require "nvim-tree.events"
-
   -- Set the global variables
   vim.g.nvim_tree_width_allow_resize  = 1
   vim.g.nvim_tree_current_width = 40
 
-  local git_mv = function(node)
-    if node.name == ".." then
-      return
-    end
+  -- disable netrw at the very start
+  vim.g.loaded_netrw = 1
+  vim.g.loaded_netrwPlugin = 1
 
-    local input_opts = { prompt = "Rename to ", default = node.absolute_path, completion = "file" }
-
-    vim.ui.input(input_opts, function(new_file_path)
-      if not new_file_path then
-        return
-      end
-
-      -- No change, just return
-      if node.absolute_path == new_file_path then
-        return
-      end
-
-      -- already exists, throw error
-      if utils.file_exists(new_file_path) then
-        utils.warn "Cannot rename: file already exists"
-        return
-      end
-
-      local pipe = io.popen('git mv ' .. node.absolute_path .. ' ' .. new_file_path)
-
-      utils.clear_prompt()
-      vim.api.nvim_out_write(node.absolute_path .. " ➜ " .. new_file_path .. "\n")
-      utils.rename_loaded_buffers(node.absolute_path, new_file_path)
-      events._dispatch_node_renamed(node.absolute_path, new_file_path)
-      require("nvim-tree.actions.reloaders").reload_explorer()
-
-    end)
-  end
+  -- optionally enable 24-bit colour
+  vim.opt.termguicolors = true
 
   local tree_mapping_list = {
     { key = "-",                            action = "dir_up" },
@@ -73,7 +43,6 @@ function M.fn()
     { key = "f",                            action = "live_filter" },
     { key = "gy",                           action = "copy_absolute_path" },
     { key = "h",                            action = "toggle_help" },
-    { key = "m", action = "print_path", action_cb = git_mv },
     { key = "p",                            action = "paste" },
     { key = "q",                            action = "close" },
     { key = "r",                            action = "refresh" },
@@ -205,6 +174,32 @@ function M.fn()
         custom = { 'node_modules', 'target', 'target-nvim' },
     },
   }
+end
+
+function M.fn_new()
+  -- disable netrw at the very start of your init.lua
+  vim.g.loaded_netrw = 1
+  vim.g.loaded_netrwPlugin = 1
+
+  -- optionally enable 24-bit colour
+  vim.opt.termguicolors = true
+
+  -- setup with some options
+  require("nvim-tree").setup({
+    sort = {
+      sorter = "case_sensitive",
+    },
+    view = {
+      width = 30,
+    },
+    renderer = {
+      group_empty = true,
+    },
+    filters = {
+      dotfiles = true,
+      custom = { 'node_modules', 'target', 'target-nvim' },
+    },
+  })
 end
 
 return M
