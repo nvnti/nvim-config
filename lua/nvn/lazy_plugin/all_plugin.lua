@@ -248,15 +248,6 @@ local plugins = {
       type = "always",
     },
     settings = {
-      "naveentiwari/vim-backup",
-    },
-  },
-
-  {
-    info = {
-      type = "always",
-    },
-    settings = {
       "chrisbra/vim-diff-enhanced",
       config = setup_fns.diffenhance_conf,
     },

@@ -85,3 +85,39 @@ vim.api.nvim_create_autocmd(
     end
   }
 )
+
+vim.api.nvim_create_autocmd(
+  {
+    "BufWritePre",
+  },
+  {
+    pattern = "*",
+    callback = function()
+      local path = vim.fn.stdpath("data") .. "/snapshots"
+      local bpath = path .. "/backup"
+      local spath = path .. "/swap"
+      local upath = path .. "/undo"
+
+      os.execute('mkdir -p ' .. bpath)
+      os.execute('mkdir -p ' .. spath)
+      os.execute('mkdir -p ' .. upath)
+
+      vim.opt.undodir = upath
+      vim.opt.undofile = true
+
+      vim.opt.swapfile = true
+      vim.opt.directory = spath
+
+      vim.opt.backup = true
+      vim.opt.backupdir = bpath
+
+      local fname = vim.fn.substitute(vim.fn.expand('%:p:h'), '/', '%', 'g')
+
+      local curMinute   = (vim.fn.localtime() / 60) % 60
+
+      local timestamp = vim.fn.strftime("%y_%m_%d_%H_") .. tostring((curMinute + 10) - (curMinute % 10))
+
+      vim.opt.backupext = '_' .. fname .. '_' .. timestamp
+    end
+  }
+)

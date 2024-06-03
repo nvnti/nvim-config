@@ -15,11 +15,6 @@ vim.opt.smarttab = true
 
 vim.opt.wrap = true
 
-vim.opt.swapfile = false
-vim.opt.backup = true
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.opt.undofile = true
-
 vim.opt.hlsearch = true -- I wouldn't use this without my DoNoHL function
 vim.opt.incsearch = true -- Makes search act like search in modern browsers
 vim.opt.showmatch = true -- show matching brackets when text indicator is over them
@@ -165,5 +160,4 @@ vim.opt.fillchars = { eob = "~" }
 
 vim.opt.diffopt = { "internal", "filler", "closeoff", "hiddenoff", "algorithm:minimal" }
 
-vim.opt.undofile = true
 vim.opt.signcolumn = "yes"
