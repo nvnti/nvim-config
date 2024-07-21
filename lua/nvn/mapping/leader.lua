@@ -17,6 +17,7 @@ vim.keymap.set("n", "<leader>fm",  ":grep -g '{*.mk,Makefile}' <C-R>=expand(\"<c
 vim.keymap.set("n", "<leader>fp",  ":grep -g '{*.py}' <C-R>=expand(\"<cword>\")<CR> .")
 vim.keymap.set("n", "<leader>fs",  ":grep -g '{*.hpp,*.h,*.hxx,*.c,*.cpp,*.cxx,*.cc}' <C-R>=expand(\"<cword>\")<CR> analysis/ <CR>")
 vim.keymap.set("n", "<leader>fr",  ":grep -g '{*.rs}' <C-R>=expand(\"<cword>\")<CR> .")
+vim.keymap.set("n", "<leader>ft",  ":grep -g '{Cargo.toml}' <C-R>=expand(\"<cword>\")<CR> .")
 
 vim.keymap.set("n", "<leader>gc", ":e <cfile><CR>")
 vim.keymap.set("n", "<leader>gf", ":e <C-R>=expand(\"%:h\")<CR>/<cfile><CR>")

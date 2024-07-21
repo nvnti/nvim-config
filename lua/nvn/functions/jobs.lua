@@ -7,7 +7,7 @@ function M.GenerateRustTags()
       '-c',
       [[
         echo '!*' > .ignore;
-        rusty-tags vi -o -f --output="individual-tags";
+        rusty-tags vi -f --output="individual-tags";
         echo "" > new_tags;
         for i in `find . -type f -name individual-tags`; do cat $i >> new_tags; rm -f $i; done
         mv new_tags tags
