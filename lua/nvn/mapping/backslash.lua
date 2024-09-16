@@ -16,3 +16,5 @@ vim.keymap.set("n", "\\tr", jobs.GenerateRustTags, {})
 -- FORMAT
 vim.keymap.set("n", "\\ff", common.format_file_normal_mode, {})
 vim.keymap.set("v", "\\ff", common.format_file_visual_mode, {})
+
+vim.keymap.set("n", "\\gl", common.open_current_branch_link, {})

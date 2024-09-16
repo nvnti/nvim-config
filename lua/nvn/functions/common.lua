@@ -76,4 +76,14 @@ function M.format_file_visual_mode()
 
 end
 
+function M.open_current_branch_link()
+    vim.api.nvim_command(":GetCurrentBranchLink")
+
+    local link = vim.fn.getreg("+")
+
+    vim.api.nvim_command(":!open " .. link)
+
+    vim.api.nvim_command(":echoerr " .. link)
+end
+
 return M
