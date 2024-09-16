@@ -57,11 +57,11 @@ return {
             telemetry = {
               enable = false,
             },
-          }
+          },
         },
         on_attach = function()
           map('n', '<SPACE>lt', '<Plug>PlenaryTestFile', "Run file's plenary tests")
-        end
+        end,
       },
       -- YAML --
       yamlls = {
@@ -69,15 +69,15 @@ return {
           yaml = {
             schemaStore = {
               url = 'https://www.schemastore.org/api/json/catalog.json',
-              enable = true
+              enable = true,
             },
             customTags = {
               -- AWS CloudFormation tags
               '!Equals sequence', '!FindInMap sequence', '!GetAtt', '!GetAZs',
               '!ImportValue', '!Join sequence', '!Ref', '!Select sequence',
-              '!Split sequence', '!Sub', '!Or sequence'
+              '!Split sequence', '!Sub', '!Or sequence',
             },
-          }
+          },
         },
         -- Don't attach to Azure Pipeline files (azure_pipelines_ls does that)
         on_attach = function(client, bufnr)
@@ -88,7 +88,7 @@ return {
           if is_pipeline_file then
             lsp.stop_client(client)
           end
-        end
+        end,
       },
       -- Eslint --
       eslint = {
@@ -101,7 +101,7 @@ return {
       },
       -- Bash/Zsh --
       bashls = {
-        filetypes = { 'sh', 'zsh' }
+        filetypes = { 'sh', 'zsh' },
       },
       -- Json --
       jsonls = {
@@ -115,8 +115,8 @@ return {
       -- Bicep --
       bicep = {
         cmd = {
-          mason_path.concat({ get_install_path('bicep-lsp'), 'bicep-lsp' })
-        }
+          mason_path.concat({ get_install_path('bicep-lsp'), 'bicep-lsp' }),
+        },
       },
       typst_lsp = {
         on_attach = function()
@@ -137,7 +137,7 @@ return {
           -- Fixes issue where config is ignored when opening a file with
           -- Telescope from some other directory
           config = vim.env.HOME .. '/.typos.toml',
-        }
+        },
       },
       pylsp = {
         settings = {
@@ -146,8 +146,8 @@ return {
               -- Disable formatting diagnostics (that's what formatters are for)
               pylint = { enabled = false },
               pycodestyle = { enabled = false },
-            }
-          }
+            },
+          },
         },
       },
       azure_pipelines_ls = {
@@ -156,7 +156,7 @@ return {
           yaml = {
             schemas = {
               ['https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json']
-                = 'azure-pipeline*.y*ml',
+              = 'azure-pipeline*.y*ml',
             },
           },
         },
@@ -176,19 +176,19 @@ return {
           features = "all",
         },
         procMacro = {
-          enable = true
+          enable = true,
         },
         rustFmt = {
-          extraArgs = "+nightly-2023-11-06"
+          extraArgs = "+nightly-2023-11-06",
         },
         server = {
           extraEnv = {
             CARGO_TARGET_DIR = "target-analyzer",
-          }
+          },
         },
         check = {
           command = "clippy",
-          extraArgs= {
+          extraArgs = {
             "--",
             "-D",
             "clippy::perf",
@@ -198,8 +198,8 @@ return {
             "warnings",
           },
         },
-        checkOnSave= true,
-      }
+        checkOnSave = true,
+      },
     }
 
     local disable = function() end
@@ -238,7 +238,7 @@ return {
 
     require('mason-lspconfig').setup({
       handlers = { setup },
-      ensure_installed = ensure_installed
+      ensure_installed = ensure_installed,
     })
 
     ---------------------
@@ -295,33 +295,37 @@ return {
       -- map('n', '<SPACE>tS', telescope.lsp_workspace_symbols,         'LSP workspace symbols')
       -- map('n', '<SPACE>tw', telescope.lsp_dynamic_workspace_symbols, 'LSP dynamic workspace symbols')
 
-      map('n', '<SPACE>ld',      telescope.lsp_definitions,               'LSP definitions')
-      map('n', 'gd',              telescope.lsp_definitions,               'LSP definitions')
-      map('n', '<SPACE>lD',      telescope.lsp_type_definitions,          'LSP type definitions')
-      map('n', 'gD',              telescope.lsp_type_definitions,          'LSP type definitions')
-      map('n', '<SPACE>li',      telescope.lsp_implementations,           'LSP implementations')
-      map('n', 'gi',              telescope.lsp_implementations,           'LSP implementations')
-      map('n', '<SPACE>lr',      lsp_references,                          'LSP references')
-      map('n', 'gr',              lsp_references,                          'LSP references')
+      map('n', '<SPACE>ld', telescope.lsp_definitions, 'LSP definitions')
+      map('n', 'gd', telescope.lsp_definitions, 'LSP definitions')
+      map('n', '<SPACE>lD', telescope.lsp_type_definitions, 'LSP type definitions')
+      map('n', 'gD', telescope.lsp_type_definitions, 'LSP type definitions')
+      map('n', '<SPACE>li', telescope.lsp_implementations, 'LSP implementations')
+      map('n', 'gi', telescope.lsp_implementations, 'LSP implementations')
+      map('n', '<SPACE>lr', lsp_references, 'LSP references')
+      map('n', 'gr', lsp_references, 'LSP references')
 
-      map('n',  '<SPACE>lh',     lsp.buf.hover,                           'LSP hover')
-      map('n',  'gh',             lsp.buf.hover,                           'LSP hover')
-      map('n',  'gs',             lsp.buf.signature_help,                  'LSP signature help')
-      map('n',  '<SPACE>lH',     lsp.buf.signature_help,                  'LSP signature help')
-      map(nx,   '<SPACE>lR',     lsp.buf.rename,                          'LSP rename')
-      map(nx,   '<SPACE>A',      lsp.codelens.run,                        'LSP code lens')
+      map('n', '<SPACE>lh', lsp.buf.hover, 'LSP hover')
+      map('n', 'gh', lsp.buf.hover, 'LSP hover')
+      map('n', 'gs', lsp.buf.signature_help, 'LSP signature help')
+      map('n', '<SPACE>lH', lsp.buf.signature_help, 'LSP signature help')
+      map(nx, '<SPACE>lR', lsp.buf.rename, 'LSP rename')
+      map(nx, '<SPACE>A', lsp.codelens.run, 'LSP code lens')
 
-      map('n',  '<SPACE>le', function() vim.diagnostic.open_float({ border = 'single' }) end, 'Diagnostic open float')
+      map('n', '<SPACE>le', function() vim.diagnostic.open_float({ border = 'single' }) end,
+        'Diagnostic open float')
 
       map_vsplit('<C-w>gd', 'lsp_definitions')
       map_vsplit('<C-w>gi', 'lsp_implementations')
       map_vsplit('<C-w>gD', 'lsp_type_definitions')
 
-      map('n', '<SPACE>lq', '<cmd>LspStop<CR>',  { desc = 'Stop LSP server' })
+      map('n', '<SPACE>lq', '<cmd>LspStop<CR>', { desc = 'Stop LSP server' })
     end
 
     -- File types to not format on write
-    local format_on_write_blacklist = {}
+    local format_on_write_blacklist = {
+      "c",
+      "cpp",
+    }
 
     ---------------------------
     -- Default LSP on_attach --
@@ -368,9 +372,9 @@ return {
               local icon = require('configs.diagnostics').get_icon(diagnostic.severity)
               return ' ' .. icon
             end,
-          }
+          },
         })
-      end
+      end,
     })
-  end
+  end,
 }

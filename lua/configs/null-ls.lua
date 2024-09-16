@@ -14,7 +14,7 @@ return {
       builtins.formatting.prettier,
       builtins.hover.dictionary,
       builtins.formatting.shfmt.with({
-        args = { '-sr' } -- Space after redirects
+        args = { '-sr' }, -- Space after redirects
       }),
     }
 

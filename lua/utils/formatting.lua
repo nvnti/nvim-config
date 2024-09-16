@@ -24,6 +24,7 @@ M.format_on_write = function(client, bufnr)
     vim.api.nvim_create_autocmd('BufWritePre', {
       group = augroup,
       buffer = bufnr,
+      -- pattern = { "*.lua", "*.js", "*.ts" },
       callback = function()
         if b.format_on_write ~= false then
           format(bufnr)

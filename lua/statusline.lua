@@ -1,6 +1,7 @@
 local bo, fn = vim.bo, vim.fn
 local mode_color = require('feline.providers.vi_mode').get_mode_color
 local plugin_is_loaded = require('utils').plugin_is_loaded
+local move = require('functions.move')
 
 local function mode_colors()
   local get_mode_color = require('utils.colorscheme').get_mode_color
@@ -31,16 +32,16 @@ local modes = {
   ['no']   = '  OP  ',
   ['nov']  = '  OP  ',
   ['noV']  = '  OP  ',
-  ['no'] = '  OP  ',
+  ['no']  = '  OP  ',
   ['niI']  = 'NORMAL',
   ['niR']  = 'NORMAL',
   ['niV']  = 'NORMAL',
   ['v']    = 'VISUAL',
   ['V']    = 'LINES ',
-  ['']   = 'BLOCK ',
+  ['']    = 'BLOCK ',
   ['s']    = 'SELECT',
   ['S']    = 'SELECT',
-  ['']   = 'BLOCK ',
+  ['']    = 'BLOCK ',
   ['i']    = 'INSERT',
   ['ic']   = 'INSERT',
   ['ix']   = 'INSERT',
@@ -69,7 +70,7 @@ local left_sect = {
 }
 local right_sect = {
   left_sep  = { str = '', hl = separator_hl },
-  right_sep = { str = '',  hl = separator_hl },
+  right_sep = { str = '', hl = separator_hl },
 }
 
 -- Help functions
@@ -82,6 +83,15 @@ end
 
 local function get_working_dir(shorten)
   local path = fn.fnamemodify(fn.getcwd(), ':~')
+  if shorten == true then
+    return fn.pathshorten(path)
+  else
+    return path
+  end
+end
+
+local function file_path_name(shorten)
+  local path = vim.fn.expand("%:.")
   if shorten == true then
     return fn.pathshorten(path)
   else
@@ -151,19 +161,31 @@ table.insert(active_left, {
   hl = { bg = 'line_bg' },
   enabled = function() return bo.readonly and bo.buftype ~= 'help' end,
   truncate_hide = true,
-  priority = 7
+  priority = 7,
 })
 
 -- Current working directory
 table.insert(active_left, {
   provider = get_working_dir,
-  short_provider = function () return get_working_dir(true) end,
+  short_provider = function() return get_working_dir(true) end,
   hl = function() return { fg = mode_color(), bg = 'line_bg' } end,
   left_sep = '█',
-  right_sep = { str = '',  hl = { fg = 'line_bg', bg = 'separator_bg' } },
+  right_sep = { str = '', hl = { fg = 'line_bg', bg = 'separator_bg' } },
   icon = ' ',
   truncate_hide = true,
-  priority = 9
+  priority = 9,
+})
+
+-- File path
+table.insert(active_left, {
+  provider = file_path_name,
+  short_provider = function() return file_path_name(true) end,
+  hl = function() return { fg = mode_color(), bg = 'line_bg' } end,
+  left_sep = '█',
+  right_sep = { str = '', hl = { fg = 'line_bg', bg = 'separator_bg' } },
+  icon = ' ',
+  truncate_hide = true,
+  priority = 9,
 })
 
 -- Search count
@@ -229,10 +251,11 @@ table.insert(active_left, {
   riht_sep = ' ',
   hl = { fg = 'dark_text' },
   enabled = function() return next(vim.lsp.get_clients()) ~= nil end,
-  icon = function() return {
-    str = ' ',
-    hl = { fg = mode_color() }
-  }
+  icon = function()
+    return {
+      str = ' ',
+      hl = { fg = mode_color() },
+    }
   end,
   truncate_hide = true,
   priority = -1,
@@ -274,8 +297,8 @@ table.insert(active_mid, {
     end
   end,
   icon = {
-    str =' ',
-    hl = { fg = 'snippet' }
+    str = ' ',
+    hl = { fg = 'snippet' },
   },
 })
 
@@ -286,21 +309,21 @@ table.insert(active_mid, {
 table.insert(active_right, {
   provider = 'git_diff_added',
   hl = { fg = 'git_add' },
-  truncate_hide = true
+  truncate_hide = true,
 })
 
 table.insert(active_right, {
   provider = 'git_diff_changed',
   icon = '  ',
   hl = { fg = 'git_change' },
-  truncate_hide = true
+  truncate_hide = true,
 })
 
 table.insert(active_right, {
   provider = 'git_diff_removed',
   hl = { fg = 'git_remove' },
   right_sep = '',
-  truncate_hide = true
+  truncate_hide = true,
 })
 
 -- Git branch
@@ -314,7 +337,7 @@ table.insert(active_right, {
     hl = { fg = '#f34f29' },
   },
   truncate_hide = true,
-  priority = 2
+  priority = 2,
 })
 
 table.insert(active_right, {
@@ -337,12 +360,23 @@ table.insert(active_right, {
     }
   end,
   truncate_hide = true,
-  priority = 1
+  priority = 1,
 })
 
--- File OS info
 table.insert(active_right, {
   provider = file_osinfo,
+  hl = { bg = 'line_bg' },
+  left_sep = right_sect.left_sep,
+  right_sep = right_sect.right_sep,
+  truncate_hide = true,
+  priority = -1,
+})
+
+-- Move type
+table.insert(active_right, {
+  provider = function()
+    return move.current_type()
+  end,
   hl = { bg = 'line_bg' },
   left_sep = right_sect.left_sep,
   right_sep = right_sect.right_sep,
@@ -372,7 +406,7 @@ table.insert(active_right, {
   enabled = function()
     return fn.exists('*copilot#Enabled') == 1 and fn['copilot#Enabled']() == 1
   end,
-  truncate_hide = true
+  truncate_hide = true,
 })
 
 -- Clock
@@ -381,14 +415,16 @@ table.insert(active_right, {
   hl = { bg = 'line_bg' },
   left_sep = right_sect.left_sep,
   right_sep = right_sect.right_sep,
-  icon = function() return {
-    str = ' ',
-    hl = {
-      fg = mode_color(),
-      bg = 'line_bg'
+  icon = function()
+    return {
+      str = ' ',
+      hl = {
+        fg = mode_color(),
+        bg = 'line_bg',
+      },
     }
-  } end,
-  truncate_hide = true
+  end,
+  truncate_hide = true,
 })
 
 -- Cursor line and column
@@ -448,12 +484,12 @@ local function setup(config)
       theme = config.theme,
       components = components,
       vi_mode_colors = mode_colors(),
-      force_inactive = {}
+      force_inactive = {},
     })
   end
 end
 
 return {
   setup = setup,
-  mode_colors = mode_colors
+  mode_colors = mode_colors,
 }

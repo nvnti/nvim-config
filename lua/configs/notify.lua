@@ -8,7 +8,7 @@ return {
     local notify = require('notify')
 
     ---@diagnostic disable-next-line: missing-fields
-    notify.setup({ timeout = 2000 })
+    notify.setup({ timeout = 20000 })
 
     vim.notify = notify
 
@@ -23,5 +23,5 @@ return {
         keep = function() return level == 'ERROR' or level == 'WARN' end,
       })
     end
-  end
+  end,
 }

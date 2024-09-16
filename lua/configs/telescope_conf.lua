@@ -78,19 +78,20 @@ return {
             ['<C-e>']  = function() feedkeys('<End>') end,
             ['<M-BS>'] = function() vim.api.nvim_input('<C-w>') end,
             ['<C-u>']  = false,
+            ["<C-h>"]  = "which_key",
           },
           n = {
             ['<C-q>'] = 'close',
             ['<C-c>'] = 'close',
-            ['<C-s>'] =  'select_horizontal',
-          }
+            ['<C-s>'] = 'select_horizontal',
+          },
         },
         layout_config = {
           width = 0.9,
           height = 0.6,
           horizontal = {
-            preview_width = 80
-          }
+            preview_width = 80,
+          },
         },
         dynamic_preview_title = true,
         selection_caret = '▶ ',
@@ -103,8 +104,8 @@ return {
           '%.dropbox/', '%.dropbox_trashed/', '%.local/share/Trash/',
           '%.py[c]', '%.sw.?', '~$', '%.tags', '%.gemtags', '%.tmp',
           '%.plist$', '%.pdf$', '%.jpg$', '%.JPG$', '%.jpeg$', '%.png$',
-          '%.class$', '%.pdb$', '%.dll$'
-        }
+          '%.class$', '%.pdb$', '%.dll$',
+        },
       },
       pickers = {
         find_files                = { mappings = multi_open_mappings },
@@ -122,17 +123,17 @@ return {
       },
       extensions = {
         sessions_picker = {
-          sessions_dir = vim.fn.stdpath('data') ..'/sessions/'
+          sessions_dir = vim.fn.stdpath('data') .. '/sessions/',
         },
         cder = {
           previewer_command = 'exa '
-            .. '--color=always '
-            .. '-T '
-            .. '--level=2 '
-            .. '--icons '
-            .. '--git-ignore '
-            .. '--git '
-            .. '--ignore-glob=.git',
+              .. '--color=always '
+              .. '-T '
+              .. '--level=2 '
+              .. '--icons '
+              .. '--git-ignore '
+              .. '--git '
+              .. '--ignore-glob=.git',
           dir_command = cder_dir_cmd,
         },
         zoxide = {
@@ -151,8 +152,8 @@ return {
         '--line-number',
         '--column',
         '--smart-case',
-        '-u' -- thats the new thing
-      }
+        '-u', -- thats the new thing
+      },
     }
 
     telescope.load_extension('zoxide')
@@ -168,7 +169,7 @@ return {
         search_dirs = { '$MARKDOWNS' },
         prompt_title = 'Markdowns',
         path_display = function(_, path)
-         local relative_path, _ = path:gsub(vim.fn.expand('$MARKDOWNS'), '')
+          local relative_path, _ = path:gsub(vim.fn.expand('$MARKDOWNS'), '')
           return relative_path
         end,
       })
@@ -202,13 +203,13 @@ return {
     map('n', '<C-p>', function()
       return builtin.find_files({ hidden = true })
     end, 'Find files')
-    map({'n', 'x'}, '<leader>/', grep_string, 'Grep string')
+    map({ 'n', 'x' }, '<leader>/', grep_string, 'Grep string')
 
-    map('n', '<leader>F',  builtin.live_grep, 'Live grep')
-    map('n', '<leader>B',  builtin.buffers, 'Open buffers')
+    map('n', '<leader>F', builtin.live_grep, 'Live grep')
+    map('n', '<leader>B', builtin.buffers, 'Open buffers')
     map('n', '<leader>to', builtin.oldfiles, 'Recently used files')
-    map('n', '<leader>m',  extensions.frecency.frecency, 'Frecency')
-    map('n', '<leader>h',  builtin.help_tags, 'Help tags')
+    map('n', '<leader>m', extensions.frecency.frecency, 'Frecency')
+    map('n', '<leader>h', builtin.help_tags, 'Help tags')
     map('n', '<leader>tt', builtin.builtin, 'Builtin telescope commands')
     map('n', '<leader>tH', builtin.highlights, 'Highlights')
     map('n', '<leader>tc', builtin.commands, 'Commands')
@@ -220,19 +221,19 @@ return {
     map('n', '<leader>tQ', builtin.quickfixhistory, 'Quickfix history')
     map('n', '<leader>tr', builtin.resume, 'Resume latest telescope session')
     map('n', '<leader>tg', builtin.git_files, 'Find git files')
-    map('n', 'sp',         builtin.spell_suggest, 'Spell suggestions')
+    map('n', 'sp', builtin.spell_suggest, 'Spell suggestions')
 
-    map('n', 'cd',         extensions.cder.cder, 'Change directory')
-    map('n', 'cD',         function()
+    map('n', 'cd', extensions.cder.cder, 'Change directory')
+    map('n', 'cD', function()
       return extensions.cder.cder({
         dir_command = append(cder_dir_cmd, vim.env.HOME),
         prompt_title = 'Change Directory',
       })
     end, 'Change directory (from home directory)')
-    map('n', '<M-z>',      extensions.zoxide.list, 'Change directory with zoxide')
+    map('n', '<M-z>', extensions.zoxide.list, 'Change directory with zoxide')
     map('n', '<leader>tC', function() return extensions.cheat.fd({}) end, 'Cheat.sh')
-    map('n', '<leader>M',  telescope_markdowns, 'Markdowns')
-    map('n', '<leader>n',  telescope_config, 'Neovim config')
+    map('n', '<leader>M', telescope_markdowns, 'Markdowns')
+    map('n', '<leader>n', telescope_config, 'Neovim config')
     map('n', '<leader>tn', extensions.notify.notify, 'Notifications')
 
     map('n', '<leader>td', extensions.dap.commands)
@@ -246,10 +247,10 @@ return {
     vim.api.nvim_create_autocmd('WinLeave', {
       callback = function()
         if vim.bo.ft == 'TelescopePrompt' and vim.fn.mode() == 'i' then
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-c>', true, false, true), 'i', false)
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-c>', true, false, true), 'i',
+            false)
         end
       end,
     })
-  end
+  end,
 }
-

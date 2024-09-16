@@ -2,162 +2,181 @@
 -- Nvim-tree --
 ---------------
 
-local function find_file()
-  local opts = { open = true, focus = true, update_root = true }
-  require('nvim-tree.api').tree.find_file(opts)
-end
-
 return {
-  'kyazdani42/nvim-tree.lua',
+  'nvim-tree/nvim-tree.lua',
   dependencies = 'nvim-tree/nvim-web-devicons',
-  lazy = vim.fn.argc() == 0,
-  keys = {
-    { '<SPACE>et`', function() require('nvim-tree.api').tree.toggle() end, mode = 'n', desc = 'Toggle file tree' },
-    { '<SPACE>ef', find_file,                                             mode = 'n', desc = 'Show current file in file tree', },
-  },
+  -- lazy = vim.fn.argc() == 0,
+  -- keys = {
+  --   { '<SPACE>et`', function() require('nvim-tree.api').tree.toggle() end, mode = 'n', desc = 'Toggle file tree' },
+  --   { '<SPACE>ef',  find_file,                                             mode = 'n', desc = 'Show current file in file tree' },
+  -- },
   config = function()
-    local nvim_tree, api = require('nvim-tree'), require('nvim-tree.api')
-    local node, tree, fs, marks = api.node, api.tree, api.fs, api.marks
-    local git_navigate = node.navigate.git
+    -- Set the global variables
+    vim.g.nvim_tree_width_allow_resize = 1
+    vim.g.nvim_tree_current_width      = 40
 
-    nvim_tree.setup({
-      diagnostics = {
-        enable = true,
-        show_on_dirs = true
-      },
-      disable_netrw = false,
-      update_cwd = true,
-      filesystem_watchers = {
-        enable = true,
-      },
-      renderer = {
-        highlight_opened_files = 'all',
-        special_files = {},
-        indent_markers = {
+    -- disable netrw at the very start
+    vim.g.loaded_netrw                 = 1
+    vim.g.loaded_netrwPlugin           = 1
+
+    -- optionally enable 24-bit colour
+    vim.opt.termguicolors              = true
+
+    local tree_mapping_list            = {
+      { key = "-",                              action = "dir_up" },
+      { key = ".",                              action = "run_file_command" },
+      { key = "<",                              action = "prev_sibling" },
+      { key = "<C-e>",                          action = "edit_in_place" },
+      { key = "<C-k>",                          action = "toggle_file_info" },
+      { key = "<C-r>",                          action = "full_rename" },
+      { key = "<C-t>",                          action = "tabnew" },
+      { key = "<C-v>",                          action = "vsplit" },
+      { key = "<C-x>",                          action = "split" },
+      { key = "<Tab>",                          action = "preview" },
+      { key = ">",                              action = "next_sibling" },
+      { key = "D",                              action = "trash" },
+      { key = "F",                              action = "clear_live_filter" },
+      { key = "H",                              action = "toggle_dotfiles" },
+      { key = "I",                              action = "toggle_git_ignored" },
+      { key = "J",                              action = "last_sibling" },
+      { key = "K",                              action = "first_sibling" },
+      { key = "P",                              action = "parent_node" },
+      { key = "R",                              action = "rename" },
+      { key = "S",                              action = "search_node" },
+      { key = "W",                              action = "collapse_all" },
+      { key = "Y",                              action = "copy_path" },
+      { key = "[c",                             action = "prev_git_item" },
+      { key = "]c",                             action = "next_git_item" },
+      { key = "a",                              action = "create" },
+      { key = "c",                              action = "copy" },
+      { key = "d",                              action = "remove" },
+      { key = "f",                              action = "live_filter" },
+      { key = "gy",                             action = "copy_absolute_path" },
+      { key = "h",                              action = "toggle_help" },
+      { key = "p",                              action = "paste" },
+      { key = "q",                              action = "close" },
+      { key = "r",                              action = "refresh" },
+      { key = "s",                              action = "split" },
+      { key = "v",                              action = "vsplit" },
+      { key = "x",                              action = "cut" },
+      { key = "y",                              action = "copy_name" },
+      { key = { "<2-RightMouse>", "<C-]>" },    action = "cd" },
+      { key = { "<BS>", "<S-CR>" },             action = "close_node" },
+      { key = { "<CR>", "o", "<2-LeftMouse>" }, action = "edit" },
+      { key = { "O" },                          action = "edit_no_picker" },
+    }
+
+    require('nvim-tree').setup {
+      actions              = {
+        use_system_clipboard = true,
+        change_dir = {
           enable = true,
+          global = false,
+          restrict_above_cwd = false,
         },
-        icons = {
-          glyphs = {
-            default = '' ,
-            git = {
-              unstaged  = '',
-              staged    = '',
-              deleted   = '',
-              untracked = '◌',
-              ignored   = '',
-            }
-          },
-          web_devicons = {
-            folder = {
-              enable = true, -- Special folder devicon icons
-              color = false,
+        open_file = {
+          quit_on_open = false,
+          resize_window = true,
+          window_picker = {
+            enable = true,
+            chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+            exclude = {
+              filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
+              buftype = { "nofile", "terminal", "help" },
             },
           },
-          show = {
-            folder_arrow = false
-          },
-          git_placement = 'signcolumn',
         },
-        highlight_git = 'all',
       },
-      view = {
+      auto_reload_on_write = true,
+      diagnostics          = {
+        enable = true,
+      },
+      disable_netrw        = false,
+      filters              = {
+        dotfiles = false,
+        custom = {},
+      },
+      git                  = {
+        enable = true,
+        ignore = true,
+        timeout = 5000,
+      },
+      hijack_cursor        = false,
+      hijack_netrw         = true,
+      open_on_tab          = false,
+      renderer             = {
+        group_empty = true,
+        highlight_opened_files = "all",
+        highlight_git = true,
+        icons = {
+          git_placement = "before",
+          glyphs = {
+            default = '',
+            folder = {
+              default = "",
+              open = "",
+              empty = "",
+              empty_open = "",
+              symlink = "",
+            },
+            git = {
+              unstaged = "✗",
+              staged = "✓",
+              unmerged = "",
+              renamed = "➜",
+              untracked = "★",
+              deleted = "",
+              ignored = "◌",
+            },
+            symlink = '',
+          },
+          show = {
+            git = true,
+            folder = true,
+            file = true,
+            folder_arrow = true,
+          },
+        },
+        indent_markers = {
+          enable = true,
+          icons = {
+            corner = "└ ",
+            edge = "│ ",
+            none = "  ",
+          },
+        },
+      },
+      system_open          = {
+        cmd  = nil,
+        args = {},
+      },
+      trash                = {
+        cmd = "trash",
+        require_confirm = true,
+      },
+      update_cwd           = false,
+      hijack_directories   = {
+        enable = true,
+        auto_open = true,
+      },
+      update_focused_file  = {
+        enable      = false,
+        update_cwd  = false,
+        ignore_list = {},
+      },
+      view                 = {
+        adaptive_size = false,
+        number = false,
+        relativenumber = false,
+        side = 'left',
         width = 40,
       },
-      on_attach = function(bufnr)
-        local map = function(lhs, rhs, desc)
-          require('utils').map('n', lhs, rhs, { buffer = bufnr, desc = desc })
-        end
-
-        -- Custom mappings
-        map('l',     node.open.edit,                    'Open')
-        map('h',     node.navigate.parent_close,        'Close')
-        map(']g',    git_navigate.next_skip_gitignored, 'Next git node')
-        map('[g',    git_navigate.prev_skip_gitignored, 'Previous git node')
-        map('<Tab>', node.open.preview,                 'Preview')
-        map('<C-s>', node.open.horizontal,              'Open in split')
-        map('gh',    node.show_info_popup,              'File information')
-        map('C',     tree.collapse_all,                 'Close all')
-        map('>',     tree.change_root_to_node,          'CD')
-        map('<',     tree.change_root_to_parent,        'CD up')
-        map('<C-r>', tree.reload,                       'Refresh')
-        map('<Esc>', tree.close,                        'Close')
-        map('d',     fs.trash,                          'Trash')
-        map('D',     fs.remove,                         'Delete')
-
-        -- Recommended defaults
-        map('<C-t>', node.open.tab,                  'Open: New Tab')
-        map('<C-v>', node.open.vertical,             'Open: Vertical Split')
-        map('.',     node.run.cmd,                   'Run Command')
-        map(']e',    node.navigate.diagnostics.next, 'Next Diagnostic')
-        map('[e',    node.navigate.diagnostics.prev, 'Prev Diagnostic')
-        map('J',     node.navigate.sibling.last,     'Last Sibling')
-        map('K',     node.navigate.sibling.first,    'First Sibling')
-        map('P',     node.navigate.parent,           'Parent Directory')
-        map('s',     node.run.system,                'Run System')
-        map('B',     tree.toggle_no_buffer_filter,   'Toggle No Buffer')
-        map('C',     tree.toggle_git_clean_filter,   'Toggle Git Clean')
-        map('H',     tree.toggle_hidden_filter,      'Toggle Dotfiles')
-        map('I',     tree.toggle_gitignore_filter,   'Toggle Git Ignore')
-        map('S',     tree.search_node,               'Search')
-        map('U',     tree.toggle_custom_filter,      'Toggle Hidden')
-        map('g?',    tree.toggle_help,               'Help')
-        map('W',     tree.collapse_all,              'Collapse')
-        map('F',     api.live_filter.clear,          'Clean Filter')
-        map('f',     api.live_filter.start,          'Filter')
-        map('m',     marks.toggle,                   'Toggle Bookmark')
-        map('bmv',   marks.bulk.move,                'Move Bookmarked')
-        map('a',     fs.create,                      'Create')
-        map('c',     fs.copy.node,                   'Copy')
-        map('gy',    fs.copy.absolute_path,          'Copy Absolute Path')
-        map('p',     fs.paste,                       'Paste')
-        map('r',     fs.rename,                      'Rename')
-        map('x',     fs.cut,                         'Cut')
-        map('y',     fs.copy.filename,               'Copy Name')
-        map('Y',     fs.copy.relative_path,          'Copy Relative Path')
-
-        map('<2-LeftMouse>',  api.node.open.edit,       'Open')
-        map('<2-RightMouse>', tree.change_root_to_node, 'CD')
-      end,
-    })
-
-    vim.api.nvim_create_augroup('NvimTreeRefresh', {})
-    vim.api.nvim_create_autocmd('BufEnter', {
-      pattern = 'NvimTree_1',
-      group   = 'NvimTreeRefresh',
-      callback = api.tree.reload,
-    })
-
-    local function remove_highlight(group)
-      vim.api.nvim_set_hl(0, group, { fg = nil, bg = nil })
-    end
-
-    remove_highlight('NvimTreeFileDirty')
-    remove_highlight('NvimTreeFileStaged')
-    remove_highlight('NvimTreeFileMerge')
-    remove_highlight('NvimTreeFileRenamed')
-    remove_highlight('NvimTreeFileNew')
-    remove_highlight('NvimTreeFileDeleted')
-
-    vim.api.nvim_create_autocmd({ 'CursorHold' }, {
-      pattern = 'NvimTree*',
-      callback = function()
-        local hi = vim.api.nvim_get_hl(0, { name = 'Cursor' })
-        vim.api.nvim_set_hl(0, 'Cursor', vim.tbl_extend('force', hi, {
-          blend = 100,
-        }))
-        vim.opt.guicursor:append('a:Cursor/lCursor')
-      end,
-    })
-
-    vim.api.nvim_create_autocmd({ 'BufLeave', 'WinClosed', 'WinLeave' }, {
-      pattern = 'NvimTree*',
-      callback = function()
-        local hi = vim.api.nvim_get_hl(0, { name = 'Cursor' })
-        vim.api.nvim_set_hl(0, 'Cursor', vim.tbl_extend('force', hi, {
-          blend = 0,
-        }))
-        vim.opt.guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20'
-      end,
-    })
-  end
+      filters              = {
+        dotfiles = false,
+        git_clean = false,
+        no_buffer = false,
+        custom = { 'node_modules', 'target', 'target-nvim' },
+      },
+    }
+  end,
 }
