@@ -92,10 +92,6 @@ return {
         enable = true,
       },
       disable_netrw        = false,
-      filters              = {
-        dotfiles = false,
-        custom = {},
-      },
       git                  = {
         enable = true,
         ignore = true,

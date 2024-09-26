@@ -8,10 +8,10 @@ vim.keymap.set("n", "\\S", ":PackerSync<CR>")
 vim.keymap.set("n", "\\w", ":wa!<CR>")
 
 -- Tag generation
-vim.keymap.set("n", "\\tc", jobs.GenerateCPPTags, {})
-vim.keymap.set("n", "\\tj", jobs.GenerateJavaTags, {})
-vim.keymap.set("n", "\\tp", jobs.GeneratePythonTags, {})
-vim.keymap.set("n", "\\tr", jobs.GenerateRustTags, {})
+vim.keymap.set("n", "\\Tc", jobs.GenerateCPPTags, {})
+vim.keymap.set("n", "\\Tj", jobs.GenerateJavaTags, {})
+vim.keymap.set("n", "\\Tp", jobs.GeneratePythonTags, {})
+vim.keymap.set("n", "\\Tr", jobs.GenerateRustTags, {})
 
 -- FORMAT
 vim.keymap.set("n", "\\ff", common.format_file_normal_mode, {})

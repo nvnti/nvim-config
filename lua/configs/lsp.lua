@@ -165,13 +165,13 @@ return {
         },
       },
       rust_analyzer = {
-        imports = {
-          granularity = {
-            group = "crate",
-            enforce = true,
-          },
-          prefix = "crate",
-        },
+        -- imports = {
+        --   granularity = {
+        --     group = "crate",
+        --     enforce = true,
+        --   },
+        --   prefix = "crate",
+        -- },
         cargo = {
           buildScripts = {
             enable = true,
@@ -180,14 +180,6 @@ return {
         },
         procMacro = {
           enable = true,
-        },
-        rustFmt = {
-          extraArgs = "+nightly-2023-11-06",
-        },
-        server = {
-          extraEnv = {
-            CARGO_TARGET_DIR = "target-analyzer",
-          },
         },
         check = {
           command = "clippy",
@@ -201,7 +193,11 @@ return {
             "warnings",
           },
         },
-        checkOnSave = true,
+        checkOnSave = { -- Add clippy lints for Rust.
+          allFeatures = true,
+          command = 'clippy',
+          extraArgs = { '--no-deps' },
+        },
       },
     }
 
@@ -296,6 +292,21 @@ return {
       -- map('n', '<SPACE>ts', telescope.lsp_document_symbols,          'LSP document symbols')
       -- map('n', '<SPACE>tS', telescope.lsp_workspace_symbols,         'LSP workspace symbols')
       -- map('n', '<SPACE>tw', telescope.lsp_dynamic_workspace_symbols, 'LSP dynamic workspace symbols')
+
+      local opts = { remap = false, silent = true }
+
+      vim.keymap.set("n", "\\lD", vim.lsp.buf.declaration, opts)
+      vim.keymap.set("n", "\\lH", vim.lsp.buf.hover, opts)
+      vim.keymap.set("n", "\\lR", vim.lsp.buf.rename, opts)
+      vim.keymap.set("n", "\\la", vim.lsp.buf.code_action, opts)
+      vim.keymap.set("n", "\\ld", vim.lsp.buf.definition, opts)
+      vim.keymap.set("n", "\\le", vim.diagnostic.open_float, opts)
+      vim.keymap.set("n", "\\lf", vim.lsp.buf.format, opts)
+      vim.keymap.set("n", "\\lh", vim.lsp.buf.signature_help, opts)
+      vim.keymap.set("n", "\\li", vim.lsp.buf.implementation, opts)
+      vim.keymap.set("n", "\\lr", vim.lsp.buf.references, opts)
+      vim.keymap.set("n", "\\lt", vim.lsp.buf.type_definition, opts)
+      vim.keymap.set("n", "\\lw", vim.lsp.buf.workspace_symbol, opts)
 
       map('n', '<SPACE>ld', telescope.lsp_definitions, 'LSP definitions')
       map('n', 'gd', telescope.lsp_definitions, 'LSP definitions')
