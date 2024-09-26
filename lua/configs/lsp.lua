@@ -193,11 +193,6 @@ return {
             "warnings",
           },
         },
-        checkOnSave = { -- Add clippy lints for Rust.
-          allFeatures = true,
-          command = 'clippy',
-          extraArgs = { '--no-deps' },
-        },
       },
     }
 
