@@ -9,6 +9,9 @@ return {
     'nvim-tree/nvim-web-devicons',
   },
   event = 'VeryLazy',
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   config = function()
     local get_highlight = require('utils.colors').get_highlight
 
@@ -76,5 +79,5 @@ return {
       theme = theme,
       exclude_filetypes = { 'markdown' },
     })
-  end
+  end,
 }

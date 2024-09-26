@@ -70,7 +70,7 @@ local plugins = {
   use 'luafmtconf',           -- Lualine
   use 'luasnip',              -- Snippet engine
   use 'markdown-togglecheck', -- Toggle Markdown check marks
-  use 'markview',             -- Improved Markdown rendering
+  -- use 'markview',             -- Improved Markdown rendering
   use 'mason',                -- LSP/DAP/etc. package manager
   use 'mason-tool-installer', -- Auto-install list of mason binaries
   use 'matchup',              -- Adds additional `%` commands
@@ -104,8 +104,9 @@ local plugins = {
   use 'signify',              -- Signify
   use 'star_search',          -- Star search
   use 'telescope_conf',       -- Telescope
-  use 'gutentags',            -- Automatic tag management
+  -- use 'gutentags',            -- Automatic tag management
   use 'term-edit',            -- Better editing in :terminal
+  use 'toggle_view',          -- Toggle Window
   use 'toggleterm_conf',      -- Toggleterm
   use 'treesitter',           -- Abstract syntax tree
   use 'treesj',               -- Multiline split

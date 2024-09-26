@@ -5,7 +5,10 @@
 return {
   'kevinhwang91/nvim-bqf',
   ft = 'qf',
-  dependencies = { 'junegunn/fzf', build= "./install --bin" },
+  dependencies = { 'junegunn/fzf', build = "./install --bin" },
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   config = function()
     require('../quickfix') -- Better quickfix
     require('bqf').setup {
@@ -18,9 +21,9 @@ return {
       },
       filter = { -- Adapt fzf's delimiter in nvim-bqf
         fzf = {
-          extra_opts = {'--bind', 'alt-a:toggle-all', '--delimiter', '│'}
-        }
+          extra_opts = { '--bind', 'alt-a:toggle-all', '--delimiter', '│' },
+        },
       },
     }
-  end
+  end,
 }

@@ -5,22 +5,25 @@ return {
   'mrcjkb/rustaceanvim',
   dependencies = 'neovim/nvim-lspconfig',
   ft = { 'rust' },
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   opts = {
     server = {
       on_attach = function(_, bufnr)
         local map = require('utils').local_map(bufnr)
 
-        map('n', 'go',         '<cmd>RustLsp openCargo<CR>',        'Go to cargo.toml')
-        map('n', '<C-w>go',    '<C-w>v<cmd>RustLsp openCargo<CR>',  'Go to cargo.toml (in new window)')
-        map('n', '<leader>le', '<cmd>RustLsp explainError<CR>',     'Explain error')
-        map('n', '<leader>lj', '<cmd>RustLsp moveItem down<CR>',    'Move item down')
-        map('n', '<leader>lk', '<cmd>RustLsp moveItem up<CR>',      'Move item up')
-        map('n', '<leader>dd', '<cmd>RustLsp debug<CR>',            'Debug item under cursor')
+        map('n', 'go', '<cmd>RustLsp openCargo<CR>', 'Go to cargo.toml')
+        map('n', '<C-w>go', '<C-w>v<cmd>RustLsp openCargo<CR>', 'Go to cargo.toml (in new window)')
+        map('n', '<leader>le', '<cmd>RustLsp explainError<CR>', 'Explain error')
+        map('n', '<leader>lj', '<cmd>RustLsp moveItem down<CR>', 'Move item down')
+        map('n', '<leader>lk', '<cmd>RustLsp moveItem up<CR>', 'Move item up')
+        map('n', '<leader>dd', '<cmd>RustLsp debug<CR>', 'Debug item under cursor')
         map('n', '<leader>dD', '<cmd>RustLsp debuggables last<CR>', 'Debug')
         map('n', '<leader>ld', '<cmd>RustLsp renderDiagnostic<CR>', 'Render idiagnostics')
-        map('n', '<leader>lm', '<cmd>RustLsp expandMacro<CR>',      'Expand macro')
-        map('n', '<leader>lr', '<cmd>RustLsp run<CR>',              'Run')
-        map('n', '<leader>lR', '<cmd>RustLsp! run<CR>',             'Rerun latest run')
+        map('n', '<leader>lm', '<cmd>RustLsp expandMacro<CR>', 'Expand macro')
+        map('n', '<leader>lr', '<cmd>RustLsp run<CR>', 'Run')
+        map('n', '<leader>lR', '<cmd>RustLsp! run<CR>', 'Rerun latest run')
       end,
       settings = {
         ['rust-analyzer'] = {
@@ -44,9 +47,9 @@ return {
           },
         },
       },
-    }
+    },
   },
   config = function(_, opts)
     vim.g.rustaceanvim = opts or {}
-  end
+  end,
 }

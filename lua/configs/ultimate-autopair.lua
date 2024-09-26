@@ -6,6 +6,9 @@ return {
   dependencies = 'hrsh7th/nvim-cmp',
   event = { 'InsertEnter', 'CmdlineEnter' },
   branch = 'v0.6',
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   config = function()
     require('ultimate-autopair').setup({
       extensions = {
@@ -18,9 +21,11 @@ return {
       { '_',  '_',  ft = { 'markdown' }, multiline = false },
       { '$',  '$',  ft = { 'tex' },      multiline = false },
 
-      { '<', '>', fly = true, dosuround = true, multiline = false, space = true, surround = true },
+      { '<',  '>',  fly = true,          dosuround = true, multiline = false, space = true, surround = true },
       config_internal_pairs = {
-        { "'", "'",
+        {
+          "'",
+          "'",
           multiline = false,
           surround = true,
           alpha = true,
@@ -33,11 +38,11 @@ return {
               'type_parameters',
             })
           end,
-          nft = { 'tex', 'lisp' } -- Taken from default config
-        }
+          nft = { 'tex', 'lisp' }, -- Taken from default config
+        },
       },
       bs = {
-        map = { '<BS>',  '<C-h>' },
+        map = { '<BS>', '<C-h>' },
         cmap = { '<BS>', '<C-h>' },
       },
     })
@@ -52,7 +57,7 @@ return {
     -- Add parenthesis on completion confirmation
     cmp.event:on('confirm_done', function(event)
       local ok, ls_name = pcall(ls_name_from_event, event)
-      local server_blacklist = { 'rust-analyzer', 'lua_ls', 'typst_lsp', 'gopls', 'bicep' }
+      local server_blacklist = { 'rust-analyzer', 'lua_ls', 'typst_lsp', 'bicep' }
       if ok and vim.tbl_contains(server_blacklist, ls_name) then
         return
       end
@@ -63,5 +68,5 @@ return {
         vim.api.nvim_feedkeys('()' .. left, 'n', false)
       end
     end)
-  end
+  end,
 }

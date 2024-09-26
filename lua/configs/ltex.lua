@@ -3,12 +3,15 @@
 ----------
 return {
   'barreiroleo/ltex_extra.nvim',
-  ft = { 'markdown', 'tex', 'text', },
+  ft = { 'markdown', 'tex', 'text' },
   dependencies = 'neovim/nvim-lspconfig',
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   opts = {
     -- ltex_extra options
     {
-      load_langs = { 'en-US', 'sv' }
+      load_langs = { 'en-US', 'sv' },
     },
     -- ltex-ls options
     server_opts = {
@@ -21,5 +24,5 @@ return {
         },
       },
     },
-  }
+  },
 }

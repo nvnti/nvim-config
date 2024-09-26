@@ -8,10 +8,13 @@ local function hover() return require('dap.ui.widgets').hover() end
 return {
   'rcarriga/nvim-dap-ui',
   dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' },
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   keys = {
-    { '<leader>dt', toggle,                    desc = 'DAP toggle UI' },
-    { '<leader>dh', hover,                     desc = 'DAP hover' },
-    { '<leader>de', eval,   mode = {'n', 'x'}, desc = 'DAP evaluate expression' },
+    { '<leader>dt', toggle, desc = 'DAP toggle UI' },
+    { '<leader>dh', hover,  desc = 'DAP hover' },
+    { '<leader>de', eval,   mode = { 'n', 'x' },   desc = 'DAP evaluate expression' },
   },
-  config = true
+  config = true,
 }

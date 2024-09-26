@@ -4,14 +4,17 @@
 return {
   'mfussenegger/nvim-dap',
   dependencies = {
-    'David-Kunz/jester',                -- Debugging Jest tests
-    'theHamsta/nvim-dap-virtual-text',  -- Show variable values in virtual text
-    'mxsdev/nvim-dap-vscode-js',        -- DAP adapter for vs**de-js-debug
-    'williamboman/mason.nvim',          -- Manage DAP adapters
-    'jay-babu/mason-nvim-dap.nvim',     -- Automatic DAP configuration
-    'ofirgall/goto-breakpoints.nvim',   -- Jump to next/previous breakpoint
+    'David-Kunz/jester',               -- Debugging Jest tests
+    'theHamsta/nvim-dap-virtual-text', -- Show variable values in virtual text
+    'mxsdev/nvim-dap-vscode-js',       -- DAP adapter for vs**de-js-debug
+    'williamboman/mason.nvim',         -- Manage DAP adapters
+    'jay-babu/mason-nvim-dap.nvim',    -- Automatic DAP configuration
+    'ofirgall/goto-breakpoints.nvim',  -- Jump to next/previous breakpoint
   },
   event = 'VeryLazy',
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   config = function()
     local dap = require('dap')
     local jester = require('jester')
@@ -21,11 +24,11 @@ return {
     local get_install_path = require('utils').get_install_path
     local breakpoint = require('goto-breakpoints')
 
-    sign_define('DapBreakpoint',          { text='', texthl='Error' })
-    sign_define('DapBreakpointCondition', { text='לּ', texthl='Error' })
-    sign_define('DapLogPoint',            { text='', texthl='Directory' })
-    sign_define('DapStopped',             { text='ﰲ', texthl='TSConstant' })
-    sign_define('DapBreakpointRejected',  { text='', texthl='Error' })
+    sign_define('DapBreakpoint', { text = '', texthl = 'Error' })
+    sign_define('DapBreakpointCondition', { text = 'לּ', texthl = 'Error' })
+    sign_define('DapLogPoint', { text = '', texthl = 'Directory' })
+    sign_define('DapStopped', { text = 'ﰲ', texthl = 'TSConstant' })
+    sign_define('DapBreakpointRejected', { text = '', texthl = 'Error' })
 
     -- Automatically set up installed DAP adapters
     ---@diagnostic disable-next-line: missing-fields
@@ -48,24 +51,24 @@ return {
         dap.set_breakpoint(condition)
       end)
     end, 'DAP set conditional breakpoint')
-    map('n', '<leader>dc', continue,              'DAP continue')
-    map('n', '<leader>ds', dap.step_over,         'DAP step over')
-    map('n', '<leader>di', dap.step_into,         'DAP step into')
-    map('n', '<leader>do', dap.step_out,          'DAP step out')
+    map('n', '<leader>dc', continue, 'DAP continue')
+    map('n', '<leader>ds', dap.step_over, 'DAP step over')
+    map('n', '<leader>di', dap.step_into, 'DAP step into')
+    map('n', '<leader>do', dap.step_out, 'DAP step out')
     map('n', '<leader>db', dap.toggle_breakpoint, 'DAP toggle breakpoint')
     map('n', '<leader>dB', dap.clear_breakpoints, 'DAP remove breakpoints')
-    map('n', '<leader>dr', dap.repl.open,         'DAP open REPL')
-    map('n', '<leader>dl', dap.run_last,          'DAP run last session')
-    map('n', '<leader>dr', dap.restart,           'DAP restart session')
-    map('n', '<leader>dq', dap.terminate,         'DAP terminate session')
+    map('n', '<leader>dr', dap.repl.open, 'DAP open REPL')
+    map('n', '<leader>dl', dap.run_last, 'DAP run last session')
+    map('n', '<leader>dr', dap.restart, 'DAP restart session')
+    map('n', '<leader>dq', dap.terminate, 'DAP terminate session')
 
     -- Jester
-    map('n', '<leader>djt', jester.debug,      'DAP Jester debug test')
+    map('n', '<leader>djt', jester.debug, 'DAP Jester debug test')
     map('n', '<leader>djf', jester.debug_file, 'DAP Jester debug file')
     map('n', '<leader>djr', jester.debug_last, 'DAP Jester rerun debug')
-    map('n', '<leader>djT', jester.run,        'DAP Jester run test')
-    map('n', '<leader>djF', jester.run_file,   'DAP Jester run file')
-    map('n', '<leader>djR', jester.run_last,   'DAP Jester rerun test')
+    map('n', '<leader>djT', jester.run, 'DAP Jester run test')
+    map('n', '<leader>djF', jester.run_file, 'DAP Jester run file')
+    map('n', '<leader>djR', jester.run_last, 'DAP Jester rerun test')
 
     -- Go to breakpoints
     map('n', ']b', breakpoint.next, 'Go to next breakpoint')
@@ -80,8 +83,8 @@ return {
       port = "${port}",
       executable = {
         command = get_install_path('codelldb') .. '/codelldb',
-        args = {"--port", "${port}"},
-      }
+        args = { "--port", "${port}" },
+      },
     }
 
     dap.configurations.rust = {
@@ -148,7 +151,7 @@ return {
           request = 'attach',
           processId = require('dap.utils').pick_process,
           cwd = '${workspaceFolder}',
-        }
+        },
       }
     end
 

@@ -9,14 +9,14 @@ return {
     'onsails/lspkind-nvim',                -- Completion menu icons
     'saadparwaiz1/cmp_luasnip',            -- Snippets
     'hrsh7th/cmp-nvim-lsp',                -- LSP completion
-    'hrsh7th/cmp-buffer',                  -- Buffer completion
-    'hrsh7th/cmp-path',                    -- Path completion
-    'hrsh7th/cmp-cmdline',                 -- Command-line completion
     'hrsh7th/cmp-nvim-lsp-signature-help', -- Signature
     'zjp-CN/nvim-cmp-lsp-rs',              -- Better rust sorting
     -- 'tzachar/cmp-tabnine'                  -- TabNine
   },
   event = { 'InsertEnter', 'CmdlineEnter' },
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   config = function()
     local visible_buffers = require('utils').visible_buffers
     local noice_is_loaded = require('utils').noice_is_loaded
@@ -28,46 +28,6 @@ return {
     local lspkind = require('lspkind')
 
     vim.opt.completeopt = 'menu,menuone,noinsert,noselect'
-
-    local function cmp_map(rhs, modes)
-      if (modes == nil) then
-        modes = { 'i', 'c' }
-      else
-        if (type(modes) ~= 'table')
-        then
-          modes = { modes }
-        end
-      end
-      return cmp.mapping(rhs, modes)
-    end
-
-    -- local function toggle_complete()
-    --   return function()
-    --     if cmp.visible() then
-    --       cmp.close()
-    --     else
-    --       cmp.complete()
-    --     end
-    --   end
-    -- end
-
-    -- local function complete()
-    --   if cmp.visible() then
-    --     cmp.mapping.confirm({ select = true })()
-    --   elseif luasnip.expandable() then
-    --     luasnip.expand()
-    --   else
-    --     cmp.complete()
-    --   end
-    -- end
-
-    -- local function cmdline_complete()
-    --   if cmp.visible() then
-    --     cmp.mapping.confirm({ select = true })()
-    --   else
-    --     cmp.complete()
-    --   end
-    -- end
 
     local sources = {
       { name = 'nvim_lsp' },
@@ -142,9 +102,6 @@ return {
       },
       mapping = {
 
-        -- ['<C-p>'] = cmp.mapping.select_prev_item(),
-        -- ['<C-n>'] = cmp.mapping.select_next_item(),
-        -- Add tab support
         ['<S-Tab>'] = cmp.mapping.select_prev_item(),
         ['<Tab>'] = cmp.mapping.select_next_item(),
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -155,18 +112,6 @@ return {
           behavior = cmp.ConfirmBehavior.Insert,
           select = true,
         }),
-
-        -- ['<Tab>'] = cmp_map(cmp.mapping.select_next_item()),
-        -- ['<S-Tab>'] = cmp_map(cmp.mapping.select_prev_item()),
-        -- ['<C-Space>'] = cmp_map(cmp.mapping.complete()),
-        -- ['<CR>'] = cmp.mapping.confirm({ select = true }),
-
-        ---@diagnostic disable-next-line: assign-type-mismatch
-        -- ['<C-y>'] = cmp.config.disable,
-        ---@diagnostic disable-next-line: assign-type-mismatch
-        -- ['<C-n>'] = cmp.config.disable,
-        ---@diagnostic disable-next-line: assign-type-mismatch
-        -- ['<C-p>'] = cmp.config.disable,
       },
       sources = config_sources,
       window = {
@@ -188,37 +133,6 @@ return {
           comparators.sort_by_label_but_underscore_last,
         },
       },
-    })
-
-    -- Use buffer source for `/` (searching)
-    cmp.setup.cmdline('/', {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = {
-        { name = 'buffer' },
-      },
-    })
-
-    -- Use cmdline & path source for `:`
-    cmp.setup.cmdline(':', {
-      sources = cmp.config.sources(
-      -- {
-      --   { name = 'path' },
-      -- },
-      -- {
-      --   {
-      --     name = 'cmdline',
-      --     option = {
-      --       ignore_cmds = { 'Man', '!' },
-      --     },
-      --   },
-      -- },
-        {
-          {
-            name = "lazydev",
-            group_index = 0, -- Skip loading lua_ls completions
-          },
-        }
-      ),
     })
   end,
 }

@@ -3,6 +3,9 @@
 ----------------
 return {
   "rmagatti/goto-preview",
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   config = function()
     require('goto-preview').setup {
       width = 120, -- Width of the floating window

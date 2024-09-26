@@ -11,8 +11,8 @@ end
 return {
   "sindrets/diffview.nvim",
   dependencies = {
-    { "nvim-lua/plenary.nvim", },
-    { "nvim-tree/nvim-web-devicons", },
+    { "nvim-lua/plenary.nvim" },
+    { "nvim-tree/nvim-web-devicons" },
   },
   cmd = {
     'DiffviewOpen',
@@ -68,34 +68,34 @@ return {
         default = {
           -- Config for changed files, and staged files in diff views.
           layout = "diff2_horizontal",
-          winbar_info = false,          -- See ':h diffview-config-view.x.winbar_info'
+          winbar_info = false, -- See ':h diffview-config-view.x.winbar_info'
         },
         merge_tool = {
           -- Config for conflicted files in diff views during a merge or rebase.
           layout = "diff3_horizontal",
-          disable_diagnostics = true,   -- Temporarily disable diagnostics for conflict buffers while in the view.
-          winbar_info = true,           -- See ':h diffview-config-view.x.winbar_info'
+          disable_diagnostics = true, -- Temporarily disable diagnostics for conflict buffers while in the view.
+          winbar_info = true,         -- See ':h diffview-config-view.x.winbar_info'
         },
         file_history = {
           -- Config for changed files in file history views.
           layout = "diff2_horizontal",
-          winbar_info = false,          -- See ':h diffview-config-view.x.winbar_info'
+          winbar_info = false, -- See ':h diffview-config-view.x.winbar_info'
         },
       },
       file_panel = {
-        listing_style = "tree",             -- One of 'list' or 'tree'
-        tree_options = {                    -- Only applies when listing_style is 'tree'
-          flatten_dirs = true,              -- Flatten dirs that only contain one single dir
-          folder_statuses = "only_folded",  -- One of 'never', 'only_folded' or 'always'.
+        listing_style = "tree",            -- One of 'list' or 'tree'
+        tree_options = {                   -- Only applies when listing_style is 'tree'
+          flatten_dirs = true,             -- Flatten dirs that only contain one single dir
+          folder_statuses = "only_folded", -- One of 'never', 'only_folded' or 'always'.
         },
-        win_config = {                      -- See ':h diffview-config-win_config'
+        win_config = {                     -- See ':h diffview-config-win_config'
           position = "left",
           width = 35,
-          win_opts = {}
+          win_opts = {},
         },
       },
       file_history_panel = {
-        log_options = {   -- See ':h diffview-config-log_options'
+        log_options = { -- See ':h diffview-config-log_options'
           git = {
             single_file = {
               diff_merges = "combined",
@@ -109,29 +109,29 @@ return {
             multi_file = {},
           },
         },
-        win_config = {    -- See ':h diffview-config-win_config'
+        win_config = { -- See ':h diffview-config-win_config'
           position = "bottom",
           height = 16,
-          win_opts = {}
+          win_opts = {},
         },
       },
       commit_log_panel = {
-        win_config = {   -- See ':h diffview-config-win_config'
+        win_config = { -- See ':h diffview-config-win_config'
           win_opts = {},
-        }
+        },
       },
-      default_args = {    -- Default args prepended to the arg-list for the listed commands
+      default_args = { -- Default args prepended to the arg-list for the listed commands
         DiffviewOpen = {},
         DiffviewFileHistory = {},
       },
-      hooks = {},         -- See ':h diffview-config-hooks'
+      hooks = {},                 -- See ':h diffview-config-hooks'
       keymaps = {
         disable_defaults = false, -- Disable the default keymaps
         view = {
           -- The `view` bindings are active in the diff buffers, only when the current
           -- tabpage is a Diffview.
-          { "n", "<tab>",       actions.select_next_entry,              { desc = "Open the diff for the next file" } },
-          { "n", "<s-tab>",     actions.select_prev_entry,              { desc = "Open the diff for the previous file" } },
+          { "n", "<tab>",   actions.select_next_entry, { desc = "Open the diff for the next file" } },
+          { "n", "<s-tab>", actions.select_prev_entry, { desc = "Open the diff for the previous file" } },
           -- -- { "n", "gf",          actions.goto_file_edit,                 { desc = "Open the file in the previous tabpage" } },
           -- -- { "n", "<C-w><C-f>",  actions.goto_file_split,                { desc = "Open the file in a new split" } },
           -- -- { "n", "<C-w>gf",     actions.goto_file_tab,                  { desc = "Open the file in a new tabpage" } },
@@ -161,16 +161,16 @@ return {
         },
         diff3 = {
           -- Mappings in 3-way diff layouts
-          { { "n", "x" }, "2do",  actions.diffget("ours"),            { desc = "Obtain the diff hunk from the OURS version of the file" } },
-          { { "n", "x" }, "3do",  actions.diffget("theirs"),          { desc = "Obtain the diff hunk from the THEIRS version of the file" } },
-          { "n",          "g?",   actions.help({ "view", "diff3" }),  { desc = "Open the help panel" } },
+          { { "n", "x" }, "2do", actions.diffget("ours"),           { desc = "Obtain the diff hunk from the OURS version of the file" } },
+          { { "n", "x" }, "3do", actions.diffget("theirs"),         { desc = "Obtain the diff hunk from the THEIRS version of the file" } },
+          { "n",          "g?",  actions.help({ "view", "diff3" }), { desc = "Open the help panel" } },
         },
         diff4 = {
           -- Mappings in 4-way diff layouts
-          { { "n", "x" }, "1do",  actions.diffget("base"),            { desc = "Obtain the diff hunk from the BASE version of the file" } },
-          { { "n", "x" }, "2do",  actions.diffget("ours"),            { desc = "Obtain the diff hunk from the OURS version of the file" } },
-          { { "n", "x" }, "3do",  actions.diffget("theirs"),          { desc = "Obtain the diff hunk from the THEIRS version of the file" } },
-          { "n",          "g?",   actions.help({ "view", "diff4" }),  { desc = "Open the help panel" } },
+          { { "n", "x" }, "1do", actions.diffget("base"),           { desc = "Obtain the diff hunk from the BASE version of the file" } },
+          { { "n", "x" }, "2do", actions.diffget("ours"),           { desc = "Obtain the diff hunk from the OURS version of the file" } },
+          { { "n", "x" }, "3do", actions.diffget("theirs"),         { desc = "Obtain the diff hunk from the THEIRS version of the file" } },
+          { "n",          "g?",  actions.help({ "view", "diff4" }), { desc = "Open the help panel" } },
         },
         file_panel = {
           -- -- { "n", "j",              actions.next_entry,                     { desc = "Bring the cursor to the next file entry" } },
@@ -241,15 +241,15 @@ return {
           -- -- { "n", "g?",            actions.help("file_history_panel"),  { desc = "Open the help panel" } },
         },
         option_panel = {
-          { "n", "<tab>", actions.select_entry,          { desc = "Change the current option" } },
-          { "n", "q",     actions.close,                 { desc = "Close the panel" } },
-          { "n", "g?",    actions.help("option_panel"),  { desc = "Open the help panel" } },
+          { "n", "<tab>", actions.select_entry,         { desc = "Change the current option" } },
+          { "n", "q",     actions.close,                { desc = "Close the panel" } },
+          { "n", "g?",    actions.help("option_panel"), { desc = "Open the help panel" } },
         },
         help_panel = {
-          { "n", "q",     actions.close,  { desc = "Close help menu" } },
-          { "n", "<esc>", actions.close,  { desc = "Close help menu" } },
+          { "n", "q",     actions.close, { desc = "Close help menu" } },
+          { "n", "<esc>", actions.close, { desc = "Close help menu" } },
         },
       },
     })
-  end
+  end,
 }

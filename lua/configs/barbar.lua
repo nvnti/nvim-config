@@ -10,6 +10,9 @@ return {
     'nvim-tree/nvim-web-devicons',
   },
   init = function() vim.g.barbar_auto_setup = false end,
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   config = function()
     require('barbar').setup({
       no_name_title = '[No Name]',

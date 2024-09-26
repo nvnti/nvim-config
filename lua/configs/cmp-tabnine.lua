@@ -6,6 +6,9 @@ return {
   dependencies = 'hrsh7th/nvim-cmp',
   event = { 'InsertEnter' },
   build = './install.sh',
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   config = function()
     local tabnine = require('cmp_tabnine.config')
     tabnine:setup({
@@ -14,5 +17,5 @@ return {
       ignored_file_types = {},
       max_lines = 500,
     })
-  end
+  end,
 }

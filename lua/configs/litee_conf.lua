@@ -8,6 +8,9 @@ return {
     "ldelossa/litee-filetree.nvim",
     "ldelossa/litee-symboltree.nvim",
   },
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   config = function()
     -- configure the litee.nvim library
     require('litee.lib').setup({
@@ -52,4 +55,3 @@ return {
       opts)
   end,
 }
-

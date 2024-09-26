@@ -9,6 +9,9 @@ return {
     'nvim-treesitter/nvim-treesitter-textobjects',
   },
   keys = { ';', ',', 't', 'f', 'T', 'F', ']', '[', ']d', '[d' },
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   config = function()
     local map = require('utils').map
 
@@ -46,5 +49,5 @@ return {
     map(nxo, 'F', eyeliner_jump('F'), opts)
     map(nxo, 't', eyeliner_jump('t'), opts)
     map(nxo, 'T', eyeliner_jump('T'), opts)
-  end
+  end,
 }

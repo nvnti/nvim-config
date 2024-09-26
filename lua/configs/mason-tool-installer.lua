@@ -3,6 +3,9 @@
 --------------------------
 return {
   'WhoIsSethDaniel/mason-tool-installer.nvim',
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   opts = {
     ensure_installed = {
       'prettier',
@@ -16,5 +19,5 @@ return {
       'bash-debug-adapter',
       'rust-analyzer',
     },
-  }
+  },
 }

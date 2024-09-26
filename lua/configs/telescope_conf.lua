@@ -16,6 +16,9 @@ return {
     { 'ThePrimeagen/git-worktree.nvim' },
   },
   event = 'VeryLazy',
+  -- enabled = function()
+  --   return not vim.opt.diff:get()
+  -- end,
   config = function()
     local feedkeys = require('utils').feedkeys
     local map = require('utils').map
@@ -236,10 +239,12 @@ return {
     map('n', '<leader>n', telescope_config, 'Neovim config')
     map('n', '<leader>tn', extensions.notify.notify, 'Notifications')
 
-    map('n', '<leader>td', extensions.dap.commands)
-    map('n', '<leader>tb', extensions.dap.list_breakpoints)
-    map('n', '<leader>tv', extensions.dap.variables)
-    map('n', '<leader>tf', extensions.dap.frames)
+    if not vim.opt.diff:get() then
+      map('n', '<leader>td', extensions.dap.commands)
+      map('n', '<leader>tb', extensions.dap.list_breakpoints)
+      map('n', '<leader>tv', extensions.dap.variables)
+      map('n', '<leader>tf', extensions.dap.frames)
+    end
 
     map('n', '<leader>tT', '<cmd>Telescope thesaurus lookup<CR>', 'Thesaurus')
 

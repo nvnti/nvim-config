@@ -8,16 +8,18 @@ vim.keymap.set("n", "<leader>ds", ":StripWhitespace<CR>", {})
 
 vim.keymap.set("n", "<leader>ez", "yyp:.!zsh<CR>")
 
-vim.keymap.set("n", "<leader>fa",  ":grep <C-R>=expand(\"<cword>\")<CR>")
-vim.keymap.set("n", "<leader>fc",  ":grep -g '{*.hpp,*.h,*.hxx,*.c,*.cpp,*.cxx,*.cc}' <C-R>=expand(\"<cword>\")<CR> analysis/")
-vim.keymap.set("n", "<leader>fg",  ":grep -g '{*.hpp,*.h,*.hxx,*.c,*.cpp,*.cxx,*.cc}'")
+vim.keymap.set("n", "<leader>fa", ":grep <C-R>=expand(\"<cword>\")<CR>")
+vim.keymap.set("n", "<leader>fc",
+  ":grep -g '{*.hpp,*.h,*.hxx,*.c,*.cpp,*.cxx,*.cc}' <C-R>=expand(\"<cword>\")<CR> analysis/")
+vim.keymap.set("n", "<leader>fg", ":grep -g '{*.hpp,*.h,*.hxx,*.c,*.cpp,*.cxx,*.cc}'")
 vim.keymap.set("n", "<leader>fja", ":grep -g '{*.java}' <C-R>=expand(\"<cword>\")<CR> .")
 vim.keymap.set("n", "<leader>fjs", ":grep -g '{*.json}' <C-R>=expand(\"<cword>\")<CR> .")
-vim.keymap.set("n", "<leader>fm",  ":grep -g '{*.mk,Makefile}' <C-R>=expand(\"<cword>\")<CR> .")
-vim.keymap.set("n", "<leader>fp",  ":grep -g '{*.py}' <C-R>=expand(\"<cword>\")<CR> .")
-vim.keymap.set("n", "<leader>fs",  ":grep -g '{*.hpp,*.h,*.hxx,*.c,*.cpp,*.cxx,*.cc}' <C-R>=expand(\"<cword>\")<CR> analysis/ <CR>")
-vim.keymap.set("n", "<leader>fr",  ":grep -g '{*.rs}' <C-R>=expand(\"<cword>\")<CR> .")
-vim.keymap.set("n", "<leader>ft",  ":grep -g '{Cargo.toml}' <C-R>=expand(\"<cword>\")<CR> .")
+vim.keymap.set("n", "<leader>fm", ":grep -g '{*.mk,Makefile}' <C-R>=expand(\"<cword>\")<CR> .")
+vim.keymap.set("n", "<leader>fp", ":grep -g '{*.py}' <C-R>=expand(\"<cword>\")<CR> .")
+vim.keymap.set("n", "<leader>fs",
+  ":grep -g '{*.hpp,*.h,*.hxx,*.c,*.cpp,*.cxx,*.cc}' <C-R>=expand(\"<cword>\")<CR> analysis/ <CR>")
+vim.keymap.set("n", "<leader>fr", ":grep -g '{*.rs}' <C-R>=expand(\"<cword>\")<CR> .")
+vim.keymap.set("n", "<leader>ft", ":grep -g '{Cargo.toml}' <C-R>=expand(\"<cword>\")<CR> .")
 
 vim.keymap.set("n", "<leader>gc", ":e <cfile><CR>")
 vim.keymap.set("n", "<leader>gf", ":e <C-R>=expand(\"%:h\")<CR>/<cfile><CR>")
@@ -56,5 +58,3 @@ vim.keymap.set("n", "<leader>tf", ":call SwitchBetweenSourceHeader()<CR>", {})
 vim.keymap.set("n", "<leader>tl", ":set invnumber<CR>:set invrelativenumber<CR>", {})
 vim.keymap.set("n", "<leader>tp", ":set invpaste<CR>", {})
 vim.keymap.set("n", "<leader>tr", ":set list!<CR>", {})
-vim.keymap.set("n", "<leader>tt", ":TagbarToggle<CR>")
-

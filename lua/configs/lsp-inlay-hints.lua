@@ -5,6 +5,9 @@ return {
   'lvimuser/lsp-inlayhints.nvim',
   branch = 'anticonceal',
   event = 'LspAttach',
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   opts = {
     inlay_hints = {
       parameter_hints = {
@@ -15,5 +18,5 @@ return {
         remove_colon_end = false,
       },
     },
-  }
+  },
 }

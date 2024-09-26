@@ -3,6 +3,9 @@
 ----------------
 return {
   "mhartington/formatter.nvim",
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   config = function()
     -- Utilities for creating configurations
     local util = require "formatter.util"

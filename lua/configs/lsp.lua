@@ -13,6 +13,9 @@ return {
     { 'nvim-telescope/telescope.nvim', dependencies = 'nvim-lua/plenary.nvim' },
   },
   event = { 'VeryLazy', 'BufWrite' },
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   config = function()
     local api, lsp = vim.api, vim.lsp
     local lspconfig = require('lspconfig')
@@ -211,7 +214,6 @@ return {
       rust_analyzer = disable, -- Setup in rustaceanvim.lua
       jdtls = disable,         -- Setup in in java.lua
       ltex = disable,          -- Setup in ltex.lua
-      gopls = disable,         -- Setup in go.lua
     }
 
     --------------------
