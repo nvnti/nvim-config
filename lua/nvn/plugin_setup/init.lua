@@ -1,5 +1,6 @@
 local M = {}
 
+M.notify = require("nvn.plugin_setup.notify").fn
 M.abbrev_man_conf = require("nvn.plugin_setup.abbrev_conf").fn
 M.aerial_conf = require("nvn.plugin_setup.aerial_conf").fn
 M.autopairs_conf = require("nvn.plugin_setup.autopairs_conf").fn

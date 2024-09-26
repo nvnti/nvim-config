@@ -15,6 +15,100 @@ local plugins = {
 
   {
     info = {
+      type = "coding",
+    },
+    settings = {
+      'rcarriga/nvim-notify',
+      config = setup_fns.notify,
+    },
+  },
+
+  {
+    info = {
+      type = "always",
+    },
+    settings = {
+      'AckslD/messages.nvim',
+      cmd = 'Messages',
+      config = function()
+
+        require('messages').setup({
+          post_open_float = function(winnr)
+            vim.keymap.set("n", "<ESC>",
+              function()
+                vim.api.nvim_win_close(winnr, false)
+              end, { buffer = true, desc = 'Close :Messages window' })
+          end
+        })
+      end
+    },
+  },
+
+  {
+    info = {
+      type = "coding",
+    },
+    settings = {
+      'j-hui/fidget.nvim',
+      event = 'LspAttach',
+      opts = {
+        progress = {
+          display = {
+            done_icon = ' ',
+            done_ttl = 2,
+          }
+        },
+        notification = {
+          window = {
+            max_height = 4,
+            normal_hl = 'FidgetNormal',
+          }
+        },
+      }
+    },
+  },
+
+  {
+    info = {
+      type = "coding",
+    },
+    settings = {
+      'freddiehaddad/feline.nvim',
+      event = 'VeryLazy',
+      dependencies = {
+        'nvim-treesitter/nvim-treesitter',
+        'nvim-lua/lsp-status.nvim',
+        'nvim-tree/nvim-web-devicons',
+      },
+      config = function()
+        local colorscheme = require('nvn.utils.colorscheme')
+
+        local default_theme = colorscheme.get_default_feline_highlights()
+
+        require('nvn.statusline').setup({ theme = default_theme })
+        require('feline').add_theme('onedark', default_theme)
+
+        vim.opt.laststatus = 3 -- Global statusline
+      end
+    },
+  },
+
+  {
+    info = {
+      type = "coding",
+    },
+    settings = {
+      'junegunn/vim-easy-align',
+      dependencies = 'tpope/vim-repeat',
+      keys = {
+        { 'ga',  '<Plug>(EasyAlign)', mode = { 'n', 'x' }, desc = 'Align' },
+        { 'gaa', 'gaiL',              remap = true,        desc = 'Align line' },
+      }
+    },
+  },
+
+  {
+    info = {
       type = "always",
     },
     settings = {
@@ -340,6 +434,15 @@ local plugins = {
     },
     settings = {
       "neovim/nvim-lspconfig",
+      dependencies = {
+        'williamboman/mason.nvim',               -- For installing LSP servers
+        'williamboman/mason-lspconfig.nvim',     -- Integration with nvim-lspconfig
+        'b0o/schemastore.nvim',                  -- YAML/JSON schemas
+        'davidosomething/format-ts-errors.nvim', -- Prettier TypeScript errors
+        'hrsh7th/cmp-nvim-lsp',                  -- Improved LSP capabilities
+        'lvimuser/lsp-inlayhints.nvim',          -- Inlay hints
+        { 'nvim-telescope/telescope.nvim', dependencies = 'nvim-lua/plenary.nvim' },
+      },
       config = setup_fns.nvim_lspconfig_conf,
     },
   },
@@ -406,6 +509,109 @@ local plugins = {
     },
     settings = {
       "L3MON4D3/LuaSnip",
+      dependencies = 'mireq/luasnip-snippets', -- Collection of snippets
+      config = function()
+        local fn = vim.fn
+        local feedkeys, map = require('nvn.utils').feedkeys, require('nvn.utils').map
+
+        local luasnip = require('luasnip')
+        local snippets_snip_utils = require('luasnip_snippets.common.snip_utils')
+        local s, sn   = luasnip.snippet, luasnip.snippet_node
+        local t, i, d = luasnip.text_node, luasnip.insert_node, luasnip.dynamic_node
+
+        luasnip.config.setup({ history = true })
+        snippets_snip_utils.setup()
+
+        luasnip.setup({
+          load_ft_func = snippets_snip_utils.load_ft_func,
+          ft_func = snippets_snip_utils.ft_func,
+        })
+
+        luasnip.filetype_extend('all', {'global'})
+        require('luasnip.loaders.from_vscode').load({
+          paths = { '~/.config/nvim/snippets' },
+        })
+
+        local function clipboard_oneline_node()
+          local clipboard, _ = fn.getreg('+'):gsub('\n', ' ')
+          return clipboard
+        end
+
+        local luasnip_clipboard = function()
+          return sn(nil, i(1, clipboard_oneline_node()))
+        end
+
+        local plugin_repo_snippet = function()
+          local repo, _ = clipboard_oneline_node():gsub('.*github.com/([^/]*/[^/]*).*', '%1', 1)
+          return sn(nil, i(1, repo))
+        end
+
+        local function uuid()
+          local id, _ = vim.fn.system('uuidgen'):gsub('\n', '')
+          return id
+        end
+
+        luasnip.add_snippets('global', {
+          s({
+            trig = 'uuid',
+            name = 'UUID',
+            dscr = 'Generate a unique UUID'
+          }, {
+              d(1, function() return sn(nil, i(1, uuid())) end)
+            })
+        })
+        luasnip.add_snippets('markdown', {
+          s({
+            trig = 'link',
+            name = 'hyperlink',
+            dscr = 'Hyperlink with the content in the clipboard'
+          }, {
+              t '[', i(1, 'text'), t ']',
+              t '(', d(2, luasnip_clipboard), t ') ',
+            })
+        })
+        luasnip.add_snippets('lua', {
+          s({
+            trig = 'plugin',
+            name = 'Add plugin config',
+            dscr = 'Add plugin URL from the clipboard'
+          }, {
+              t { "return {", "\t'" },
+              d(1, plugin_repo_snippet), t "',",
+              t { '', '\tconfig = function()', '\t\t' },
+              i(2),
+              t { '', '\tend', '}' }
+            })
+        })
+
+        local function right_or_snip_next()
+          if luasnip.in_snippet() and luasnip.jumpable(1) then
+            luasnip.jump(1)
+          elseif fn.mode() == 'i' then
+            feedkeys('<Right>')
+          end
+        end
+
+        local function left_or_snip_prev()
+          if luasnip.in_snippet() and luasnip.jumpable(-1) then
+            luasnip.jump(-1)
+          elseif fn.mode() == 'i' then
+            feedkeys('<Left>')
+          end
+        end
+
+        local function toggle_active_choice()
+          if luasnip.choice_active() then
+            luasnip.change_choice(1)
+          end
+        end
+
+        map({'i', 's'}, '<M-S-l>', right_or_snip_next,   '<Right> or next snippet')
+        map({'i', 's'}, '<M-S-h>', left_or_snip_prev,    '<Left> or previous snippet')
+        map({'i', 's'}, '<M-.>',   right_or_snip_next,   '<Right> or next snippet')
+        map({'i', 's'}, '<M-,>',   left_or_snip_prev,    '<Left> or previous snippet')
+        map({'i', 's'}, '<M-t>',   toggle_active_choice, 'Toggle active snippet choice')
+      end
     },
   },
 

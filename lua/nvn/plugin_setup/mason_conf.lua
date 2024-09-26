@@ -144,7 +144,12 @@ function M.fn()
     ensure_installed = {
       "clangd",
       "lua_ls",
-      "rust_analyzer"
+      "rust_analyzer",
+      "typos_lsp",
+      "pylsp",
+      "typst_lsp",
+      "bicep",
+      "jsonls"
     },
   }
 end
