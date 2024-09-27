@@ -5,8 +5,7 @@ vim.api.nvim_create_autocmd(
   {
     pattern = "*.vim",
     callback = function()
-      local buf = vim.api.nvim_get_current_buf()
-      vim.api.nvim_buf_set_option(buf, "filetype", "vim")
+      vim.api.nvim_set_option_value("filetype", "vim", {buf = vim.api.nvim_get_current_buf()})
     end
   }
 )
@@ -18,8 +17,7 @@ vim.api.nvim_create_autocmd(
   {
     pattern = "*.jinja",
     callback = function()
-      local buf = vim.api.nvim_get_current_buf()
-      vim.api.nvim_buf_set_option(buf, "filetype", "html")
+      vim.api.nvim_set_option_value("filetype", "html", {buf = vim.api.nvim_get_current_buf()})
     end
   }
 )
@@ -32,10 +30,11 @@ vim.api.nvim_create_autocmd(
   {
     pattern = "*.hpp,*.cpp",
     callback = function()
-      local buf = vim.api.nvim_get_current_buf()
-      vim.api.nvim_buf_set_option(buf, "tabstop", 4)
-      vim.api.nvim_buf_set_option(buf, "shiftwidth", 4)
-      vim.api.nvim_buf_set_option(buf, "softtabstop", 4)
+      local bufnr = vim.api.nvim_get_current_buf()
+
+      vim.api.nvim_set_option_value("tabstop", 4, {buf = bufnr})
+      vim.api.nvim_set_option_value("shiftwidth", 4, {buf = bufnr})
+      vim.api.nvim_set_option_value("softtabstop", 4, {buf = bufnr})
     end
   }
 )
@@ -48,7 +47,7 @@ vim.api.nvim_create_autocmd(
     pattern = "tagbar,nerdtree,NvimTree",
     callback = function()
       local win = vim.api.nvim_get_current_win()
-      vim.api.nvim_win_set_option(win, "signcolumn", "no")
+      vim.api.nvim_set_option_value("signcolumn", "no", {win = win})
     end
   }
 )
@@ -73,14 +72,14 @@ vim.api.nvim_create_autocmd(
     pattern = "*",
     callback = function()
       local win = vim.api.nvim_get_current_win()
-      vim.api.nvim_win_set_option(win, "winhighlight", "Normal:ActiveWindow,NormalNC:InactiveWindow")
+      vim.api.nvim_set_option_value("winhighlight", "Normal:ActiveWindow,NormalNC:InactiveWindow", {win = win})
 
       if vim.opt.previewwindow then
-        vim.api.nvim_win_set_option(win, "winhighlight", "Normal:MarkdownError")
+        vim.api.nvim_set_option_value("winhighlight", "Normal:MarkdownError", {win = win})
       end
 
       if vim.opt.buftype == 'terminal' then
-        vim.api.nvim_win_set_option(win, "winhighlight", "Normal:ActiveTerminal")
+        vim.api.nvim_set_option_value("winhighlight", "Normal:ActiveTerminal", {win = win})
       end
     end
   }
@@ -121,3 +120,29 @@ vim.api.nvim_create_autocmd(
     end
   }
 )
+
+vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = "LspAttach_inlayhints",
+  callback = function(args)
+    if not (args.data and args.data.client_id) then
+      return
+    end
+
+    -- File types to not format on write
+    local format_on_write_blacklist = {
+      "c",
+      "cpp",
+    }
+
+    local bufnr = args.buf
+    local filetype = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    require("lsp-inlayhints").on_attach(client, bufnr)
+
+    -- Autoformatting
+    if not vim.tbl_contains(format_on_write_blacklist, filetype) then
+      require('nvn.utils.formatting').format_on_write(client, bufnr)
+    end
+  end,
+})

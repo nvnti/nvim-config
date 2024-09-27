@@ -37,5 +37,6 @@ M.treesitter_conf = require("nvn.plugin_setup.treesitter_conf").fn
 M.undotree_conf = require("nvn.plugin_setup.undotree_conf").fn
 M.which_key_conf = require("nvn.plugin_setup.which_key_conf").fn
 M.whitespace_conf = require("nvn.plugin_setup.whitespace_conf").fn
+M.rustaceanvim = require("nvn.plugin_setup.rustaceanvim").fn
 
 return M

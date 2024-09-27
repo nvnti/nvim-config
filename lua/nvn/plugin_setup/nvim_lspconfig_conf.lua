@@ -5,9 +5,24 @@ function M.fn()
   local lspconfig = require('lspconfig')
   local nvim_cmp = require('cmp_nvim_lsp')
 
-  local lsplocalconfig = require('nvn.lspconfig')
-
+  local lsplocalconfig = require('nvn.lsplocalconfig')
   local capabilities = nvim_cmp.default_capabilities()
+
+    local function attach_codelens(bufnr)
+      local augroup = vim.api.nvim_create_augroup('Lsp', {})
+      vim.api.nvim_create_autocmd({ 'BufReadPost', 'CursorHold', 'InsertLeave' }, {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.codelens.refresh({ bufnr = bufnr })
+        end,
+      })
+    end
+
+  local function on_attach_rust_analyzer(_, bufnr)
+    lsplocalconfig.fns.on_attach()
+    attach_codelens(bufnr)
+  end
 
   lspconfig.rust_analyzer.setup {
     -- Server-specific settings. See `:help lspconfig-setup`
@@ -15,7 +30,7 @@ function M.fn()
       ['rust-analyzer'] = lsplocalconfig.confs.rust_analyzer
     },
     capabilities = capabilities,
-    on_attach = lsplocalconfig.fns.on_attach,
+    on_attach = on_attach_rust_analyzer,
     on_initialized = lsplocalconfig.fns.on_initialized,
   }
 
@@ -49,7 +64,8 @@ function M.fn()
   }
 
   lspconfig.typst_lsp.setup {
-    on_attach = function()
+    on_attach = function(_, bufnr)
+  local map = require('nvn.utils').local_map(bufnr)
       map('n', '<SPACE>lw', '<cmd>TypstWatch<CR>', 'Watch file')
     end,
   }
@@ -72,7 +88,7 @@ function M.fn()
 
   lspconfig.eslint.setup {
     on_attach = function(_, bufnr)
-      api.nvim_create_autocmd('BufWritePre', {
+      vim.api.nvim_create_autocmd('BufWritePre', {
         buffer = bufnr,
         command = 'EslintFixAll',
       })
@@ -101,7 +117,7 @@ function M.fn()
       local is_pipeline_file = #vim.fn.glob('azure-pipeline*.y*ml', true, filename) > 0
 
       if is_pipeline_file then
-        lsp.stop_client(client)
+        vim.lsp.stop_client(client)
       end
     end,
   }
@@ -139,7 +155,6 @@ function M.fn()
       },
     },
     on_attach = function()
-      map('n', '<SPACE>lt', '<Plug>PlenaryTestFile', "Run file's plenary tests")
     end,
   }
 
@@ -151,12 +166,40 @@ function M.fn()
   }
 
   require('lsp_signature').setup(lsplocalconfig.confs.lspsignature)
-  require("inlay-hints").setup(lsplocalconfig.confs.inlayhints)
+  -- require("lsp-inlayhints").setup(lsplocalconfig.confs.inlayhints)
 
+  -- This has to be called from LspAttach event for some reason, not sure why
   vim.diagnostic.config({
-    virtual_text = true,
-    underline = false
+    signs = false,
+    virtual_text = {
+      spacing = 4,
+      prefix = function(diagnostic, _, _)
+        local icon = require('nvn.config.diagnostics').get_icon(diagnostic.severity)
+        return ' ' .. icon
+      end,
+    },
   })
+
+    ---------------------
+    -- Handler configs --
+    ---------------------
+    if not require('nvn.utils').noice_is_loaded() then
+      -- Add borders to hover/signature windows (noice.nvim has its own)
+      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+        vim.lsp.handlers.hover,
+        {
+          border = 'single',
+          -- Disable "no information available" popup which is really annoying
+          -- when using multiple servers
+          silent = true,
+        }
+      )
+
+      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+        vim.lsp.handlers.signature_help,
+        { border = 'single' }
+      )
+    end
 
 end
 

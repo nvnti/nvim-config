@@ -95,7 +95,7 @@ vim.opt.list = true
 vim.keymap.set("n", ";", ":")
 vim.keymap.set("v", ";", ":")
 
-vim.cmd("colorscheme OceanicNext")
+-- vim.cmd("colorscheme OceanicNext")
 
 vim.g.loaded_matchparen = 1
 

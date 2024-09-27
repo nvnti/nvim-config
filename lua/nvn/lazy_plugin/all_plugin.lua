@@ -7,7 +7,18 @@ local plugins = {
     settings = {
       "nvim-telescope/telescope.nvim",
       dependencies = {
-        "nvim-lua/plenary.nvim",
+        { 'nvim-lua/plenary.nvim' },
+        { 'nvim-lua/popup.nvim' },
+        { 'jvgrootveld/telescope-zoxide' },
+        { 'nvim-telescope/telescope-cheat.nvim' },
+        { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+        { 'nvim-telescope/telescope-frecency.nvim' },
+        { 'nvim-telescope/telescope-dap.nvim' },
+        { 'Zane-/cder.nvim' },
+        { 'rcarriga/nvim-notify' },
+        { 'mfussenegger/nvim-dap' },
+        { 'rafi/telescope-thesaurus.nvim' },
+        { 'ThePrimeagen/git-worktree.nvim' },
       },
       config = setup_fns.telescope_conf,
     },
@@ -25,22 +36,231 @@ local plugins = {
 
   {
     info = {
+      type = "coding",
+    },
+    settings = {
+      'kaarmu/typst.vim',
+      ft = 'typst',
+      config = function()
+        vim.g.typst_auto_open_quickfix = 0
+      end,
+    },
+  },
+
+  {
+    info = {
+      type = "always",
+    },
+    settings = {
+      'anuvyklack/windows.nvim',
+      event = 'WinEnter',
+      dependencies = 'anuvyklack/middleclass',
+      config = function()
+        require('windows').setup({
+          animation = { enable = false },
+          ignore = {
+            buftype = { 'quickfix', 'help' },
+            filetype = { '', 'toggleterm', 'neotest-summary', 'blame' },
+          },
+        })
+
+        local map = require('nvn.utils').map
+        local commands = require('windows.commands')
+
+        map('n', '<C-w><C-f>', commands.maximize, 'Toggle maximized window')
+      end,
+    },
+  },
+
+  {
+    info = {
+      type = "always",
+    },
+    settings = {
+      'dmmulroy/tsc.nvim',
+      cmd = 'TSC',
+      opts = {
+        auto_open_qflist = false,
+        spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' },
+        flags = {
+          skipLibCheck = true,
+        },
+      },
+    },
+  },
+
+  {
+    info = {
+      type = "coding",
+    },
+    settings = {
+      'altermo/ultimate-autopair.nvim',
+      dependencies = 'hrsh7th/nvim-cmp',
+      event = { 'InsertEnter', 'CmdlineEnter' },
+      branch = 'v0.6',
+      enabled = function()
+        return not vim.opt.diff:get()
+      end,
+      config = function()
+        require('ultimate-autopair').setup({
+          extensions = {
+            filetype = {
+              nft = { 'TelescopePrompt', 'DressingInput', 'NoiceCommandline' },
+            },
+          },
+          { '**', '**', ft = { 'markdown' }, multiline = false },
+          { '*',  '*',  ft = { 'markdown' }, multiline = false },
+          { '_',  '_',  ft = { 'markdown' }, multiline = false },
+          { '$',  '$',  ft = { 'tex' },      multiline = false },
+
+          { '<',  '>',  fly = true,          dosuround = true, multiline = false, space = true, surround = true },
+          config_internal_pairs = {
+            {
+              "'",
+              "'",
+              multiline = false,
+              surround = true,
+              alpha = true,
+              cond = function(fn)
+                -- Don't autopair apostrophes in Rust lifetimes
+                return fn.get_ft() ~= 'rust' or not fn.in_node({
+                  'bounded_type',
+                  'reference_type',
+                  'type_arguments',
+                  'type_parameters',
+                })
+              end,
+              nft = { 'tex', 'lisp' }, -- Taken from default config
+            },
+          },
+          bs = {
+            map = { '<BS>', '<C-h>' },
+            cmap = { '<BS>', '<C-h>' },
+          },
+        })
+
+        local cmp = require('cmp')
+        local kind = cmp.lsp.CompletionItemKind
+
+        local function ls_name_from_event(event)
+          return event.entry.source.source.client.config.name
+        end
+
+        -- Add parenthesis on completion confirmation
+        cmp.event:on('confirm_done', function(event)
+          local ok, ls_name = pcall(ls_name_from_event, event)
+          local server_blacklist = { 'rust-analyzer', 'lua_ls', 'typst_lsp', 'bicep' }
+          if ok and vim.tbl_contains(server_blacklist, ls_name) then
+            return
+          end
+
+          local completion_kind = event.entry:get_completion_item().kind
+          if vim.tbl_contains({ kind.Function, kind.Method }, completion_kind) then
+            local left = vim.api.nvim_replace_termcodes('<Left>', true, true, true)
+            vim.api.nvim_feedkeys('()' .. left, 'n', false)
+          end
+        end)
+      end,
+    },
+  },
+
+  {
+    info = {
+      type = "coding",
+    },
+    settings = {
+      'aznhe21/actions-preview.nvim',
+      -- dependencies = 'neovim/nvim-lspconfig',
+      config = function()
+        local map = require('nvn.utils').map
+
+        local actions_preview = require('actions-preview')
+        actions_preview.setup({
+          diff = {
+            algorithm = 'patience',
+            ignore_whitespace = true,
+          },
+          telescope = require("telescope.themes").get_dropdown({
+            layout_config = { mirror = true },
+          }),
+        })
+
+        map({ 'x', 'n' }, '<SPACE>la', require('actions-preview').code_actions, 'LSP code action')
+      end,
+    },
+  },
+
+  {
+    info = {
+      type = "coding",
+    },
+    settings = {
+      'echasnovski/mini.ai',
+      dependencies = {
+        'tpope/vim-repeat',
+        'nvim-treesitter/nvim-treesitter',
+      },
+      version = '*',
+      event = 'VeryLazy',
+      config = function()
+        local gen_spec = require('mini.ai').gen_spec
+        local spec_pair = gen_spec.pair
+
+        local function pair(left, right)
+          if right == nil then
+            right = left
+          end
+
+          return spec_pair(left, right, { type = 'balanced' })
+        end
+
+        require('mini.ai').setup({
+          verbose = false,
+        })
+      end,
+    },
+  },
+
+  {
+    info = {
+      type = "coding",
+    },
+    settings = {
+      'zjp-CN/nvim-cmp-lsp-rs',
+      dependencies = 'hrsh7th/nvim-cmp',
+      ft = 'rust',
+      opts = {},
+      enabled = function()
+        return not vim.opt.diff:get()
+      end,
+    },
+  },
+
+  {
+    info = {
       type = "always",
     },
     settings = {
       'AckslD/messages.nvim',
       cmd = 'Messages',
+      init = function()
+        -- noice.nvim has this functionality built-in
+        if not require('nvn.utils').noice_is_loaded() then
+          local map = require('nvn.utils').map
+          map('n', 'gm', '<cmd>Messages<CR>', 'Show messages in a floating window')
+        end
+      end,
       config = function()
+        local map = require('nvn.utils').map
 
         require('messages').setup({
           post_open_float = function(winnr)
-            vim.keymap.set("n", "<ESC>",
-              function()
-                vim.api.nvim_win_close(winnr, false)
-              end, { buffer = true, desc = 'Close :Messages window' })
-          end
+            map('n', '<Esc>', function()
+              vim.api.nvim_win_close(winnr, false)
+            end, { buffer = true, desc = 'Close :Messages window' })
+          end,
         })
-      end
+      end,
     },
   },
 
@@ -56,15 +276,15 @@ local plugins = {
           display = {
             done_icon = ' ',
             done_ttl = 2,
-          }
+          },
         },
         notification = {
           window = {
             max_height = 4,
             normal_hl = 'FidgetNormal',
-          }
+          },
         },
-      }
+      },
     },
   },
 
@@ -89,7 +309,7 @@ local plugins = {
         require('feline').add_theme('onedark', default_theme)
 
         vim.opt.laststatus = 3 -- Global statusline
-      end
+      end,
     },
   },
 
@@ -103,7 +323,205 @@ local plugins = {
       keys = {
         { 'ga',  '<Plug>(EasyAlign)', mode = { 'n', 'x' }, desc = 'Align' },
         { 'gaa', 'gaiL',              remap = true,        desc = 'Align line' },
-      }
+      },
+    },
+  },
+
+  {
+    info = {
+      type = "always",
+    },
+    settings = {
+      'mawkler/onedark.nvim',
+      priority = 999,
+      config = function()
+        local colors = require('onedark.colors').setup()
+        local style = require('onedark.types').od.HighlightStyle
+
+        local barbar_bg = '#1d2026'
+        local barbar_bg_visible = '#23262d'
+        local barbar_fg_gray = '#3b4048'
+        local cursorline_bg = '#2f343d'
+        local treesitter_context_bg = '#252933'
+
+        require('onedark').setup({
+          hide_end_of_buffer = false,
+          dev = true,
+          hot_reload = false,
+          colors = {
+            bg_search = colors.bg_visual,
+            hint = colors.dev_icons.gray,
+            -- bg_float = colors.bg_highlight,
+            git = {
+              add = colors.green0,
+              change = colors.orange1,
+              delete = colors.red1,
+            },
+          },
+          overrides = function(c)
+            return {
+              -- General
+              Substitute                               = { link = 'Search' },
+              Title                                    = { fg = c.red0, style = style.Bold },
+              Folded                                   = { fg = c.fg_dark, bg = c.bg1 },
+              FloatBorder                              = { fg = c.blue0, bg = c.bg_float },
+              Search                                   = { bg = c.bg_search },
+              SpecialKey                               = { fg = c.blue0 },
+              SpecialKeyWin                            = { link = 'Comment' },
+              IncSearch                                = { bg = c.blue0 },
+              CurSearch                                = { link = 'Search' },
+              WinSeparator                             = { fg = barbar_bg, style = style.Bold },
+              MatchParen                               = { fg = nil, bg = nil, style = string.format('%s,%s', style.Bold, style.Underline) },
+              CursorLine                               = { bg = cursorline_bg },
+              CursorColumn                             = { link = 'CursorLine' },
+              CursorLineNr                             = { fg = c.green0, bg = cursorline_bg, style = style.Bold },
+              MsgArea                                  = { link = 'Normal' },
+              SpellBad                                 = { style = style.Undercurl, sp = c.red1 },
+              Todo                                     = { link = '@text.warning' },
+              -- Modes
+              NormalMode                               = { fg = c.green0, bg = cursorline_bg, style = style.Bold },
+              InsertMode                               = { fg = c.blue0, bg = cursorline_bg, style = style.Bold },
+              VisualMode                               = { fg = c.purple0, style = style.Bold },
+              CommandMode                              = { fg = c.red0, bg = cursorline_bg, style = style.Bold },
+              SelectMode                               = { fg = c.cyan0, bg = cursorline_bg, style = style.Bold },
+              ReplaceMode                              = { fg = c.red2, bg = cursorline_bg, style = style.Bold },
+              TerminalMode                             = { fg = c.green0, bg = cursorline_bg, style = style.Bold },
+              -- Custom highlights
+              InlineHint                               = { fg = c.bg_visual },
+              LspCodeLens                              = { link = 'InlineHint' },
+              LspCodeLensSeparator                     = { link = 'LspCodeLens' },
+              -- Quickfix
+              qfLineNr                                 = { fg = c.fg_gutter },
+              -- Treesitter
+              ['@tag.delimiter']                       = { link = 'TSPunctBracket' },
+              ['@text.note']                           = { fg = c.info, style = style.Bold },
+              ['@text.warning']                        = { fg = c.warning, style = style.Bold },
+              ['@text.danger']                         = { fg = c.error, style = style.Bold },
+              ['@lsp.type.comment']                    = {}, -- Use Treesitter's highlight instead, which supports TODO, NOTE, etc.
+              -- Markdown (Treesitter)
+              ['@text.literal']                        = { fg = c.green0 },
+              ['@text.emphasis']                       = { fg = c.purple0, style = style.Italic },
+              ['@text.strong']                         = { fg = c.orange0, style = style.Bold },
+              ['@punctuation.special']                 = { fg = c.red0 },
+              ['@text.todo.checked.markdown']          = { fg = c.blue1 },
+              ['@text.todo.unchecked.markdown']        = { link = '@text.todo.checked.markdown' },
+              ['@markup.italic']                       = { fg = c.purple0, style = style.Italic },
+              ['@markup.strong']                       = { fg = c.orange0, style = style.Bold },
+              -- Markdown/html
+              mkdLink                                  = { fg = c.blue0, style = style.Underline },
+              mkdHeading                               = { link = 'Title' },
+              markdownTag                              = { fg = c.purple0, style = style.Bold },
+              markdownUrl                              = { link = 'mkdLink' },
+              markdownWikiLink                         = { fg = c.blue0, sylte = style.Bold },
+              ['@punctuation.bracket.markdown_inline'] = { link = 'markdownWikiLink' },
+              htmlBold                                 = { fg = c.orange0, style = style.Bold },
+              htmlItalic                               = { fg = c.purple0, style = style.Italic },
+              -- TypeScript
+              typescriptParens                         = { link = 'TSPunctBracket' },
+              -- Git commit
+              gitcommitOverflow                        = { link = 'Error' },
+              gitcommitSummary                         = { link = 'htmlBold' },
+              -- QuickScope
+              QuickScopePrimary                        = { fg = c.red0, style = style.Bold },
+              QuickScopeSecondary                      = { fg = c.orange1, style = style.Bold },
+              -- Eyeliner
+              EyelinerPrimary                          = { fg = c.red0, style = style.Bold },
+              EyelinerSecondary                        = { fg = c.orange1, style = style.Bold },
+              EyelinerDimmed                           = { fg = c.fg_dark },
+              -- NvimTree
+              NvimTreeFolderIcon                       = { fg = '#8094b4' },
+              NvimTreeFolderName                       = { fg = c.blue0 },
+              NvimTreeOpenedFolderName                 = { fg = c.blue0, style = style.Bold },
+              NvimTreeOpenedFile                       = { style = style.Bold },
+              NvimTreeGitDirty                         = { fg = c.orange1 },
+              NvimTreeGitNew                           = { fg = c.green0 },
+              NvimTreeGitIgnored                       = { fg = c.fg_dark },
+              -- Telescope
+              TelescopeMatching                        = { fg = c.blue0, style = style.Bold },
+              TelescopePromptPrefix                    = { fg = c.fg0, style = style.Bold },
+              TelescopePathSeparator                   = { fg = c.fg_dark },
+              -- LSP
+              LspReferenceText                         = { link = 'Search' },
+              LspReferenceRead                         = { link = 'Search' },
+              LspReferenceWrite                        = { link = 'Search' },
+              -- Diagnostics
+              DiagnosticUnderlineError                 = { style = style.Underline, sp = c.error },
+              DiagnosticUnderlineWarn                  = { style = style.Underline, sp = c.warning },
+              DiagnosticUnderlineHint                  = { style = style.Underline, sp = c.hint },
+              DiagnosticUnderlineInfo                  = { style = style.Underline, sp = c.info },
+              -- nvim-cmp
+              PmenuSel                                 = { fg = c.bg1, bg = c.blue0 },
+              CmpItemAbbrMatch                         = { fg = c.blue0, style = style.Bold },
+              CmpItemAbbrMatchFuzzy                    = { link = 'CmpItemAbbrMatch' },
+              CmpItemKindFile                          = { link = 'NvimTreeFolderIcon' },
+              CmpItemKindFolder                        = { link = 'CmpItemKindFile' },
+              -- Gitsigns
+              GitSignsDeleteLn                         = { link = 'GitSignsDeleteVirtLn' },
+              GitSignsAdd                              = { fg = colors.green0 },
+              -- Fidget
+              FidgetTitle                              = { fg = c.blue0, style = style.Bold },
+              -- Barbar
+              BufferCurrentTarget                      = { fg = c.blue0, bg = c.bg0, style = style.Bold },
+              BufferVisible                            = { fg = c.fg0, bg = barbar_bg_visible },
+              BufferVisibleSign                        = { fg = barbar_fg_gray, bg = barbar_bg_visible },
+              BufferVisibleMod                         = { fg = c.warning, bg = barbar_bg_visible },
+              BufferVisibleIndex                       = { fg = barbar_fg_gray, bg = barbar_bg_visible },
+              BufferVisibleTarget                      = { fg = c.blue0, bg = barbar_bg_visible, style = style.Bold },
+              BufferTabpageFill                        = { fg = barbar_fg_gray, bg = barbar_bg },
+              BufferTabpages                           = { fg = c.blue0, bg = barbar_bg, style = style.Bold },
+              BufferTabPagesSep                        = { link = 'BufferTabpages' },
+              BufferInactive                           = { fg = '#707070', bg = barbar_bg },
+              BufferInactiveSign                       = { fg = barbar_fg_gray, bg = barbar_bg },
+              BufferInactiveMod                        = { fg = c.warning, bg = barbar_bg },
+              BufferInactiveTarget                     = { fg = c.blue0, bg = barbar_bg, style = style.Bold },
+              BufferInactiveIndex                      = { fg = barbar_fg_gray, bg = barbar_bg },
+              BufferModifiedIndex                      = { fg = barbar_fg_gray, bg = barbar_bg },
+              -- Grammarous
+              GrammarousError                          = { style = style.Undercurl, sp = c.error },
+              -- Scrollbar
+              Scrollbar                                = { fg = c.bg_visual, bg = nil },
+              -- Leap
+              LeapMatch                                = { fg = c.orange0, style = string.format('%s,%s', style.Bold, style.Underline) },
+              LeapLabel                                = { fg = c.green0, style = style.Bold },
+              LeapBackdrop                             = { fg = c.fg_dark },
+              -- Alpha
+              AlphaHeader                              = { fg = c.green0, style = style.Bold },
+              -- Treesitter context
+              TreesitterContext                        = { bg = treesitter_context_bg },
+              TreesitterContextLineNumber              = { fg = c.fg_gutter, bg = treesitter_context_bg },
+              -- Mini indentscope
+              MiniIndentScopeSymbol                    = { fg = '#39536c', style = style.Bold },
+              -- Nvim-Tree
+              NvimTreeIndentMarker                     = { link = 'IblIndent' },
+              -- Crates
+              CratesNvimVersion                        = { fg = c.fg_dark },
+              CratesNvimLoading                        = { link = 'CratesNvimVersion' },
+              -- Fidget
+              FidgetNormal                             = { fg = c.fg_dark },
+              -- Neotest
+              NeotestFile                              = { fg = c.blue0 },
+              NeotestDir                               = { link = 'NvimTreeFolderIcon' },
+              NeotestAdapterName                       = { link = 'Title' },
+              NeotestFailed                            = { fg = c.red0 },
+              NeotestPassed                            = { fg = c.green0 },
+              NeotestRunning                           = { fg = c.orange0 },
+              NeotestWatching                          = { fg = c.orange1 },
+              NeotestSkipped                           = { fg = c.fg_dark },
+              NeotestUnknown                           = { link = 'NeotestSkipped' },
+              NeotestMarked                            = { fg = c.purple0 },
+              NeotestFocused                           = { style = style.Bold },
+              ['@text.uri']                            = { link = '@markup.link.url' }, -- temporary fix for rest.nvim
+              -- Gitsigns
+              GitSignsAddInline                        = { link = 'DiffText' },
+              -- Headlines
+              Headline                                 = { fg = c.red0, bg = c.bg_visual },
+              -- Helpview
+              HelpviewTagLink                          = { fg = c.blue0 },
+              HelpviewMentionLink                      = { fg = c.blue0, style = style.Italic },
+            }
+          end,
+        })
+      end,
     },
   },
 
@@ -187,6 +605,17 @@ local plugins = {
       type = "always",
     },
     settings = {
+      'folke/lazydev.nvim',
+      ft = 'lua',
+      opts = {},
+    },
+  },
+
+  {
+    info = {
+      type = "always",
+    },
+    settings = {
       "mhartington/formatter.nvim",
       config = setup_fns.lua_fmt_conf,
     },
@@ -222,7 +651,7 @@ local plugins = {
       type = "always",
     },
     settings = {
-      'HiPhish/rainbow-delimiters.nvim'
+      'HiPhish/rainbow-delimiters.nvim',
     },
   },
 
@@ -242,6 +671,8 @@ local plugins = {
     },
     settings = {
       "mbbill/undotree",
+      keys = '\\u',
+      cmd = { 'UndoTreeShow', 'UndoTreeToggle' },
       config = setup_fns.undotree_conf,
     },
   },
@@ -262,7 +693,58 @@ local plugins = {
       type = "always",
     },
     settings = {
+      'nvimdev/hlsearch.nvim',
+      event = 'VeryLazy',
+      opts = {},
+    },
+  },
+
+  {
+    info = {
+      type = "always",
+    },
+    settings = {
       "nvim-lua/plenary.nvim",
+    },
+  },
+
+  {
+    info = {
+      type = "always",
+    },
+    settings = {
+      'b0o/incline.nvim',
+      dependencies = { 'nvim-tree/nvim-web-devicons' },
+      event = 'WinNew',
+      config = function()
+        local get_highlight = require('nvn.utils.colors').get_highlight
+
+        require('incline').setup({
+          hide = {
+            focused_win = true,
+            only_win = true,
+          },
+          window = {
+            zindex = 1,
+            winhighlight = {
+              Normal = {
+                guifg = get_highlight('Comment'),
+                guibg = nil,
+              },
+            },
+            margin = { vertical = 0 },
+          },
+          render = function(props)
+            local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ':t')
+            local icon, color = require('nvim-web-devicons').get_icon_color(filename)
+            return {
+              { icon,     guifg = color },
+              { ' ' },
+              { filename, gui = 'italic' },
+            }
+          end,
+        })
+      end,
     },
   },
 
@@ -282,9 +764,9 @@ local plugins = {
     },
     settings = {
       "kdheepak/lazygit.nvim",
-      dependencies =  {
+      dependencies = {
         "nvim-telescope/telescope.nvim",
-        "nvim-lua/plenary.nvim"
+        "nvim-lua/plenary.nvim",
       },
       config = setup_fns.lazy_git_conf,
     },
@@ -433,6 +915,31 @@ local plugins = {
       type = "coding",
     },
     settings = {
+      'lvimuser/lsp-inlayhints.nvim',
+      branch = 'anticonceal',
+      event = 'LspAttach',
+      enabled = function()
+        return not vim.opt.diff:get()
+      end,
+      opts = {
+        inlay_hints = {
+          parameter_hints = {
+            remove_colon_start = false,
+          },
+          type_hints = {
+            remove_colon_start = false,
+            remove_colon_end = false,
+          },
+        },
+      },
+    },
+  },
+
+  {
+    info = {
+      type = "coding",
+    },
+    settings = {
       "neovim/nvim-lspconfig",
       dependencies = {
         'williamboman/mason.nvim',               -- For installing LSP servers
@@ -511,13 +1018,13 @@ local plugins = {
       "L3MON4D3/LuaSnip",
       dependencies = 'mireq/luasnip-snippets', -- Collection of snippets
       config = function()
-        local fn = vim.fn
-        local feedkeys, map = require('nvn.utils').feedkeys, require('nvn.utils').map
+        local fn                  = vim.fn
+        local feedkeys, map       = require('nvn.utils').feedkeys, require('nvn.utils').map
 
-        local luasnip = require('luasnip')
+        local luasnip             = require('luasnip')
         local snippets_snip_utils = require('luasnip_snippets.common.snip_utils')
-        local s, sn   = luasnip.snippet, luasnip.snippet_node
-        local t, i, d = luasnip.text_node, luasnip.insert_node, luasnip.dynamic_node
+        local s, sn               = luasnip.snippet, luasnip.snippet_node
+        local t, i, d             = luasnip.text_node, luasnip.insert_node, luasnip.dynamic_node
 
         luasnip.config.setup({ history = true })
         snippets_snip_utils.setup()
@@ -527,7 +1034,7 @@ local plugins = {
           ft_func = snippets_snip_utils.ft_func,
         })
 
-        luasnip.filetype_extend('all', {'global'})
+        luasnip.filetype_extend('all', { 'global' })
         require('luasnip.loaders.from_vscode').load({
           paths = { '~/.config/nvim/snippets' },
         })
@@ -555,33 +1062,33 @@ local plugins = {
           s({
             trig = 'uuid',
             name = 'UUID',
-            dscr = 'Generate a unique UUID'
+            dscr = 'Generate a unique UUID',
           }, {
-              d(1, function() return sn(nil, i(1, uuid())) end)
-            })
+            d(1, function() return sn(nil, i(1, uuid())) end),
+          }),
         })
         luasnip.add_snippets('markdown', {
           s({
             trig = 'link',
             name = 'hyperlink',
-            dscr = 'Hyperlink with the content in the clipboard'
+            dscr = 'Hyperlink with the content in the clipboard',
           }, {
-              t '[', i(1, 'text'), t ']',
-              t '(', d(2, luasnip_clipboard), t ') ',
-            })
+            t '[', i(1, 'text'), t ']',
+            t '(', d(2, luasnip_clipboard), t ') ',
+          }),
         })
         luasnip.add_snippets('lua', {
           s({
             trig = 'plugin',
             name = 'Add plugin config',
-            dscr = 'Add plugin URL from the clipboard'
+            dscr = 'Add plugin URL from the clipboard',
           }, {
-              t { "return {", "\t'" },
-              d(1, plugin_repo_snippet), t "',",
-              t { '', '\tconfig = function()', '\t\t' },
-              i(2),
-              t { '', '\tend', '}' }
-            })
+            t { "return {", "\t'" },
+            d(1, plugin_repo_snippet), t "',",
+            t { '', '\tconfig = function()', '\t\t' },
+            i(2),
+            t { '', '\tend', '}' },
+          }),
         })
 
         local function right_or_snip_next()
@@ -606,12 +1113,12 @@ local plugins = {
           end
         end
 
-        map({'i', 's'}, '<M-S-l>', right_or_snip_next,   '<Right> or next snippet')
-        map({'i', 's'}, '<M-S-h>', left_or_snip_prev,    '<Left> or previous snippet')
-        map({'i', 's'}, '<M-.>',   right_or_snip_next,   '<Right> or next snippet')
-        map({'i', 's'}, '<M-,>',   left_or_snip_prev,    '<Left> or previous snippet')
-        map({'i', 's'}, '<M-t>',   toggle_active_choice, 'Toggle active snippet choice')
-      end
+        map({ 'i', 's' }, '<M-S-l>', right_or_snip_next, '<Right> or next snippet')
+        map({ 'i', 's' }, '<M-S-h>', left_or_snip_prev, '<Left> or previous snippet')
+        map({ 'i', 's' }, '<M-.>', right_or_snip_next, '<Right> or next snippet')
+        map({ 'i', 's' }, '<M-,>', left_or_snip_prev, '<Left> or previous snippet')
+        map({ 'i', 's' }, '<M-t>', toggle_active_choice, 'Toggle active snippet choice')
+      end,
     },
   },
 
@@ -638,6 +1145,24 @@ local plugins = {
       type = "coding",
     },
     settings = {
+      'mrcjkb/rustaceanvim',
+      dependencies = 'neovim/nvim-lspconfig',
+      version = '^5',
+      lazy = false,
+      ft = { 'rust' },
+      enabled = function()
+        return false
+        -- return not vim.opt.diff:get()
+      end,
+      config = setup_fns.rustaceanvim,
+    },
+  },
+
+  {
+    info = {
+      type = "coding",
+    },
+    settings = {
       "williamboman/mason-lspconfig.nvim",
       dependencies = {
         "williamboman/mason.nvim",
@@ -655,12 +1180,21 @@ local plugins = {
     },
   },
 
+  -- {
+  --   info = {
+  --     type = "coding",
+  --   },
+  --   settings = {
+  --     "simrat39/inlay-hints.nvim",
+  --   },
+  -- },
+
   {
     info = {
       type = "coding",
     },
     settings = {
-      "simrat39/inlay-hints.nvim",
+      "ray-x/lsp_signature.nvim",
     },
   },
 
@@ -669,7 +1203,75 @@ local plugins = {
       type = "coding",
     },
     settings = {
-      "ray-x/lsp_signature.nvim",
+      'nvimtools/none-ls.nvim',
+      dependencies = 'nvim-lua/plenary.nvim',
+      event = 'VeryLazy',
+      config = function()
+        local b = vim.b
+        local map = require('nvn.utils').map
+        local null_ls, builtins = require('null-ls'), require('null-ls').builtins
+
+        local sources = {
+          builtins.formatting.prettier,
+          builtins.hover.dictionary,
+          builtins.formatting.shfmt.with({
+            args = { '-sr' }, -- Space after redirects
+          }),
+        }
+
+        null_ls.setup({
+          sources = sources,
+          on_attach = function(client, bufnr)
+            require('utils.formatting').format_on_write(client, bufnr)
+          end,
+        })
+
+        map('n', '<F2>', function()
+          b.format_on_write = (not b.format_on_write and b.format_on_write ~= nil)
+          vim.notify(
+            'Format on write '
+            .. (b.format_on_write and 'enabled' or 'disabled')
+          )
+        end, 'Toggle autoformatting on write')
+      end,
+    },
+  },
+
+  {
+    info = {
+      type = "coding",
+    },
+    settings = {
+      "NvChad/nvim-colorizer.lua",
+      config = function()
+        require("colorizer").setup {
+          filetypes = { "*" },
+          user_default_options = {
+            RGB = true,          -- #RGB hex codes
+            RRGGBB = true,       -- #RRGGBB hex codes
+            names = true,        -- "Name" codes like Blue or blue
+            RRGGBBAA = false,    -- #RRGGBBAA hex codes
+            AARRGGBB = false,    -- 0xAARRGGBB hex codes
+            rgb_fn = false,      -- CSS rgb() and rgba() functions
+            hsl_fn = false,      -- CSS hsl() and hsla() functions
+            css = true,          -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+            css_fn = false,      -- Enable all CSS *functions*: rgb_fn, hsl_fn
+            -- Available modes for `mode`: foreground, background,  virtualtext
+            mode = "background", -- Set the display mode.
+            -- Available methods are false / true / "normal" / "lsp" / "both"
+            -- True is same as normal
+            tailwind = false,                               -- Enable tailwind colors
+            -- parsers can contain values used in |user_default_options|
+            sass = { enable = false, parsers = { "css" } }, -- Enable sass colors
+            virtualtext = "■",
+            -- update color values even if buffer is not focused
+            -- example use: cmp_menu, cmp_docs
+            always_update = false,
+          },
+          -- all the sub-options of filetypes apply to buftypes
+          buftypes = {},
+        }
+      end,
     },
   },
 
@@ -751,6 +1353,15 @@ local plugins = {
     settings = {
       "folke/which-key.nvim",
       lazy = true,
+      keys = {
+        {
+          "<Space><Space>",
+          function()
+            require("which-key").show({ global = true })
+          end,
+          desc = "Buffer Local Keymaps (which-key)",
+        },
+      },
       config = setup_fns.which_key_conf,
     },
   },
@@ -773,9 +1384,88 @@ local plugins = {
       type = "always",
     },
     settings = {
-      "goolord/alpha-nvim",
+      'goolord/alpha-nvim',
+      dependencies = 'nvim-tree/nvim-web-devicons',
+      event = 'VimEnter',
       config = function()
-        require("alpha").setup(require("alpha.themes.dashboard").config)
+        local alpha = require('alpha')
+        local dashboard = require('alpha.themes.dashboard')
+        local lazy = require('lazy')
+        local section = dashboard.section
+        local fn = vim.fn
+
+        -- Header
+        section.header.opts.hl = 'AlphaHeader'
+        section.header.val = {
+          '                                                     ',
+          '  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ',
+          '  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ',
+          '  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ',
+          '  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ',
+          '  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ',
+          '  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ',
+          '                                                     ',
+        }
+
+        -- Menu
+        section.buttons.val = {
+          dashboard.button('<Leader>so', '  Open session'),
+          dashboard.button('<Leader>m', '  Most recent files'),
+          dashboard.button('<C-p>', '  Find file'),
+          dashboard.button('i', '  New file', ':enew <BAR> startinsert<CR>'),
+          dashboard.button('<C-q>', '  Quit'),
+        }
+
+        -- Footer
+        local Footer = { items = {} }
+
+        function Footer:add(icon, item, condition)
+          if condition == nil or condition then
+            table.insert(self.items, string.format('%s %s', icon, tostring(item)))
+          end
+        end
+
+        function Footer:create()
+          return table.concat(self.items, '  |  ')
+        end
+
+        local lazy_stats = lazy.stats()
+        local loaded_plugins = string.format(
+          '%d/%d plugins',
+          lazy_stats.loaded,
+          lazy_stats.count
+        )
+
+        local version = vim.version() or {}
+        local date = os.date('%d-%m-%Y')
+        local version_string = string.format(
+          'v%s.%d.%d',
+          version.major,
+          version.minor,
+          version.patch
+        )
+
+        Footer:add('', loaded_plugins)
+        Footer:add('', version_string)
+        Footer:add('', date)
+
+        section.footer.val = Footer:create()
+        section.footer.opts.hl = 'NonText'
+
+        -- Layout
+        local topMarginRatio = 0.2
+        local headerPadding = fn.max({ 2, fn.floor(fn.winheight(0) * topMarginRatio) })
+
+        dashboard.config.layout = {
+          { type = 'padding', val = headerPadding },
+          section.header,
+          { type = 'padding', val = 2 },
+          section.buttons,
+          { type = 'padding', val = 2 },
+          section.footer,
+        }
+
+        alpha.setup(dashboard.opts)
       end,
     },
   },

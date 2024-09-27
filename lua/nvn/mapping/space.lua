@@ -1,5 +1,5 @@
 local builtin = require('telescope.builtin')
-local customs = require('nvn.telescope.init')
+local customs = require('nvn.telescope_local.init')
 local custom_term_toggles = require('nvn.toggleterm.init')
 local custom_toggles = require('nvn.config.toggles')
 

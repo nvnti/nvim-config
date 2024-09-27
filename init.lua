@@ -4,7 +4,7 @@ require("nvn.mapping")
 require("nvn.config")
 require("nvn.abbreviations")
 require("nvn.functions")
-require("nvn.telescope")
+require("nvn.telescope_local")
 require("nvn.abbreviations")
 
 require("nvn.setup.init").setup()

@@ -21,7 +21,7 @@ function M.get_highlight(group_name, part)
       group_name,
       part
     )
-    vim.notify(message, vim.log.levels.WARN)
+    -- vim.notify(message, vim.log.levels.WARN)
     return '#ffffff'
   end
   return hex_from_decimal(hl[part])

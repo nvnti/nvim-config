@@ -41,7 +41,7 @@ local function set_feline_theme(theme_name)
   local feline = require('feline')
   local theme = require('feline.themes')[theme_name]
 
-  feline.vi_mode_colors = require('statusline').mode_colors()
+  feline.vi_mode_colors = require('nvn.statusline').mode_colors()
 
   if theme then
     feline.use_theme(theme_name)
