@@ -2,7 +2,7 @@ local M = {}
 
 function M.fn()
   require('rose-pine').setup({
-    disable_background = true
+    disable_background = true,
   })
 
   function ColorMyPencils(color)
@@ -11,13 +11,12 @@ function M.fn()
 
     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-
   end
 
   ColorMyPencils()
 
   vim.g.molokai_original = 1
-  vim.g.solarized_termcolors=256
+  vim.g.solarized_termcolors = 256
 end
 
 return M

@@ -1,7 +1,7 @@
 local M = {}
 
 function M.format_json()
-  vim.cmd[[
+    vim.cmd [[
 python << EOF
 import vim
 import json
@@ -23,16 +23,15 @@ function M.format_file_normal_mode()
 
     -- rust file
     if type_ == "rust" then
-      vim.api.nvim_command(":!rustfmt +nightly " .. fname)
+        vim.api.nvim_command(":!rustfmt +nightly " .. fname)
 
-    -- C/CPP file
+        -- C/CPP file
     elseif type_ == "cpp" or type_ == "c" then
+        vim.api.nvim_command(":ClangFormat")
 
-      vim.api.nvim_command(":ClangFormat")
-
-    -- Format JSON file
+        -- Format JSON file
     elseif type_ == "json" then
-  vim.cmd[[
+        vim.cmd [[
 python << EOF
 import vim
 import json
@@ -46,15 +45,13 @@ except Exception as e:
     print(e)
 EOF
   ]]
-
     elseif type_ == "xml" then
         vim.api.nvim_command(":%!XMLLINT_INDENT=\"    \" xmllint --format -")
 
-    -- Else just justify the file
+        -- Else just justify the file
     else
         vim.api.nvim_command("gg=G")
     end
-
 end
 
 function M.format_file_visual_mode()
@@ -63,17 +60,14 @@ function M.format_file_visual_mode()
 
     -- C/CPP file
     if type_ == "cpp" or type_ == "c" then
-
-      vim.api.nvim_command(":ClangFormat")
-
+        vim.api.nvim_command(":ClangFormat")
     elseif type_ == "xml" then
         vim.api.nvim_command(":'<,'>!XMLLINT_INDENT=\"    \" xmllint --format -")
 
-    -- Else just justify the file
+        -- Else just justify the file
     else
         vim.api.nvim_command("=")
     end
-
 end
 
 function M.open_current_branch_link()

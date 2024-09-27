@@ -32,11 +32,11 @@ vim.keymap.set('n', '<SPACE>dw', custom_toggles.toggle_diff_whitespace, {})
 vim.keymap.set("n", "<space>ef", ":NvimTreeFocus<CR>")
 vim.keymap.set("n", "<space>ei", function()
   vim.g.nvim_tree_current_width = vim.g.nvim_tree_current_width + 40
-  vim.cmd{ cmd = "NvimTreeResize", args = {vim.g.nvim_tree_current_width} }
+  vim.cmd { cmd = "NvimTreeResize", args = { vim.g.nvim_tree_current_width } }
 end)
 vim.keymap.set("n", "<space>er", function()
   vim.g.nvim_tree_current_width = 40
-  vim.cmd{ cmd = "NvimTreeResize", args = {vim.g.nvim_tree_current_width} }
+  vim.cmd { cmd = "NvimTreeResize", args = { vim.g.nvim_tree_current_width } }
 end)
 vim.keymap.set("n", "<space>et", ":NvimTreeToggle<CR>")
 
@@ -95,14 +95,19 @@ vim.keymap.set("n", "<space>vq", ":DiffviewClose<CR>")
 
 vim.keymap.set("n", "<SPACE>yp", ":let @\" = expand(\"%\")<CR>", {})
 
-vim.keymap.set("n", "<SPACE>zB", custom_term_toggles.load_cargo_build_errors, {noremap = true, silent = true})
-vim.keymap.set("n", "<SPACE>zC", custom_term_toggles.load_clippy_errors, {noremap = true, silent = true})
-vim.keymap.set("n", "<SPACE>zT", custom_term_toggles.load_cargo_test_errors, {noremap = true, silent = true})
-vim.keymap.set("n", "<SPACE>zb", custom_term_toggles.cargo_build, {noremap = true, silent = true})
-vim.keymap.set("n", "<SPACE>zc", custom_term_toggles.cclippy_toggle, {noremap = true, silent = true})
-vim.keymap.set("n", "<SPACE>zF", custom_term_toggles.cclippy_fix_toggle, {noremap = true, silent = true})
-vim.keymap.set("n", "<SPACE>zf", custom_term_toggles.cfmt_toggle, {noremap = true, silent = true})
-vim.keymap.set("n", "<SPACE>zg", custom_term_toggles.lazygit_toggle, {noremap = true, silent = true})
-vim.keymap.set("n", "<SPACE>zh", custom_term_toggles.htop_toggle, {noremap = true, silent = true})
-vim.keymap.set("n", "<SPACE>zt", custom_term_toggles.cargo_test, {noremap = true, silent = true})
-vim.keymap.set("n", "<SPACE>zu", custom_term_toggles.cfmt_update_toggle, {noremap = true, silent = true})
+vim.keymap.set("n", "<SPACE>zB", custom_term_toggles.load_cargo_build_errors,
+  { noremap = true, silent = true })
+vim.keymap.set("n", "<SPACE>zC", custom_term_toggles.load_clippy_errors,
+  { noremap = true, silent = true })
+vim.keymap.set("n", "<SPACE>zT", custom_term_toggles.load_cargo_test_errors,
+  { noremap = true, silent = true })
+vim.keymap.set("n", "<SPACE>zb", custom_term_toggles.cargo_build, { noremap = true, silent = true })
+vim.keymap.set("n", "<SPACE>zc", custom_term_toggles.cclippy_toggle, { noremap = true, silent = true })
+vim.keymap.set("n", "<SPACE>zF", custom_term_toggles.cclippy_fix_toggle,
+  { noremap = true, silent = true })
+vim.keymap.set("n", "<SPACE>zf", custom_term_toggles.cfmt_toggle, { noremap = true, silent = true })
+vim.keymap.set("n", "<SPACE>zg", custom_term_toggles.lazygit_toggle, { noremap = true, silent = true })
+vim.keymap.set("n", "<SPACE>zh", custom_term_toggles.htop_toggle, { noremap = true, silent = true })
+vim.keymap.set("n", "<SPACE>zt", custom_term_toggles.cargo_test, { noremap = true, silent = true })
+vim.keymap.set("n", "<SPACE>zu", custom_term_toggles.cfmt_update_toggle,
+  { noremap = true, silent = true })

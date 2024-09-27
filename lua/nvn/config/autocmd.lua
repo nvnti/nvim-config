@@ -5,8 +5,8 @@ vim.api.nvim_create_autocmd(
   {
     pattern = "*.vim",
     callback = function()
-      vim.api.nvim_set_option_value("filetype", "vim", {buf = vim.api.nvim_get_current_buf()})
-    end
+      vim.api.nvim_set_option_value("filetype", "vim", { buf = vim.api.nvim_get_current_buf() })
+    end,
   }
 )
 
@@ -17,8 +17,8 @@ vim.api.nvim_create_autocmd(
   {
     pattern = "*.jinja",
     callback = function()
-      vim.api.nvim_set_option_value("filetype", "html", {buf = vim.api.nvim_get_current_buf()})
-    end
+      vim.api.nvim_set_option_value("filetype", "html", { buf = vim.api.nvim_get_current_buf() })
+    end,
   }
 )
 
@@ -32,10 +32,10 @@ vim.api.nvim_create_autocmd(
     callback = function()
       local bufnr = vim.api.nvim_get_current_buf()
 
-      vim.api.nvim_set_option_value("tabstop", 4, {buf = bufnr})
-      vim.api.nvim_set_option_value("shiftwidth", 4, {buf = bufnr})
-      vim.api.nvim_set_option_value("softtabstop", 4, {buf = bufnr})
-    end
+      vim.api.nvim_set_option_value("tabstop", 4, { buf = bufnr })
+      vim.api.nvim_set_option_value("shiftwidth", 4, { buf = bufnr })
+      vim.api.nvim_set_option_value("softtabstop", 4, { buf = bufnr })
+    end,
   }
 )
 
@@ -47,8 +47,8 @@ vim.api.nvim_create_autocmd(
     pattern = "tagbar,nerdtree,NvimTree",
     callback = function()
       local win = vim.api.nvim_get_current_win()
-      vim.api.nvim_set_option_value("signcolumn", "no", {win = win})
-    end
+      vim.api.nvim_set_option_value("signcolumn", "no", { win = win })
+    end,
   }
 )
 
@@ -60,7 +60,7 @@ vim.api.nvim_create_autocmd(
     pattern = "*",
     callback = function()
       vim.v.swapchoice = "o"
-    end
+    end,
   }
 )
 
@@ -72,16 +72,17 @@ vim.api.nvim_create_autocmd(
     pattern = "*",
     callback = function()
       local win = vim.api.nvim_get_current_win()
-      vim.api.nvim_set_option_value("winhighlight", "Normal:ActiveWindow,NormalNC:InactiveWindow", {win = win})
+      vim.api.nvim_set_option_value("winhighlight", "Normal:ActiveWindow,NormalNC:InactiveWindow",
+        { win = win })
 
       if vim.opt.previewwindow then
-        vim.api.nvim_set_option_value("winhighlight", "Normal:MarkdownError", {win = win})
+        vim.api.nvim_set_option_value("winhighlight", "Normal:MarkdownError", { win = win })
       end
 
       if vim.opt.buftype == 'terminal' then
-        vim.api.nvim_set_option_value("winhighlight", "Normal:ActiveTerminal", {win = win})
+        vim.api.nvim_set_option_value("winhighlight", "Normal:ActiveTerminal", { win = win })
       end
-    end
+    end,
   }
 )
 
@@ -101,23 +102,24 @@ vim.api.nvim_create_autocmd(
       os.execute('mkdir -p ' .. spath)
       os.execute('mkdir -p ' .. upath)
 
-      vim.opt.undodir = upath
-      vim.opt.undofile = true
+      vim.opt.undodir   = upath
+      vim.opt.undofile  = true
 
-      vim.opt.swapfile = true
+      vim.opt.swapfile  = true
       vim.opt.directory = spath
 
-      vim.opt.backup = true
+      vim.opt.backup    = true
       vim.opt.backupdir = bpath
 
-      local fname = vim.fn.substitute(vim.fn.expand('%:p:h'), '/', '%', 'g')
+      local fname       = vim.fn.substitute(vim.fn.expand('%:p:h'), '/', '%', 'g')
 
       local curMinute   = (vim.fn.localtime() / 60) % 60
 
-      local timestamp = vim.fn.strftime("%y_%m_%d_%H_") .. tostring((curMinute + 10) - (curMinute % 10))
+      local timestamp   = vim.fn.strftime("%y_%m_%d_%H_") ..
+      tostring((curMinute + 10) - (curMinute % 10))
 
       vim.opt.backupext = '_' .. fname .. '_' .. timestamp
-    end
+    end,
   }
 )
 

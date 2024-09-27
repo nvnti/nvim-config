@@ -97,7 +97,7 @@ function M.fn()
         package_pending = "➜",
         ---@since 1.0.0
         -- The list icon to use for packages that are not installed.
-        package_uninstalled = "✗"
+        package_uninstalled = "✗",
       },
 
       keymaps = {
@@ -149,7 +149,7 @@ function M.fn()
       "pylsp",
       "typst_lsp",
       "bicep",
-      "jsonls"
+      "jsonls",
     },
   }
 end

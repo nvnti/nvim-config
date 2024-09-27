@@ -50,8 +50,8 @@ function M.fn()
     },
 
     indent = {
-      enable = true
-    }
+      enable = true,
+    },
   }
 end
 

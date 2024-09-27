@@ -9,7 +9,7 @@ return require('packer').startup(function(use)
 
   use {
     'nvim-telescope/telescope.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} }
+    requires = { { 'nvim-lua/plenary.nvim' } },
   }
   use('nelstrom/vim-visual-star-search')
   -- use{
@@ -41,11 +41,11 @@ return require('packer').startup(function(use)
   -- Nice status bar
   use {
     'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
   }
 
   -- Highlighting and Syntax
-  use{
+  use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
   }
@@ -63,19 +63,19 @@ return require('packer').startup(function(use)
   use('tpope/vim-fugitive')
   use('kdheepak/lazygit.nvim')
   use('mhinz/vim-signify')
-  use{
+  use {
     'sindrets/diffview.nvim',
     requires = {
-      {'nvim-lua/plenary.nvim'},
-      {'nvim-tree/nvim-web-devicons'}
-    }
+      { 'nvim-lua/plenary.nvim' },
+      { 'nvim-tree/nvim-web-devicons' },
+    },
   }
 
   -- Make directory while saving file
-  use {'jghauser/mkdir.nvim'}
+  use { 'jghauser/mkdir.nvim' }
 
   use('naveentiwari/vim-dirdiff')
-  use('naveentiwari/vim-backup')  -- TODO
+  use('naveentiwari/vim-backup') -- TODO
   use('chrisbra/vim-diff-enhanced')
   use('rust-lang/rust.vim')
   use('wagnerf42/vim-clippy')
@@ -92,26 +92,26 @@ return require('packer').startup(function(use)
     'nvim-tree/nvim-tree.lua',
     requires = {
       'nvim-tree/nvim-web-devicons', -- optional, for file icons
-    }
+    },
   }
 
-  use {'neovim/nvim-lspconfig'}
-  use {'hrsh7th/cmp-nvim-lsp'}
-  use {'hrsh7th/cmp-buffer'}
-  use {'hrsh7th/cmp-path'}
-  use {'hrsh7th/cmp-cmdline'}
-  use {'hrsh7th/nvim-cmp'}
-  use {'hrsh7th/cmp-nvim-lua'}
+  use { 'neovim/nvim-lspconfig' }
+  use { 'hrsh7th/cmp-nvim-lsp' }
+  use { 'hrsh7th/cmp-buffer' }
+  use { 'hrsh7th/cmp-path' }
+  use { 'hrsh7th/cmp-cmdline' }
+  use { 'hrsh7th/nvim-cmp' }
+  use { 'hrsh7th/cmp-nvim-lua' }
 
   -- Snippets
-  use {'L3MON4D3/LuaSnip'}
-  use {'saadparwaiz1/cmp_luasnip'}
-  use {'rafamadriz/friendly-snippets'}
+  use { 'L3MON4D3/LuaSnip' }
+  use { 'saadparwaiz1/cmp_luasnip' }
+  use { 'rafamadriz/friendly-snippets' }
 
-  use {'williamboman/mason.nvim'}
-  use {'williamboman/mason-lspconfig.nvim'}
+  use { 'williamboman/mason.nvim' }
+  use { 'williamboman/mason-lspconfig.nvim' }
 
-  use {'onsails/lspkind.nvim'}
+  use { 'onsails/lspkind.nvim' }
 
   use { "simrat39/inlay-hints.nvim" }
   use { "ray-x/lsp_signature.nvim" }
@@ -135,12 +135,12 @@ return require('packer').startup(function(use)
   use('NvChad/nvim-colorizer.lua')
   use('folke/which-key.nvim')
 
-  use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'}
+  use { 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async' }
   use {
     'goolord/alpha-nvim',
-    config = function ()
-      require'alpha'.setup(require'alpha.themes.dashboard'.config)
-    end
+    config = function()
+      require 'alpha'.setup(require 'alpha.themes.dashboard'.config)
+    end,
   }
 
   use('lukas-reineke/indent-blankline.nvim')
@@ -157,13 +157,11 @@ return require('packer').startup(function(use)
 
   use {
     'junegunn/fzf.vim',
-    requires = { 'junegunn/fzf', run = ':call fzf#install()' }
+    requires = { 'junegunn/fzf', run = ':call fzf#install()' },
   }
 
   use('ldelossa/litee.nvim')
   use('ldelossa/litee-calltree.nvim')
   use('ldelossa/litee-filetree.nvim')
   use('ldelossa/litee-symboltree.nvim')
-
 end)
-

@@ -13,19 +13,19 @@ local M = {
     features = "all",
   },
   procMacro = {
-    enable = true
+    enable = true,
   },
   rustFmt = {
-    extraArgs = "+nightly-2023-11-06"
+    extraArgs = "+nightly-2023-11-06",
   },
   server = {
     extraEnv = {
       CARGO_TARGET_DIR = "target-analyzer",
-    }
+    },
   },
   check = {
     command = "clippy",
-    extraArgs= {
+    extraArgs = {
       "--",
       "-D",
       "clippy::perf",
@@ -35,7 +35,7 @@ local M = {
       "warnings",
     },
   },
-  checkOnSave= true,
+  checkOnSave = true,
 }
 
 return M

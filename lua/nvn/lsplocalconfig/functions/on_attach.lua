@@ -1,9 +1,9 @@
 local gotop = require('goto-preview')
 
 local M = function(client, bufnr)
-  local opts = {buffer = bufnr, remap = false, silent = true}
+  local opts = { buffer = bufnr, remap = false, silent = true }
 
-  vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', {buf = bufnr})
+  vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', { buf = bufnr })
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions

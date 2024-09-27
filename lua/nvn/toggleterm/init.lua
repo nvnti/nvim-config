@@ -1,8 +1,8 @@
-local terminal  = require('toggleterm.terminal').Terminal
+local terminal    = require('toggleterm.terminal').Terminal
 
-local M = {}
+local M           = {}
 
-local cfmt = terminal:new({
+local cfmt        = terminal:new({
   cmd = "cargo +nightly fmt --all -- --check 2>&1 | tee .nvim_cargo_fmt_check.txt",
   hidden = true,
   close_on_exit = true,
@@ -10,7 +10,7 @@ local cfmt = terminal:new({
   direction = 'vertical',
 })
 
-local update_fmt = terminal:new({
+local update_fmt  = terminal:new({
   cmd = "cargo +nightly fmt --all 2>&1 | tee .nvim_cargo_fmt_update.txt",
   hidden = true,
   close_on_exit = true,
@@ -18,7 +18,7 @@ local update_fmt = terminal:new({
   direction = 'vertical',
 })
 
-local cclippy = terminal:new({
+local cclippy     = terminal:new({
   cmd = "cargo clippy --all-features --all-targets 2>&1 | tee .nvim_cargo_clippy.txt",
   hidden = true,
   close_on_exit = true,
@@ -27,14 +27,15 @@ local cclippy = terminal:new({
 })
 
 local cclippy_fix = terminal:new({
-  cmd = "cargo clippy --fix --all --all-targets  --all-features -- -D clippy::perf -D clippy::needless_lifetimes -D warnings",
+  cmd =
+  "cargo clippy --fix --all --all-targets  --all-features -- -D clippy::perf -D clippy::needless_lifetimes -D warnings",
   hidden = true,
   close_on_exit = true,
   shell = "zsh",
   direction = 'vertical',
 })
 
-local cargo_test = terminal:new({
+local cargo_test  = terminal:new({
   cmd = "cargo test --workspace --features dev 2>&1 | tee .nvim_cargo_test.txt",
   hidden = true,
   close_on_exit = true,
@@ -50,18 +51,18 @@ local cargo_build = terminal:new({
   direction = 'vertical',
 })
 
-local lazygit = terminal:new({
+local lazygit     = terminal:new({
   cmd = "lazygit",
   hidden = true,
   close_on_exit = true,
-  direction = "float"
+  direction = "float",
 })
 
-local htop = terminal:new({
+local htop        = terminal:new({
   cmd = "htop",
   hidden = true,
   close_on_exit = true,
-  direction = "float"
+  direction = "float",
 })
 
 function M.cargo_build()

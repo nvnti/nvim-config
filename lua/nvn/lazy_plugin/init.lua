@@ -20,4 +20,3 @@ else
   local lazy_plugin = require("nvn.lazy_plugin.lazy_plugin")
   require("lazy").setup(lazy_plugin, lazy_conf)
 end
-

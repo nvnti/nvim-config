@@ -1,6 +1,6 @@
 vim.opt.guicursor = ""
 
-vim.opt.number = true -- But show the actual number for the line we're on
+vim.opt.number = true         -- But show the actual number for the line we're on
 vim.opt.relativenumber = true -- Show line numbers
 
 vim.opt.tabstop = 2
@@ -15,7 +15,7 @@ vim.opt.smarttab = true
 
 vim.opt.wrap = true
 
-vim.opt.hlsearch = true -- I wouldn't use this without my DoNoHL function
+vim.opt.hlsearch = true  -- I wouldn't use this without my DoNoHL function
 vim.opt.incsearch = true -- Makes search act like search in modern browsers
 vim.opt.showmatch = true -- show matching brackets when text indicator is over them
 
@@ -34,7 +34,7 @@ vim.opt.colorcolumn = "85"
 vim.opt.signcolumn = "yes"
 vim.opt.cursorline = true
 
-vim.opt.hidden = true -- I like having buffers stay around
+vim.opt.hidden = true     -- I like having buffers stay around
 vim.opt.ignorecase = true -- Ignore case when searching...
 vim.opt.laststatus = 2
 vim.opt.history = 100
@@ -85,7 +85,8 @@ vim.opt.thesaurus = "~/.myconfig/words.txt"
 
 -- Command tab completion
 vim.opt.pumblend = 17
-vim.opt.wildignore = "*.pyc,*.o,*~i,*pycache*,*.obj,*.svn,*.swp,*.class,*.hg,*.DS_Store,*.min.*,__pycache__,.git,Cargo.lock"
+vim.opt.wildignore =
+"*.pyc,*.o,*~i,*pycache*,*.obj,*.svn,*.swp,*.class,*.hg,*.DS_Store,*.min.*,__pycache__,.git,Cargo.lock"
 vim.opt.wildmenu = true
 vim.opt.wildmode = "list:longest,full"
 vim.opt.wildoptions = "pum"
@@ -100,7 +101,7 @@ vim.keymap.set("v", ";", ":")
 vim.g.loaded_matchparen = 1
 
 vim.opt.equalalways = false -- I don't like my windows changing all the time
-vim.opt.splitbelow = true -- Prefer windows splitting to the bottom
+vim.opt.splitbelow = true   -- Prefer windows splitting to the bottom
 
 -- Cursorline highlighting control
 --  Only have it on in the active buffer
@@ -143,14 +144,14 @@ vim.opt.shada = { "!", "'1000", "<50", "s10", "h" }
 --
 -- TODO: w, {v, b, l}
 vim.opt.formatoptions = vim.opt.formatoptions
-  - "t" -- Don't auto format my code. I got linters for that.
-  + "c" -- In general, I like it when comments respect textwidth
-  + "q" -- Allow formatting comments w/ gq
-  - "o" -- O and o, don't continue comments
-  + "r" -- But do continue when pressing enter.
-  + "n" -- Indent past the formatlistpat, not underneath it.
-  + "j" -- Auto-remove comments if possible.
-  - "2" -- I'm not in gradeschool anymore
+    - "t" -- Don't auto format my code. I got linters for that.
+    + "c" -- In general, I like it when comments respect textwidth
+    + "q" -- Allow formatting comments w/ gq
+    - "o" -- O and o, don't continue comments
+    + "r" -- But do continue when pressing enter.
+    + "n" -- Indent past the formatlistpat, not underneath it.
+    + "j" -- Auto-remove comments if possible.
+    - "2" -- I'm not in gradeschool anymore
 
 -- set joinspaces
 vim.opt.joinspaces = false -- Two spaces and grade school, we're done

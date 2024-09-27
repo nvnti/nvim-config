@@ -49,8 +49,8 @@ function M.fn()
     -- Can be used to ignore certain lines when doing linewise motions.
     --    Can be string (lua regex)
     --    Or function (that returns lua regex)
-      -- ignore = nil,
-    }
-  end
+    -- ignore = nil,
+  }
+end
 
-  return M
+return M

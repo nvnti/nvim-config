@@ -12,11 +12,11 @@ function M.setup()
 
   vim.opt.syntax = "enable"
 
-  vim.cmd[[
+  vim.cmd [[
     filetype plugin indent on
   ]]
 
-  vim.cmd[[
+  vim.cmd [[
     set inccommand=split
 
     set t_Co=256

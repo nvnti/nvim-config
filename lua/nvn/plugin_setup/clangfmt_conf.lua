@@ -5,7 +5,7 @@ function M.fn()
     AccessModifierOffset = -4,
     AllowShortIfStatementsOnASingleLine = true,
     AlwaysBreakTemplateDeclarations = true,
-    BreakStringLiterals= false,
+    BreakStringLiterals = false,
     ColumnLimit = 80,
     Standard = "C++11",
   }

@@ -43,15 +43,15 @@ function M.fn()
       -- Text to provide when code actions are available
       text = "💡",
       -- Text to provide when no actions are available
-      text_unavailable = ""
+      text_unavailable = "",
     },
     autocmd = {
       enabled = false,
       -- see :help autocmd-pattern
-      pattern = {"*"},
+      pattern = { "*" },
       -- see :help autocmd-events
-      events = {"CursorHold", "CursorHoldI"}
-    }
+      events = { "CursorHold", "CursorHoldI" },
+    },
   })
 end
 

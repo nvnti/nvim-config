@@ -7,6 +7,7 @@ function M.fn()
   -- the functions also check for a range,
   -- so for example if you bind `<A-h>` to `resize_left`,
   -- then `10<A-h>` will `resize_left` by `(10 * config.default_amount)`
+  local amount = 3
   require('smart-splits').resize_up(amount)
   require('smart-splits').resize_down(amount)
   require('smart-splits').resize_left(amount)
@@ -15,6 +16,7 @@ function M.fn()
   -- pass same_row as a boolean to override the default
   -- for the move_cursor_same_row config option.
   -- See Configuration.
+  local same_row = 10
   require('smart-splits').move_cursor_up()
   require('smart-splits').move_cursor_down()
   require('smart-splits').move_cursor_left(same_row)

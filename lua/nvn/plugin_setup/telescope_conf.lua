@@ -32,7 +32,7 @@ function M.fn()
       vertical = 'vsplit',
       horizontal = 'split',
       tab = 'tabe',
-      default = 'edit'
+      default = 'edit',
     }
     local picker = action_state.get_current_picker(prompt_bufnr)
     local multi_selection = picker:get_multi_selection()
@@ -80,7 +80,7 @@ function M.fn()
       ['<C-v>'] = stopinsert(custom_actions.multi_selection_open_vertical),
       ['<C-s>'] = stopinsert(custom_actions.multi_selection_open_horizontal),
       ['<C-t>'] = stopinsert(custom_actions.multi_selection_open_tab),
-      ['<CR>']  = stopinsert(custom_actions.multi_selection_open)
+      ['<CR>']  = stopinsert(custom_actions.multi_selection_open),
     },
     n = {
       ['<C-v>'] = custom_actions.multi_selection_open_vertical,
@@ -103,7 +103,7 @@ function M.fn()
   -- Zoxide
   require('telescope._extensions.zoxide.config').setup({})
 
-  require('telescope').setup{
+  require('telescope').setup {
     defaults = {
       mappings = {
         i = {
@@ -145,7 +145,7 @@ function M.fn()
           '--color=never',
           '--hidden',
           '--follow',
-        }
+        },
       },
       oldfiles                  = { mappings = multi_open_mappings },
       current_buffer_fuzzy_find = { sorting_strategy = 'ascending' },
@@ -165,13 +165,13 @@ function M.fn()
       },
       cder = {
         previewer_command = 'exa '
-          .. '--color=always '
-          .. '-T '
-          .. '--level=2 '
-          .. '--icons '
-          .. '--git-ignore '
-          .. '--git '
-          .. '--ignore-glob=.git',
+            .. '--color=always '
+            .. '-T '
+            .. '--level=2 '
+            .. '--icons '
+            .. '--git-ignore '
+            .. '--git '
+            .. '--ignore-glob=.git',
         dir_command = cder_dir_cmd,
       },
       zoxide = {
@@ -190,8 +190,8 @@ function M.fn()
       '--line-number',
       '--column',
       '--smart-case',
-      '-u' -- thats the new thing
-    }
+      '-u', -- thats the new thing
+    },
   }
 
   telescope.load_extension('zoxide')

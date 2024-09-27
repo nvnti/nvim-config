@@ -4,7 +4,7 @@ local M = {}
 
 function M.grep_word_in_rust()
   builtin.grep_string {
-    find_command = {"rg", "--files", "--type", "rust"},
+    find_command = { "rg", "--files", "--type", "rust" },
     search = vim.fn.input "Grep String > ",
     cwd = vim.fn.input("Path: ", "", "file"),
   }
@@ -12,7 +12,7 @@ end
 
 function M.grep_word_under_cursor_in_rust()
   builtin.grep_string {
-    find_command = {"rg", "--files", "--type", "rust"},
+    find_command = { "rg", "--files", "--type", "rust" },
     cwd = vim.fn.input("Path: ", "", "file"),
   }
 end

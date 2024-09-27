@@ -9,9 +9,8 @@ function M.GetPluginDirectory()
 end
 
 M.plugin_root = vim.fn.stdpath("data") .. M.GetPluginDirectory()
-M.lockfile  = vim.fn.stdpath("data") .. M.GetPluginDirectory() .. ".json"
-M.readme_root = vim.fn.stdpath("state") .. M.GetPluginDirectory() ..  "/lazy/readme"
-M.state = vim.fn.stdpath("state") .. M.GetPluginDirectory() .. "/lazy/state.json"
+M.lockfile    = vim.fn.stdpath("data") .. M.GetPluginDirectory() .. ".json"
+M.readme_root = vim.fn.stdpath("state") .. M.GetPluginDirectory() .. "/lazy/readme"
+M.state       = vim.fn.stdpath("state") .. M.GetPluginDirectory() .. "/lazy/state.json"
 
 return M
-

@@ -1,7 +1,7 @@
 local M = {}
 
 function M.toggle_rust_fmt()
-  if(vim.g.rustfmt_autosave == 1)
+  if (vim.g.rustfmt_autosave == 1)
   then
     vim.g.rustfmt_autosave = 0
   else
@@ -12,9 +12,9 @@ end
 function M.toggle_diff_whitespace()
   if string.find(vim.o.diffopt, "iwhite")
   then
-      vim.o.diffopt="internal,filler,closeoff,hiddenoff,algorithm:patience"
+    vim.o.diffopt = "internal,filler,closeoff,hiddenoff,algorithm:patience"
   else
-      vim.o.diffopt="internal,filler,closeoff,hiddenoff,algorithm:patience,iwhite"
+    vim.o.diffopt = "internal,filler,closeoff,hiddenoff,algorithm:patience,iwhite"
   end
 end
 

@@ -8,16 +8,16 @@ function M.fn()
   local lsplocalconfig = require('nvn.lsplocalconfig')
   local capabilities = nvim_cmp.default_capabilities()
 
-    local function attach_codelens(bufnr)
-      local augroup = vim.api.nvim_create_augroup('Lsp', {})
-      vim.api.nvim_create_autocmd({ 'BufReadPost', 'CursorHold', 'InsertLeave' }, {
-        group = augroup,
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.codelens.refresh({ bufnr = bufnr })
-        end,
-      })
-    end
+  local function attach_codelens(bufnr)
+    local augroup = vim.api.nvim_create_augroup('Lsp', {})
+    vim.api.nvim_create_autocmd({ 'BufReadPost', 'CursorHold', 'InsertLeave' }, {
+      group = augroup,
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.codelens.refresh({ bufnr = bufnr })
+      end,
+    })
+  end
 
   local function on_attach_rust_analyzer(_, bufnr)
     lsplocalconfig.fns.on_attach()
@@ -27,7 +27,7 @@ function M.fn()
   lspconfig.rust_analyzer.setup {
     -- Server-specific settings. See `:help lspconfig-setup`
     settings = {
-      ['rust-analyzer'] = lsplocalconfig.confs.rust_analyzer
+      ['rust-analyzer'] = lsplocalconfig.confs.rust_analyzer,
     },
     capabilities = capabilities,
     on_attach = on_attach_rust_analyzer,
@@ -36,6 +36,7 @@ function M.fn()
 
   lspconfig.typos_lsp.setup {
     on_attach = function(client, _)
+      lsplocalconfig.fns.on_attach()
       -- Disabled for Markdown, use LTeX instead
       local disabled_filetypes = vim.iter({ 'markdown', 'NvimTree', 'help' })
       if disabled_filetypes:find(vim.bo.filetype) ~= nil then
@@ -65,12 +66,14 @@ function M.fn()
 
   lspconfig.typst_lsp.setup {
     on_attach = function(_, bufnr)
-  local map = require('nvn.utils').local_map(bufnr)
+      lsplocalconfig.fns.on_attach()
+      local map = require('nvn.utils').local_map(bufnr)
       map('n', '<SPACE>lw', '<cmd>TypstWatch<CR>', 'Watch file')
     end,
   }
 
   lspconfig.bicep.setup {
+    on_attach = lsplocalconfig.fns.on_attach,
   }
 
   lspconfig.jsonls.setup {
@@ -80,14 +83,17 @@ function M.fn()
         validate = { enable = true },
       },
     },
+    on_attach = lsplocalconfig.fns.on_attach,
   }
 
   lspconfig.bashls.setup {
     filetypes = { 'sh', 'zsh' },
+    on_attach = lsplocalconfig.fns.on_attach,
   }
 
   lspconfig.eslint.setup {
     on_attach = function(_, bufnr)
+      lsplocalconfig.fns.on_attach()
       vim.api.nvim_create_autocmd('BufWritePre', {
         buffer = bufnr,
         command = 'EslintFixAll',
@@ -112,6 +118,7 @@ function M.fn()
     },
     -- Don't attach to Azure Pipeline files (azure_pipelines_ls does that)
     on_attach = function(client, bufnr)
+      lsplocalconfig.fns.on_attach()
       local path = vim.api.nvim_buf_get_name(bufnr)
       local filename = vim.fn.fnamemodify(path, ':t')
       local is_pipeline_file = #vim.fn.glob('azure-pipeline*.y*ml', true, filename) > 0
@@ -154,8 +161,7 @@ function M.fn()
         },
       },
     },
-    on_attach = function()
-    end,
+    on_attach = lsplocalconfig.fns.on_attach,
   }
 
   lspconfig.clangd.setup {
@@ -166,7 +172,6 @@ function M.fn()
   }
 
   require('lsp_signature').setup(lsplocalconfig.confs.lspsignature)
-  -- require("lsp-inlayhints").setup(lsplocalconfig.confs.inlayhints)
 
   -- This has to be called from LspAttach event for some reason, not sure why
   vim.diagnostic.config({
@@ -180,27 +185,26 @@ function M.fn()
     },
   })
 
-    ---------------------
-    -- Handler configs --
-    ---------------------
-    if not require('nvn.utils').noice_is_loaded() then
-      -- Add borders to hover/signature windows (noice.nvim has its own)
-      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-        vim.lsp.handlers.hover,
-        {
-          border = 'single',
-          -- Disable "no information available" popup which is really annoying
-          -- when using multiple servers
-          silent = true,
-        }
-      )
+  ---------------------
+  -- Handler configs --
+  ---------------------
+  if not require('nvn.utils').noice_is_loaded() then
+    -- Add borders to hover/signature windows (noice.nvim has its own)
+    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+      vim.lsp.handlers.hover,
+      {
+        border = 'single',
+        -- Disable "no information available" popup which is really annoying
+        -- when using multiple servers
+        silent = true,
+      }
+    )
 
-      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-        vim.lsp.handlers.signature_help,
-        { border = 'single' }
-      )
-    end
-
+    vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+      vim.lsp.handlers.signature_help,
+      { border = 'single' }
+    )
+  end
 end
 
 return M
