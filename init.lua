@@ -1,13 +1,16 @@
--- require("nvn.packer_plugin")
-require("nvn.lazy_plugin")
-require("nvn.mapping")
-require("nvn.config")
-require("nvn.abbreviations")
-require("nvn.functions")
-require("nvn.telescope_local")
-require("nvn.abbreviations")
+vim.g.mapleader = ","
 
-require("nvn.setup.init").setup()
+require("lazy_conf")
+require("mapping")
+require("config")
+require("abbreviations")
+require("functions")
+require("telescope_local")
+require("abbreviations")
+
+require("setup.init").setup()
 
 vim.keymap.set({ "n", "v" }, "<space>y", [["+y]])
 vim.keymap.set("n", "<space>Y", [["+Y]])
+
+vim.keymap.set("n", ";", ":")
