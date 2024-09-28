@@ -60,6 +60,7 @@ return {
   use 'startify_conf',
   use 'telescope_conf',
   use 'toggle_term_conf',
+  use 'toggle_view_conf', -- Menu to toggle various options
   use 'treesitter_conf',
   use 'tsc_conf',
   use 'typst_conf',             -- Typst configuration
@@ -75,7 +76,8 @@ return {
   use 'vim_highlightedyank_conf',
   use 'vim_signify_conf',
   use 'vim_star_search_conf',
-  use 'whichkey_conf',
+  -- Which key configured in toggle view
+  -- use 'whichkey_conf',
   use 'whitespace_conf',
   use 'windows_conf',
 }

@@ -11,6 +11,9 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "onsails/lspkind.nvim",
   },
+  enabled = function()
+    return not vim.opt.diff:get()
+  end,
   config = function()
     -- Set up nvim-cmp.
     local cmp = require 'cmp'

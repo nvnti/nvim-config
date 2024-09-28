@@ -1,6 +1,6 @@
 local builtin = require('telescope.builtin')
-local customs = require('telescope_local.init')
-local custom_term_toggles = require('toggleterm_conf')
+local customs = require('config.telescope_local')
+local custom_term_toggles = require('config.toggleterm_conf')
 local custom_toggles = require('config.toggles')
 
 vim.keymap.set("n", "<space>an", ":AerialNext float<CR>", {})
