@@ -17,7 +17,5 @@ return {
         layout_config = { mirror = true },
       }),
     })
-
-    map({ 'x', 'n' }, '<SPACE>la', require('actions-preview').code_actions, 'LSP code action')
   end,
 }
