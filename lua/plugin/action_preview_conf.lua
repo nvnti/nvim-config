@@ -17,5 +17,8 @@ return {
         layout_config = { mirror = true },
       }),
     })
+
+    map("n", "<space>la", require("actions-preview").code_actions, 'Code action.')
+    -- vim.keymap.set({ "v", "n" }, "<Space>la", require("actions-preview").code_actions)
   end,
 }
