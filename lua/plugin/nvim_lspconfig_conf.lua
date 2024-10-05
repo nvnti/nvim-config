@@ -144,6 +144,18 @@ return {
       end,
     }
 
+    lspconfig.gopls.setup({
+      settings = {
+        gopls = {
+          analyses = {
+            unusedparams = true,
+          },
+          staticcheck = true,
+          gofumpt = true,
+        },
+      },
+    })
+
     lspconfig.lua_ls.setup {
       settings = {
         Lua = {
@@ -187,6 +199,7 @@ return {
     }
 
     require('lsp_signature').setup(lsplocalconfig.confs.lspsignature)
+    require("lsp-inlayhints").setup()
 
     -- This has to be called from LspAttach event for some reason, not sure why
     vim.diagnostic.config({

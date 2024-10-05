@@ -17,14 +17,14 @@ return {
         zindex = 1,
         winhighlight = {
           Normal = {
-            guifg = get_highlight('Comment'),
+            guifg = get_highlight('Comment', 'fg'),
             guibg = nil,
           },
         },
         margin = { vertical = 0 },
       },
       render = function(props)
-        local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ':t')
+        local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ':.')
         local icon, color = require('nvim-web-devicons').get_icon_color(filename)
         return {
           { icon,     guifg = color },
