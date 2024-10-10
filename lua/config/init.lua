@@ -1,5 +1,6 @@
 require('config.lazy_conf').initialize()
 require("config.setup").setup()
+require("config.toggler").setup()
 
 require("config.options")
 require("config.autocmd")

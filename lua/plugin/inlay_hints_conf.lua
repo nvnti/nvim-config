@@ -8,15 +8,5 @@ return {
   enabled = function()
     return not vim.opt.diff:get()
   end,
-  opts = {
-    inlay_hints = {
-      parameter_hints = {
-        remove_colon_start = false,
-      },
-      type_hints = {
-        remove_colon_start = false,
-        remove_colon_end = false,
-      },
-    },
-  },
+  opts = require('lsplocalconfig.pluginconf.lspinlayhints'),
 }

@@ -22,9 +22,6 @@ return {
     local toggle = require "toggle"
 
     require('mini.icons').setup()
-    require("which-key").setup({
-      preset = "helix",
-    })
 
     toggle.setup {
       keymaps = {

@@ -3,14 +3,19 @@
 -------------------------------
 return {
   "folke/which-key.nvim",
-  lazy = true,
+  event = "VeryLazy",
   keys = {
     {
       "<Space><Space>",
       function()
-        require("which-key").show({ global = true })
+        require("which-key").show({ global = false })
       end,
       desc = "Buffer Local Keymaps (which-key)",
     },
   },
+  config = function()
+    require("which-key").setup({
+      preset = "helix",
+    })
+  end,
 }

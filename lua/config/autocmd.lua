@@ -135,6 +135,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local format_on_write_blacklist = {
       "c",
       "cpp",
+      "js",
     }
 
     local bufnr = args.buf
@@ -149,7 +150,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     -- Autoformatting
     if not vim.tbl_contains(format_on_write_blacklist, filetype) then
-      require('utils.formatting').format_on_write(client, bufnr)
+      require('utils.formatting').format_on_write(client, bufnr, filetype)
     end
   end,
 })

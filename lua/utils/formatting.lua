@@ -18,7 +18,7 @@ local function format(buf)
   })
 end
 
-M.format_on_write = function(client, bufnr)
+M.format_on_write = function(client, bufnr, filetype)
   if client.supports_method('textDocument/formatting') then
     vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
     vim.api.nvim_create_autocmd('BufWritePre', {
@@ -26,7 +26,7 @@ M.format_on_write = function(client, bufnr)
       buffer = bufnr,
       -- pattern = { "*.lua", "*.js", "*.ts" },
       callback = function()
-        if b.format_on_write ~= false then
+        if b.format_on_write ~= false and require("config.toggler").is_formatter_enabled(bufnr, filetype) then
           format(bufnr)
         end
       end,

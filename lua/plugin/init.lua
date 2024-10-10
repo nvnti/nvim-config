@@ -77,7 +77,7 @@ return {
   use 'vim_signify_conf',
   use 'vim_star_search_conf',
   -- Which key configured in toggle view
-  -- use 'whichkey_conf',
+  use 'whichkey_conf',
   use 'whitespace_conf',
   use 'windows_conf',
 }
