@@ -1,6 +1,7 @@
 ---------------------------
 -- Completion configuration
 ---------------------------
+
 return {
   'nvimtools/none-ls.nvim',
   dependencies = 'nvim-lua/plenary.nvim',
@@ -23,6 +24,7 @@ return {
       on_attach = function(client, bufnr)
         require('utils.formatting').format_on_write(client, bufnr)
       end,
+      should_attach = require("config.formatter").should_format_files,
     })
 
     map('n', '<F2>', function()

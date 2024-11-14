@@ -138,15 +138,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
     }
 
     local bufnr = args.buf
-    local filetype = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
     if not vim.opt.diff:get() then
-      require("lsp-inlayhints").on_attach(client, bufnr)
+      require("lsp-inlayhints").on_attach(client, bufnr, false)
     end
 
     -- Autoformatting
-    if not vim.tbl_contains(format_on_write_blacklist, filetype) then
+    if require("config.formatter").should_format_files(bufnr) then
       require('utils.formatting').format_on_write(client, bufnr)
     end
   end,

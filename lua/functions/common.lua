@@ -31,20 +31,7 @@ function M.format_file_normal_mode()
 
         -- Format JSON file
     elseif type_ == "json" then
-        vim.cmd [[
-python << EOF
-import vim
-import json
-try:
-    buf = vim.current.buffer
-    json_content = '\n'.join(buf[:])
-    content = json.loads(json_content)
-    sorted_content = json.dumps(content, indent=2, sort_keys=True)
-    buf[:] = sorted_content.split('\n')
-except Exception as e:
-    print(e)
-EOF
-  ]]
+        M.format_json()
     elseif type_ == "xml" then
         vim.api.nvim_command(":%!XMLLINT_INDENT=\"    \" xmllint --format -")
 
