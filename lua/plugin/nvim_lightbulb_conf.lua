@@ -16,7 +16,7 @@ return {
         priority = 10,
       },
       float = {
-        enabled = false,
+        enabled = true,
         -- Text to show in the popup float
         text = "💡",
         -- Available keys for window options:
@@ -36,21 +36,21 @@ return {
         win_opts = {},
       },
       virtual_text = {
-        enabled = false,
+        enabled = true,
         -- Text to show at virtual text
         text = "💡",
         -- highlight mode to use for virtual text (replace, combine, blend), see :help nvim_buf_set_extmark() for reference
         hl_mode = "replace",
       },
       status_text = {
-        enabled = false,
+        enabled = true,
         -- Text to provide when code actions are available
         text = "💡",
         -- Text to provide when no actions are available
         text_unavailable = "",
       },
       autocmd = {
-        enabled = false,
+        enabled = true,
         -- see :help autocmd-pattern
         pattern = { "*" },
         -- see :help autocmd-events
@@ -59,4 +59,3 @@ return {
     })
   end,
 }
-
