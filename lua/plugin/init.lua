@@ -58,6 +58,7 @@ return {
   use 'rainbow_delimiter_conf',
   use 'rose_pine_conf',
   use 'rust_conf',
+  use 'rust_crates',
   use 'rustaceanvim_conf',
   use 'smart_split_conf',
   use 'startify_conf',

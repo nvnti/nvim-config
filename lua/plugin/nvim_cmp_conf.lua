@@ -47,6 +47,7 @@ return {
       }),
       sources = cmp.config.sources(
         {
+          { name = "crates" },
           { name = 'nvim_lsp' },
           { name = 'nvim_lua' },
           { name = 'luasnip' },
